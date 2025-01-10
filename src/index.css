@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+
+body{
+  overflow-x: hidden;
+}
+
+
+#bg {
+    margin: 0 auto;
+    animation-name: stretch;
+    animation-duration: 5s; 
+    animation-timing-function: ease-out; 
+    animation-iteration-count:initial;
+}
+  
+  @keyframes stretch {
+    0% {
+      transform: scale(.4);
+     
+    }
+    100% {
+      transform: scale(1);
+     
+    }
+  }
+  #logo{
+    animation-name: fadeIn;
+    animation-duration: 3s; 
+    animation-timing-function: ease-out; 
+    animation-iteration-count:infinite;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+     
+    }
+    to {
+      opacity: 1;
+     
+    }
+  }
+  
+  /*details*/
+  .baba{
+    background-image: url('assets/img/color.png');
+    
+  }
+.audi{
+    animation-name: stretch;
+    animation-duration: 4s; 
+    animation-timing-function: ease-out; 
+    animation-iteration-count:initial;
+}
+  
+  @keyframes spin {
+    0% {
+      transform: scale(0);
+     
+    }
+
+    100%{
+      transform: scale(1);
+     
+    }
+  }
+
+  .son
+  {
+     text-transform: uppercase;
+    background-image: linear-gradient(
+      -225deg,
+      blue 20%,
+      white 40%,
+      red 60%,
+      blue 100%
+    );
+    background-size: auto auto;
+    background-clip: border-box;
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: textclip 3s linear infinite;
+    display: inline-block;
+  }
+  
+  @keyframes textclip {
+    to {
+      background-position: 200% center;
+    }
+  }
+
+
+  .slick-dots li button:before {
+    color: orange !important;
+  }
+
+
+  #btn{
+    cursor: pointer;
+    box-shadow: 0 0 10px white, 0 0 40px white, 0 0 60px white, 0 0 40px black;
+    transition: box-shadow 0.4s ease-in-out; 
+  }
+  
+ 
+  #btn:hover {
+    box-shadow: 0 0 50px white, 0 0 60px white, 0 0 70px white, 0 0 80px black;
+   
+  }
