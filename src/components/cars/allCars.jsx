@@ -18,7 +18,7 @@ import { useContext} from 'react';
 import { Context } from '../context/Context';
 import { HiOutlineLockClosed } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
-import frame from '../../../src/assets/img/Frame.png';
+import frame from '../../../src/assets/img/frame.png';
 
 const AllCars = () => {
 
