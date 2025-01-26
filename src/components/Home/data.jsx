@@ -66,25 +66,25 @@ const Names = [
     },
 
    
-    // {
-    //     id: 5,
-    //     name: "Heba Abdallah",
-    //     discription: "I had a great time with this car rental company! The cars were well-maintained and the staff was friendly and helpful. I will definitely come back again",
-    //     date: "Last updated 2 mins ago",
-    //     image:girl2,
-    //     num:5,
-    //     star:[star,star,star,star,star]
-    // },
+    {
+        id: 5,
+        name: "Heba Abdallah",
+        discription: "I had a great time with this car rental company! The cars were well-maintained and the staff was friendly and helpful. I will definitely come back again",
+        date: "Last updated 2 mins ago",
+        image:girl2,
+        num:5,
+        star:[star,star,star,star,star]
+    },
 
-    // {
-    //     id: 6,
-    //     name: "Aml Ahmed",
-    //     discription: "Best car rental experience! The cars are clean and modern, and the customer service was very helpful. I will definitely come back again",
-    //     date: "Last updated 2 mins ago",
-    //     image:girl3,
-    //     num:5,
-    //     star:[star,star,star,star,star]
-    // },
+    {
+        id: 6,
+        name: "Aml Ahmed",
+        discription: "Best car rental experience! The cars are clean and modern, and the customer service was very helpful. I will definitely come back again",
+        date: "Last updated 2 mins ago",
+        image:girl3,
+        num:5,
+        star:[star,star,star,star,star]
+    },
 
     
 

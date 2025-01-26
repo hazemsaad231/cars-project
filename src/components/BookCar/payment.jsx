@@ -101,10 +101,12 @@ const isBooked = localStorage.getItem("isBooked");
           
           setTimeout(() => {
            
-            navigate("/home/complete",{state:{carDetails}})
+            navigate("/complete",{state:{carDetails}})
           }, 4500);
         } catch (error) {
           console.error("error", error);
+          toast.error('you must be logged in', { autoClose: 2000 });
+          setLoading(false)
         } 
       }
     } 
@@ -143,7 +145,6 @@ const isBooked = localStorage.getItem("isBooked");
                   label="Email"
                   variant='standard'
                   fullWidth
-      
                   margin="normal"
                 />
 
@@ -152,7 +153,6 @@ const isBooked = localStorage.getItem("isBooked");
                   label="Phone" 
                   fullWidth
                   variant='standard'
-      
                   margin="normal"
                 />
 
@@ -189,7 +189,7 @@ const isBooked = localStorage.getItem("isBooked");
                     id="demo-simple-select"
                     name="PartialPayment"
                     label="Payment Type"
-                    className='text-start'
+                    style={{ textAlign: "left" }}
                   >
                     <MenuItem value="Full Payment">5,000</MenuItem>
                     <MenuItem value="Partial Payment">10,000</MenuItem>

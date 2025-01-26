@@ -29,7 +29,8 @@ const isLoginIn = true
         }, 1000);
        }
         
-       console.log(response._tokenResponse.idToken);
+       console.log(response._tokenResponse.idToken)
+       localStorage.setItem('token',response._tokenResponse.idToken);
 
        localStorage.setItem('role',response.user.email);
        localStorage.setItem('Id',response.user.uid);
@@ -80,7 +81,7 @@ const isLoginIn = true
             <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 1, width: '25ch' },
+                '& > :not(style)': { m: 1, width: '25ch', margin: 'auto'},
               }}
               noValidate
               autoComplete="off"
@@ -126,15 +127,15 @@ const isLoginIn = true
               </button>
               <button
                 className='border border-black p-2 rounded-lg mt-4 text-black'
-                onClick={() => navigate("/register")}
+                onClick={() => navigate("register")}
               >
                 Register
               </button>
             </div>
 
-            <div>
+            {/* <div>
             <button onClick={handleGoogleLogin} className='border bg-black  w-full p-3  px-16 rounded-lg mt-4 text-white text-center flex'><span className='m-auto'><FaGoogle size={25}></FaGoogle></span></button>
-            </div>
+            </div> */}
           </form>
         </div>
 

@@ -53,7 +53,7 @@ const AddRent = () => {
         const docRef = doc(db, "Rent", id);
         await updateDoc(docRef, data);
       
-          navigate("/home/offers",{state:{message:"Car data updated successfully!"}});
+          navigate("/offers",{state:{message:"Car data updated successfully!"}});
       
       
       
@@ -61,7 +61,7 @@ const AddRent = () => {
         await addDoc(collection(db, "Rent"), data);
         console.log("Car data added successfully!");
       
-          navigate("/home/offers",{state:{message:"Car data added successfully!"}});
+          navigate("/offers",{state:{message:"Car data added successfully!"}});
       
     
       }

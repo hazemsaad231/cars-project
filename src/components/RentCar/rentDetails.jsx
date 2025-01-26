@@ -12,7 +12,7 @@ const RentDetails = () => {
     const [Rent, setRent] = useState({});
   const [loading, setLoading] = useState(true);
     
-  
+
 
 const {isDarkMode} = useContext(Context);
   

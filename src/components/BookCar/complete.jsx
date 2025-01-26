@@ -2,16 +2,13 @@ import { GrCompliance } from "react-icons/gr";
 import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { Context } from "../context/Context";
-import { useLocation } from 'react-router-dom';
 
 const Complete = () => {
 
   const { isDarkMode } = useContext(Context)
 
-   const location = useLocation();
-   const data = location.state;
+ 
 
-   console.log(data.carDetails.id);
 
   return (
 

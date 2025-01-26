@@ -55,12 +55,12 @@ const AddCar = () => {
       if (id) {
         const docRef = doc(db, "cars", id);
         await updateDoc(docRef, formattedData);
-          navigate("/home/allcars",{state:{message:"Car data updated successfully!"}});
+          navigate("/allcars",{state:{message:"Car data updated successfully!"}});
       
       } else {
         await addDoc(collection(db, "cars"), formattedData);
         console.log("Car data added successfully!");
-          navigate("/home/allcars",{state:{message:"Car data added successfully!"}});
+          navigate("/allcars",{state:{message:"Car data added successfully!"}});
       
       }
     } catch (error) {

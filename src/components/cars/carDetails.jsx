@@ -5,15 +5,16 @@ import { db } from "../firebase/firebase";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import view from "../../assets/img/view.mp4";
 import { Link } from "react-router-dom";
 import Loader from "../load/Load";
+import { toast, ToastContainer } from 'react-toastify';
 
 const Details = () => {
   const { id } = useParams();
   const [carDetails, setCarDetails] = useState({});
 
- 
+  const isLoggedIn = localStorage.getItem("token") !== null;
+
   localStorage.setItem("id", id);
   localStorage.setItem("isBooked", carDetails.isBooked);
 
@@ -57,23 +58,15 @@ const [loading, setLoading] = useState(true);
 
     
 <div className="py-16 sm:py-16 md:py-20 lg:py-32 xl:py-40">
+  <ToastContainer />
 
 { loading ? <Loader/>:
       <div className="flex flex-col sm:flex-row md:flex-row lg:flex-row xl:flex-row gap-2 p-2 sm:p-2 md:p-6 lg:p-8 xl:p-12">
 
 
-{/* <div className='w-1/2 hidden sm:hidden md:block lg:block xl:block'data-aos="fade-left">
-   <video src={view} autoPlay loop muted  disablePictureInPicture className='rounded-l-xl object-cover h-full ' ></video>
-</div> */}
-
-
-
-
-
-
         <div className=" w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 bg-white shadow-2xl rounded-l-xl" data-aos="fade-right">
 
-           <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl font-extrabold text-gray-800 mt-8 mb-10 leading-tight">
+           <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl font-extrabold text-gray-800 mt-8 mb-8 leading-tight">
               Elevate Your Ride with Our Premium Cars
             </h1>
 
@@ -113,9 +106,20 @@ const [loading, setLoading] = useState(true);
          
           
           <div className="mt-8 mb-6 text-center hidden sm:hidden md:block lg:block xl:block">
-          {role !== 'as6463275@gmail.com' && role !== 'hazemsaad231@gmail.com' ? 
-           <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2">
-           <Link to={`/home/buy/${id}`}>buying</Link>
+          { role !== 'hazemsaad231@gmail.com' ? 
+           <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2"
+           onClick={() => {
+            if (!isLoggedIn) {
+              toast.warn('You must log in first!', {
+                position: "top-right",
+                autoClose: 3000,
+                theme: "dark",
+              });
+            }
+          }}
+           >
+           
+           {isLoggedIn? <Link to={`/buy/${id}`}>buying</Link>: 'buying'}
          </button> :null
         }
           </div>
@@ -138,10 +142,21 @@ const [loading, setLoading] = useState(true);
 
 </div>
 
-<div className="mt-12 mb-6 text-center block sm:block md:hidden lg:hidden xl:hidden">
-          {role !== 'as6463275@gmail.com' && role !== 'hazemsaad231@gmail.com' ? 
-           <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2">
-           <Link to={`/home/buy/${id}`}>buying</Link>
+<div className="mt-4 mb-4 text-center block sm:block md:hidden lg:hidden xl:hidden">
+        { role !== 'hazemsaad231@gmail.com' ? 
+           <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2"
+           onClick={() => {
+            if (!isLoggedIn) {
+              toast.warn('You must log in first!', {
+                position: "top-right",
+                autoClose: 3000,
+                theme: "dark",
+              });
+            }
+          }}
+           >
+           
+           {isLoggedIn? <Link to={`/buy/${id}`}>buying</Link>: 'buying'}
          </button> :null
         }
           </div>

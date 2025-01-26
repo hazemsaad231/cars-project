@@ -3,9 +3,6 @@ import bg from '../../assets/img/car.png';
 const One = () => {
 
 
-  
-
-
 
     return (
         <>

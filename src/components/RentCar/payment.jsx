@@ -97,12 +97,13 @@ console.log(carDetails);
           },2000)
 
           setTimeout(() => {
-            navigate("/home/complete", { state: {carDetails }});
+            navigate("/complete", { state: {carDetails }});
           }, 4500);
 
         } catch (error) {
           console.error("error", error);
-          toast.error("Failed to add order. Please try again.");
+          toast.error("you must log in", { autoClose: 2000 });
+          setLoading(false)
         } 
       }
     } 
@@ -155,21 +156,21 @@ console.log(carDetails);
         margin="normal"
       />
 
-<FormControl fullWidth margin="normal">
-  <InputLabel id="partial-payment-label">Partial Payment</InputLabel>
-  <Select
-    name="PartialPayment"
-    labelId="partial-payment-label" // يربط InputLabel مع Select
-    defaultValue=""
-     variant="standard"
-  >
-    {options.map((option) => (
-      <MenuItem key={option} value={option}>
-        {option}
-      </MenuItem>
-    ))}
-  </Select>
-</FormControl>
+<FormControl fullWidth margin="normal" variant='standard'>
+                  <InputLabel id="demo-simple-select-label">Payment Type</InputLabel>
+                  <Select
+                    labelId="demo-simple-select-label"
+                    id="demo-simple-select"
+                    name="PartialPayment"
+                    label="Payment Type"
+                    style={{ textAlign: "left" }}
+                  >
+                    <MenuItem value="Full Payment">20</MenuItem>
+                    <MenuItem value="Partial Payment">30</MenuItem>
+                    <MenuItem value="Partial Payment">40</MenuItem>
+
+                  </Select>
+                </FormControl>
 
       <TextField
         name="address"

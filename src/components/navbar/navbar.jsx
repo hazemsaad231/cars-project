@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import logo from '../../../src/assets/img/RENT_MUSICAL_BLUE-logo-4631FB248C-seeklogo.com.png'
-import Close from '../Home/close';
 import { MdOutlineLightMode } from "react-icons/md";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { useContext} from 'react';
@@ -10,9 +9,6 @@ import { GiHamburgerMenu } from "react-icons/gi";
 
 
 
- 
- 
-
 
 
 const Navbar = () => {
@@ -21,20 +17,20 @@ const Navbar = () => {
    const id = localStorage.getItem('Id')
    
 
-   const { isDarkMode, toggleMode } = useContext(Context);
+   const { isDarkMode, toggleMode, orderList } = useContext(Context);
 
    const [isNavbarVisible, setNavbarVisible] = useState(false)
 
+   const Admin ='hazemsaad231@gmail.com'
  
- 
+   const isLoggedIn = localStorage.getItem("token") !== null;
 
-
-   const {orderList} = useContext(Context);
 
 
    const [orderCount, setOrderCount] = useState(orderList.length);
 
-   console.log(orderCount);
+console.log(orderCount);
+
 
    useEffect(() => {
     setOrderCount(orderList.length);
@@ -85,10 +81,11 @@ const Navbar = () => {
                 Rent a Car
               </Link>
             </li>
-            {admin ==='as6463275@gmail.com'|| admin ==='hazemsaad231@gmail.com' ? <li><Link to="booking" onClick={toggleNavbar}>Manage Cars</Link></li>:
+            {admin && admin.trim() === Admin.trim() && isLoggedIn? <li><Link to="booking" onClick={toggleNavbar}>Manage Cars</Link></li>:
             <><li><Link to={`rese/${id}`} onClick={toggleNavbar} className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>My reservations</Link></li><li><a href='#contact' onClick={toggleNavbar}>Contact Us</a></li></>
             }
-            <li><Close/></li>
+                        <li><Link to={"login"}>log in</Link></li>
+
           
           </ul>
           {/* زر إغلاق */}
@@ -108,13 +105,13 @@ const Navbar = () => {
             <li ><Link to="home" className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>Home</Link></li>
             <li ><Link to="allcars" className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>Book a car</Link></li>
             <li  ><Link to="offers" className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300' >Rent a Car</Link></li>
-            {admin === 'as6463275@gmail.com'|| admin ==='hazemsaad231@gmail.com' ? 
+            {admin && admin.trim() === Admin.trim() && isLoggedIn? 
             <li><Link to="booking" className='border-b-2 border-l-2 rounded-xl hover:border-blue-800 px-2 text-blue-700 border-transparent transition duration-300'>Manage Cars</Link></li>
 
               :   <><li><Link to={`rese/${id}`} className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>My reservations</Link></li>
               <li><a href='#contact' className='border-b-2 border-l-2 rounded-xl hover:border-blue-800 px-2 text-blue-700 border-transparent transition duration-300'>Contact Us</a></li></>
             }
-            <li><Close/></li>
+            <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800 text-blue-700' ><Link to={"login"}>log in</Link></button></li>
           
            </ul>
 </div>

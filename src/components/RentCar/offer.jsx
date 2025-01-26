@@ -19,6 +19,7 @@ const RentCar = () => {
   const [open, setOpen] = useState(false);
   const [selectedDelete, setSelectedDelete] = useState(null);
   const [loading, setLoading] = useState(true);
+  const isLoggedIn = localStorage.getItem("token") !== null;
 
   const fetchCars = async () => {
     const Rentcars = await getDocs(collection(db,'Rent'));
@@ -79,9 +80,9 @@ const RentCar = () => {
         <h1 className='font-bold text-2xl mt-16 mb-16 text-blue-700 tracking-[2px]' style={{fontFamily:"arial"}}>the most popular cars rental offers</h1>
 
         {
-          role === "as6463275@gmail.com" || role === "hazemsaad231@gmail.com" ? (
+           role === "hazemsaad231@gmail.com"&&isLoggedIn ? (
             < div className="flex flex-col gap-4 justify-center mb-8" style={{fontFamily:"arial"}}>
-                <Link to="/home/addRent" className="text-white py-2 px-4 rounded-md font-semibold text-md bg-blue-700 w-max m-auto">Add Car</Link>
+                <Link to="/addRent" className="text-white py-2 px-4 rounded-md font-semibold text-md bg-blue-700 w-max m-auto">Add Car</Link>
                <h1 className="text-xl font-semibold text-blue-700" style={{fontFamily:"arial"}}>count or cars : {cars.length} </h1>
              </div>
        ):(null)}
@@ -103,14 +104,24 @@ const RentCar = () => {
 
                     </div>
                     <div className='flex justify-center mt-4'>
-                          {role !== 'hazemsaad231@gmail.com' && role !== 'as6463275@gmail.com' ? 
-                                          (<button className='bg-blue-700 w-max m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
-                                           <Link to={`/home/rent/${item.id}`}>Rent Now</Link>
+                          {role !== 'hazemsaad231@gmail.com'? 
+                                          (<button className='bg-blue-700 w-max m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'
+                                       onClick={()=>{
+                                        if (!isLoggedIn) {
+                                          toast.warn('You must log in first!', {
+                                            position: "top-right",
+                                            autoClose: 3000,
+                                            theme: "dark",
+                                          });
+                                        }
+                                        }}
+                                          >
+                                         {isLoggedIn? <Link to={`/rent/${item.id}`}>Rent Now</Link>: 'rent now'}
                                           </button>
                                         ) : (
                                           <div className="flex gap-2 mx-2">
                                             <button className='bg-blue-700 w-full m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
-                                              <Link to={`/home/addRent/${item.id}`}>update</Link>
+                                              <Link to={`/addRent/${item.id}`}>update</Link>
                                             </button>
                                             <button className='bg-red-500 w-full m-auto rounded-lg p-3 mb-3 hover:bg-red-800 text-white' onClick={() => handleClickOpen(item.id)}>delete</button>
                                           </div>

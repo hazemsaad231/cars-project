@@ -98,7 +98,7 @@ export default function Bookings() {
               <TableCell align="center">Full Name</TableCell>
               <TableCell align="center">Email</TableCell>
               <TableCell align="center">City</TableCell>
-              <TableCell align="right">Receipt Time</TableCell>
+              <TableCell align="center">Receipt Time</TableCell>
               <TableCell align="center">Car</TableCell>
               <TableCell align="center">Car Type</TableCell>
               <TableCell align="center">Status</TableCell>

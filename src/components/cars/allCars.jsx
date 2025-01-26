@@ -31,6 +31,7 @@ const AllCars = () => {
   const [loading, setLoading] = useState(true);
   const { isDarkMode} = useContext(Context);
 
+  const isLoggedIn = localStorage.getItem("token") !== null;
 
 
 
@@ -59,6 +60,7 @@ const AllCars = () => {
   }, []);
 
   const role = localStorage.getItem("role");
+
 
   
   const search = () => {
@@ -138,9 +140,9 @@ const AllCars = () => {
             </div>
 
 
-            {role === "as6463275@gmail.com" || role === "hazemsaad231@gmail.com" && (
+            {isLoggedIn && role === "hazemsaad231@gmail.com" && (
               <div className="flex flex-col justify-center items-center" style={{ fontFamily: 'arial' }}>
-                <button className="text-white w-52 text-xl h-10 mt-6 bg-blue-600 text-center rounded-lg hover:bg-blue-700"><Link to={"/home/addCar"}>add new car</Link></button>
+                <button className="text-white w-52 text-xl h-10 mt-6 bg-blue-600 text-center rounded-lg hover:bg-blue-700"><Link to={"/addCar"}>add new car</Link></button>
                 <h1 className="text-xl font-semibold text-blue-700 tracking-tighter">count or cars : {cars.length} </h1>
 
               </div>
@@ -153,10 +155,7 @@ const AllCars = () => {
                 {currentData.map((el, index) => (
                   <div key={el.id || index} className={`flex flex-col text-center mb-2 shadow-xl hover:shadow-2xl transition duration-500 w-[95%] gap-2 justify-between opacity-90 hover:opacity-100  ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} `}>
 
-                    {/* <img
-                      src={el.img[0]}
-                      alt={el.car}
-                      className="w-full h-60 mb-4 m-auto shadow-lg hover:scale-105 transform transition duration-300" /> */}
+
 
 <div class="w-full h-60 overflow-hidden rounded-lg">
   <img 
@@ -205,21 +204,22 @@ const AllCars = () => {
                       <h5 className='font-bold'>{el.price}$</h5>
                     </div>
                     <br />
-                    {role !== 'as6463275@gmail.com' && role !== 'hazemsaad231@gmail.com' ? (
+                    {role !== 'hazemsaad231@gmail.com' ? (
                   <button className='bg-blue-700 w-max m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
                     {el.isBooked === true ? <HiOutlineLockClosed size={25} color="white" className="w-20 animate-bounce" /> :
-                    <Link to={`/home/details/${el.id}`}>view details</Link>}
+                
+                    <Link to={`/details/${el.id}`}>view details</Link>}
                   </button>):
                   (
                      <div className="grid grid-cols-3 gap-2 p-2 place-items-center">
                         <button className='bg-blue-700 w-full m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'
                           onClick={() => handleShow()}>
-                          <Link to={`/home/addCar/${el.id}`}>update</Link>
+                          <Link to={`/addCar/${el.id}`}>update</Link>
                         </button>
                         <button className='bg-red-500 w-full m-auto rounded-lg p-3 mb-3 hover:bg-red-800 text-white'
                           onClick={() => handleClickOpen(el.id)}>delete</button>
                         <button className='bg-blue-700 m-auto  w-full rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
-                          <Link to={`/home/details/${el.id}`}>Details</Link>
+                          <Link to={`/details/${el.id}`}>Details</Link>
                         </button>
                       </div>
                       )}

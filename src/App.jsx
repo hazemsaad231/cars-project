@@ -29,7 +29,7 @@ function App() {
   let route = createBrowserRouter([
 
 {
-  path: "/",
+  path: "/login",
   element: <Auth />,
   errorElement: <div>Error</div>,
   children: [
@@ -41,23 +41,23 @@ function App() {
 
 
 {
-  path: "/home",
-  element: <PrivateRoute> <Master /> </PrivateRoute>,
+  path: "/",
+  element: <Master /> ,
   errorElement: <div>Error</div>,
   children: [
     {index: true, element: <Home />},
     {path: "home", element: <Home />},
     {path: "allcars", element: <AllCars/>},
-    {path: "details/:id", element: <Details />},
+    {path: "details/:id", element:<Details/>},
     {path: "addCar", element: <AddCar/>},
     {path: "addRent", element: <AddRent/>},
     {path: "addCar/:id", element: <AddCar/>},
     {path: "addRent/:id", element: <AddRent/>},
     {path: "contact", element: <Footer/>},
-    {path: "buy/:id", element: <BuyDetails/>},
+    {path: "buy/:id", element: <PrivateRoute><BuyDetails/></PrivateRoute>},
     {path: "complete", element: <Complete/>},
     {path: "offers", element: <RentCar/>},
-    {path: "rent/:id", element: <RentDetails/>},
+    {path: "rent/:id", element:<PrivateRoute><RentDetails/></PrivateRoute>},
     {path: "booking", element:<Bookings/>},
     {path: "rese/:id", element:<Reservations/>},
 
