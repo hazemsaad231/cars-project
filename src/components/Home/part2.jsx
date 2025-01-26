@@ -1,5 +1,5 @@
 import air from '../../../src/assets/img/air.png'
-import frame from '../../../src/assets/img/frame.png'
+import frame from '../../../src/assets/img/Frame.png'
 import {Link} from 'react-router-dom'
 import { db, collection, getDocs } from "../firebase/firebase";
 import { useEffect , useState } from 'react'
