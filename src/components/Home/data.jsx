@@ -8,7 +8,7 @@ import girl2 from '../../assets/img/girl2.jpg'
 import star from '../../../src/assets/img/star.png'
 import bmw from '../../../src/assets/img/Bmw.jpg'
 import audi from '../../../src/assets/img/audi.jpg'
-import mercedes from '../../../src/assets/img/mercedes.jpg'
+import mercedes from '../../../src/assets/img/Mercedes.jpg'
 
 
 
