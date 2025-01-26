@@ -1,5 +1,5 @@
 import ios from '../../../src/assets/img/ios.png'
-import iphone from '../../../src/assets/img/iphone.png'
+import iphone from '../../../src/assets/img/iPhone.png'
 import andriod from '../../../src/assets/img/andriod.png'
 
 const Sex = () => {
