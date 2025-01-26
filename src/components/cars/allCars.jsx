@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { db, collection, getDocs} from "../firebase/firebase";
 import { Link } from "react-router-dom";
 import air from '../../../src/assets/img/air.png';
-import frame from '../../../src/assets/img/frame.png';
 import { FaUserAlt } from "react-icons/fa";
 import star from '../../../src/assets/img/star.png';
 import { doc, deleteDoc } from "firebase/firestore";
@@ -19,7 +18,7 @@ import { useContext} from 'react';
 import { Context } from '../context/Context';
 import { HiOutlineLockClosed } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
-
+import frame from '../../../src/assets/img/frame.png';
 
 const AllCars = () => {
 
