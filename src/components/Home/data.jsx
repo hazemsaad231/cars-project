@@ -2,9 +2,6 @@ import boy from '../../assets/img/boy.jpg'
 import boy2 from '../../assets/img/boy2.jpg'
 import boy3 from '../../assets/img/boy3.jpg'
 import boy4 from '../../assets/img/boy4.jpg'
-import boy6 from '../../assets/img/boy6.jpg'
-import girl3 from '../../assets/img/girl3.jpg'
-import girl2 from '../../assets/img/girl2.jpg'
 import star from '../../../src/assets/img/star.png'
 import bmw from '../../../src/assets/img/Bmw.jpg'
 import audi from '../../../src/assets/img/audi.jpg'
@@ -55,36 +52,6 @@ const Names = [
         star:[star,star,star,star]
     },
 
-    {
-        id: 4,
-        name: "Mostafa Allam",
-        discription: "I recommend the site to everyone! I bought an economy car and it was a great experience from start to finish.",
-        date: "Last updated 7 mins ago",
-        image:boy6,
-        num:5,
-        star:[star,star,star,star,star]
-    },
-
-   
-    {
-        id: 5,
-        name: "Heba Abdallah",
-        discription: "I had a great time with this car rental company! The cars were well-maintained and the staff was friendly and helpful. I will definitely come back again",
-        date: "Last updated 2 mins ago",
-        image:girl2,
-        num:5,
-        star:[star,star,star,star,star]
-    },
-
-    {
-        id: 6,
-        name: "Aml Ahmed",
-        discription: "Best car rental experience! The cars are clean and modern, and the customer service was very helpful. I will definitely come back again",
-        date: "Last updated 2 mins ago",
-        image:girl3,
-        num:5,
-        star:[star,star,star,star,star]
-    },
 
     
 

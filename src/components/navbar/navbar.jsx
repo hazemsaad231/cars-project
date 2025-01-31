@@ -54,9 +54,6 @@ console.log(orderCount);
         <GiHamburgerMenu className="text-3xl absolute right-4 text-blue-700 cursor-pointer block sm:hidden md:hidden lg:hidden xl:hidden" onClick={toggleNavbar} />
         {isDarkMode ? <MdOutlineLightMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} /> : <MdOutlineDarkMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} />}
 
-      
-
-
         </div>
 
         <div>
