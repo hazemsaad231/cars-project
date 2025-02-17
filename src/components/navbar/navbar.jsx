@@ -81,7 +81,7 @@ console.log(orderCount);
             {admin && admin.trim() === Admin.trim() && isLoggedIn? <li><Link to="booking" onClick={toggleNavbar}>Manage Cars</Link></li>:
             <><li><Link to={`rese/${id}`} onClick={toggleNavbar} className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>My reservations</Link></li><li><a href='#contact' onClick={toggleNavbar}>Contact Us</a></li></>
             }
-                        <li><Link to={"login"}>log in</Link></li>
+                        <li><Link to={"login"}>sign in</Link></li>
 
           
           </ul>
@@ -108,7 +108,7 @@ console.log(orderCount);
               :   <><li><Link to={`rese/${id}`} className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>My reservations</Link></li>
               <li><a href='#contact' className='border-b-2 border-l-2 rounded-xl hover:border-blue-800 px-2 text-blue-700 border-transparent transition duration-300'>Contact Us</a></li></>
             }
-            <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800 text-blue-700' ><Link to={"login"}>log in</Link></button></li>
+            <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800 text-blue-700' ><Link to={"login"}>sign in</Link></button></li>
           
            </ul>
 </div>

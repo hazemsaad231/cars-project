@@ -8,10 +8,11 @@ import { IoCarSport } from "react-icons/io5";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { doc, setDoc, getFirestore } from "firebase/firestore";
+
 export default function Register() {
   const navigate = useNavigate();
 
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -20,6 +21,7 @@ export default function Register() {
       role: "admin",
     },
   });
+  const password = watch('password');
 
   const onSubmit = async (data) => {
     try {
@@ -35,6 +37,7 @@ export default function Register() {
         firstName: data.first_name,
         lastName: data.last_name,
         role: data.role,
+        email: data.email,
       });
 
 
@@ -130,7 +133,12 @@ export default function Register() {
                     label="Password"
                     type="password"
                     variant="outlined"
-                    {...register("password", { required: "Password is required" })}
+                    {...register("password", { required: "Password is required",
+                    minLength: {
+                      value: 7,
+                      message: "Password must be at least 7 characters",
+                    }
+                     })}
                     className="bg-transparent shadow-xl"
                   />
                   {errors.password && (
@@ -147,12 +155,14 @@ export default function Register() {
                     label="Confirm Password"
                     type="password"
                     variant="outlined"
-                    {...register("confirm_password", { required: "confirm password is required" })}
+                    {...register("confirm_password", { required: "confirm password is required",
+                      validate: (value) => value === password || "Passwords do not match",
+                     })}
                     className="bg-transparent shadow-xl"
                   />
-                  {errors.password && (
+                  {errors.confirm_password && (
                     <span className="text-red-400 text-start text-sm">
-                      {errors.password.message}
+                      {errors.confirm_password.message}
                     </span>
                   )}
                 </div>

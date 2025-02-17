@@ -60,9 +60,6 @@ const MyOrders = () => {
   
 
   useEffect(() => {
-   
-     
-    
     fetchOrders();
   }, [userId]);
 

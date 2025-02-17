@@ -34,8 +34,8 @@ function App() {
   errorElement: <div>Error</div>,
   children: [
     {index: true, element: <Login />},
-    {path: "login", element: <Login />},
-    {path: "register", element: <Register/>},
+    {path:"login", element: <Login />},
+    {path:"register", element: <Register/>},
   ]
 },
 
