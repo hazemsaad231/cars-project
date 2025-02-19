@@ -108,7 +108,7 @@ const RentCar = () => {
                                           (<button className='bg-blue-700 w-max m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'
                                        onClick={()=>{
                                         if (!isLoggedIn) {
-                                          toast.warn('You must log in first!', {
+                                          toast.warn('You must sign in first!', {
                                             position: "top-right",
                                             autoClose: 3000,
                                             theme: "dark",
