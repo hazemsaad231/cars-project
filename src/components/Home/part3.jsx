@@ -47,7 +47,7 @@ const Three = () => {
         </div>
 
         <div className='text-start flex justify-center mt-10'> 
-    <button className='m-auto border-2 border-blue-600 text-xl text-blue-600 rounded-lg px-12 py-1 hover:bg-blue-600 hover:text-white'><Link to={'/home/offers'}> Show All Cars</Link></button>
+    <button className='m-auto border-2 border-blue-600 text-xl text-blue-600 rounded-lg px-12 py-1 hover:bg-blue-600 hover:text-white'><Link to={'/offers'}> Show All Cars</Link></button>
   </div>
 
 

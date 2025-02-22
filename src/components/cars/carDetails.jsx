@@ -147,7 +147,7 @@ const [loading, setLoading] = useState(true);
            <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2"
            onClick={() => {
             if (!isLoggedIn) {
-              toast.warn('You must log in first!', {
+              toast.warn('You must sign in first!', {
                 position: "top-right",
                 autoClose: 3000,
                 theme: "dark",

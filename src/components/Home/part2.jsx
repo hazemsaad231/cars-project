@@ -117,7 +117,7 @@ const Two = () => {
   
     <div className='text-start flex justify-center mt-16'> 
      
-    <button className='m-auto border-2 border-blue-800 text-xl text-blue-700 rounded-lg px-6 hover:bg-blue-800 hover:text-white'><Link to={'/home/allcars'}> Show All Cars</Link></button>
+    <button className='m-auto border-2 border-blue-800 text-xl text-blue-700 rounded-lg px-6 hover:bg-blue-800 hover:text-white'><Link to={'/allcars'}> Show All Cars</Link></button>
     
   </div>
   </div>
