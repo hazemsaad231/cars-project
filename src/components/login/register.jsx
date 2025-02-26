@@ -86,7 +86,7 @@ export default function Register() {
                   />
                   {errors.first_name && (
                     <span className="text-red-400 text-start text-sm">
-                      first name is required
+                      firstName is required
                     </span>
                   )}
                 </div>
@@ -101,7 +101,7 @@ export default function Register() {
                   />
                   {errors.last_name && (
                     <span className="text-red-400 text-start text-sm">
-                      last name is required
+                      lastName is required
                     </span>
                   )}
                 </div>

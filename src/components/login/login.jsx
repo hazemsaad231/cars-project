@@ -31,14 +31,13 @@ const isLoginIn = true
         
        console.log(response._tokenResponse.idToken)
        localStorage.setItem('token',response._tokenResponse.idToken);
-
        localStorage.setItem('role',response.user.email);
        localStorage.setItem('Id',response.user.uid);
        localStorage.setItem('user',response);
        console.log(response.user.uid);
      } catch (error) {
-       console.error("Error:", error);
-       toast.error(error.response?.data?.message || "Failed to login. Please try again.", {autoClose: 2000});
+       console.error("Error:", error.message);
+       toast.error(error.message , {autoClose: 2000});
      } finally {
       
      }
