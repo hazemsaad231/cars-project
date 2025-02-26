@@ -13,6 +13,9 @@ import ModalDialog from '@mui/joy/ModalDialog';
 import Loader from "../load/Load";
 import { useLocation } from "react-router-dom";
 
+
+
+
 const RentCar = () => {
 
   const [cars, setCars] = useState([]);
