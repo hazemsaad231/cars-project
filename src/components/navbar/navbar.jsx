@@ -60,7 +60,7 @@ console.log(orderCount);
  {/* القائمة */}
  {isNavbarVisible && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-95 flex flex-col  items-center justify-center gap-20 z-50"
+          className="fixed inset-0 bg-black bg-opacity-100 flex flex-col  items-center justify-center gap-20 z-50"
         data-aos = "zoom-out">
           <ul className="text-center flex flex-col gap-20 font-bold text-2xl text-blue-700">
             <li>
@@ -79,9 +79,10 @@ console.log(orderCount);
               </Link>
             </li>
             {admin && admin.trim() === Admin.trim() && isLoggedIn? <li><Link to="booking" onClick={toggleNavbar}>Manage Cars</Link></li>:
-            <><li><Link to={`rese/${id}`} onClick={toggleNavbar} className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>My reservations</Link></li><li><a href='#contact' onClick={toggleNavbar}>Contact Us</a></li></>
+            <>
+            {isLoggedIn && <li><Link to={`rese/${id}`} onClick={toggleNavbar} className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>My reservations</Link></li>}<li><a href='#contact' onClick={toggleNavbar}>Contact Us</a></li></>
             }
-                        <li><Link to={"login"}>sign in</Link></li>
+                   {!isLoggedIn && <li><Link to={"login"} onClick={toggleNavbar}>sign in</Link></li>}
 
           
           </ul>
