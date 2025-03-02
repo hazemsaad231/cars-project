@@ -43,7 +43,7 @@ const Five = () => {
 
         <>
 
-<h1 className='font-semibold text-4xl mt-24 mb-10 p-4' style={{ fontFamily: "arial" }}> <span className='text-blue-700'>Tweets</span> of some users</h1>
+<h1 className='font-semibold text-4xl mt-24 mb-10 p-2' style={{ fontFamily: "arial" }}> <span className='text-blue-700'>Tweets</span> of some users</h1>
         <div className='my-4 w-full' data-aos="zoom-in">
         <Slider {...settings}>
 {Names.map((item) => (
