@@ -82,7 +82,7 @@ console.log(orderCount);
             <>
             {isLoggedIn && <li><Link to={`rese/${id}`} onClick={toggleNavbar} className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>My reservations</Link></li>}<li><a href='#contact' onClick={toggleNavbar}>Contact Us</a></li></>
             }
-                   {!isLoggedIn && <li><Link to={"login"} onClick={toggleNavbar}>sign in</Link></li>}
+                   <li><Link to={"login"} onClick={toggleNavbar}>sign in</Link></li>
 
           
           </ul>
@@ -101,7 +101,7 @@ console.log(orderCount);
 <div className='hidden sm:block md:block lg:block xl:block'>
 <ul className={`flex gap-3 justify-center m-6 cursor-pointer font-bold t text-lg text-blue-700 `}>
             <li ><Link to="home" className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'
-       >Home</Link></li>
+   >Home</Link></li>
             <li ><Link to="allcars" className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300'>Book a car</Link></li>
             <li  ><Link to="offers" className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 text-blue-700 border-transparent transition duration-300' >Rent a Car</Link></li>
             {admin && admin.trim() === Admin.trim() && isLoggedIn? 
@@ -113,9 +113,9 @@ console.log(orderCount);
 }
               <li><a href='#contact' className='border-b-2 border-l-2 rounded-xl hover:border-blue-800 px-2 text-blue-700 border-transparent transition duration-300'>Contact Us</a></li></>
             }
-            {!isLoggedIn &&
+           
             <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800 text-blue-700' ><Link to={"login"}>sign in</Link></button></li>
-          }
+          
            </ul>
 </div>
           

@@ -102,7 +102,6 @@ console.log(carDetails);
 
         } catch (error) {
           console.error("error", error);
-          toast.error("you must log in", { autoClose: 2000 });
           setLoading(false)
         } 
       }

@@ -105,7 +105,6 @@ const isBooked = localStorage.getItem("isBooked");
           }, 4500);
         } catch (error) {
           console.error("error", error);
-          toast.error('you must be logged in', { autoClose: 2000 });
           setLoading(false)
         } 
       }
