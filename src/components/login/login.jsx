@@ -80,7 +80,7 @@ const isLoginIn = true
             <Box
               component="form"
               sx={{
-                '& > :not(style)': { m: 1, width: '25ch', margin: 'auto'},
+                '& > :not(style)': { m: 1, width: 'fit-content', margin: 'auto'},
               }}
               noValidate
               autoComplete="off"
@@ -90,6 +90,7 @@ const isLoginIn = true
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
+                  
                   {...register("email", {
                     required: 'Email is required',
                     pattern: {
@@ -132,9 +133,9 @@ const isLoginIn = true
               </button>
             </div>
 
-            {/* <div>
+            <div>
             <button onClick={handleGoogleLogin} className='border bg-black  w-full p-3  px-16 rounded-lg mt-4 text-white text-center flex'><span className='m-auto'><FaGoogle size={25}></FaGoogle></span></button>
-            </div> */}
+            </div>
           </form>
         </div>
 
