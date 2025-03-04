@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import logo from '../../../src/assets/img/RENT_MUSICAL_BLUE-logo-4631FB248C-seeklogo.com.png';
 import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState} from 'react';
 import { Context } from '../context/Context';
 import { GiHamburgerMenu } from "react-icons/gi";
 
@@ -20,15 +20,10 @@ const Navbar = () => {
     // حالة للتحكم في ظهور القائمة الجانبية
     const [isNavbarVisible, setNavbarVisible] = useState(false);
     // حالة لتحديث عدد الطلبات
-    const [orderCount, setOrderCount] = useState(orderList.length);
     
     // البريد الإلكتروني للمشرف
     const Admin = 'hazemsaad231@gmail.com';
 
-    // تحديث عدد الطلبات عند تغير orderList
-    useEffect(() => {
-        setOrderCount(orderList.length);
-    }, [orderList]);
 
     // تبديل إظهار القائمة الجانبية
     const toggleNavbar = () => {
@@ -37,7 +32,6 @@ const Navbar = () => {
 
     return (
         <div className="flex flex-row justify-between w-full px-10" style={{ fontFamily: "arial" }}>
-            {/* شعار الموقع ووضعية الوضع المظلم */}
             <div className='flex flex-row mr-20 mt-5 gap-4'>
                 <img src={logo} alt="logo" className='w-10 h-10' id='logo'/> 
                 <h2 className='text-md sm:text-lg md:text-lg lg:text-lg xl:text-lg text-blue-600 font-extrabold mt-1 hover:text-blue-800'>RENTCARS</h2>
