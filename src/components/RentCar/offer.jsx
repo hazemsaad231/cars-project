@@ -101,8 +101,7 @@ const RentCar = () => {
  {currentData.map((item) => (
             <div key={item.id} data-aos="fade-up" >
 <div className="flex flex-col">
-   <div className='flex pt-2'>
-                    <img src={item.img} alt="image" className='w-96 h-80 m-auto rounded-l-lg  hover:scale-110'  />
+   <div className='flex pt-2'>  <img src={item.img} alt="image" className='w-[90%] h-80 m-auto rounded-l-lg transition-all duration-500 hover:scale-105'  />
                 </div>    
                 <div className='flex flex-col pt-2'>
                     <h1 className="font-bold text-xl text-blue-700">{item.title}</h1>
