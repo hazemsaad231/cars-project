@@ -26,13 +26,14 @@ import { Context } from '../context/Context';
 
 
 export default function Bookings() {
+
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
 
    const [open, setOpen] = useState(false);
    const [selectedDelete, setSelectedDelete] = useState(null);
    
-  const {handleBook,Id} = useContext(Context);
+  const {handleBook} = useContext(Context);
   const isBooked = localStorage.getItem("isBooked");
 
 

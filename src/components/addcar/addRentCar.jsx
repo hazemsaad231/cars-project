@@ -5,7 +5,6 @@ import { db, collection, addDoc } from "../firebase/firebase";
 import {useParams } from "react-router-dom";
 import { doc, updateDoc } from "firebase/firestore";
 import { getDoc } from "firebase/firestore";
-import { toast, ToastContainer } from "react-toastify";
 import { Context}  from "../context/Context";
 import Aos from "aos";
 import 'aos/dist/aos.css';
@@ -80,7 +79,6 @@ const AddRent = () => {
 
   return (
     <>
-      <ToastContainer />
       <div data-aos="zoom-in" className="text-start">
       <div className={`shadow-xl border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} p-5  w-[90%] sm:w-[90%] md:w-max lg:w-max m-auto mt-10 `} >
         <h2 className="text-xl text-center font-serif tracking-[4px]">

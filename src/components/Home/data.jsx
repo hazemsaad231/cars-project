@@ -6,7 +6,14 @@ import star from '../../../src/assets/img/star.png'
 import bmw from '../../../src/assets/img/Bmw.jpg'
 import audi from '../../../src/assets/img/audi.jpg'
 import mercedes from '../../../src/assets/img/Mercedes.jpg'
-
+import { SiToyota } from "react-icons/si";
+import { SiFord } from "react-icons/si";
+import { SiJeep } from "react-icons/si";
+import { SiHyundai } from "react-icons/si";
+import { SiKia } from "react-icons/si";
+import { SiMercedes } from "react-icons/si";
+import { SiBmw } from "react-icons/si";
+import { SiMaserati } from "react-icons/si";
 
 
 
@@ -88,6 +95,49 @@ export const Rent = [
 
 ]
 
+export const Brands = [
+    {
+        id: 1,
+        icon:SiToyota,
+        title:'Toyota',
+    },
+    {
+        id: 2,
+        icon:SiFord,
+        title:'Ford',
+    },
+    {
+        id: 3,
+        icon:SiJeep,
+        title:'Jeep',
+    },
+    {
+        id: 4,
+        icon:SiHyundai,
+        title:'Hyundai',
+    },
+    {
+        id: 5,
+        icon:SiKia,
+        title:'Kia',
+    },
+    {
+        id: 6,
+        icon:SiMercedes,
+        title:'Mercedes',
+    },
+    {
+        id: 7,
+        icon:SiBmw,
+        title:'Bmw',
+    },
+    {
+        id: 8,
+        icon:SiMaserati,
+        title:'Maserati',
+    },
+    
+]
 
 
 export default Names

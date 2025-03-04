@@ -11,7 +11,6 @@ import { collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firesto
 import { db } from "../firebase/firebase";
 import { useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { FaPenToSquare } from "react-icons/fa6";
 import { ToastContainer, toast } from 'react-toastify';
 import Button from '@mui/joy/Button';
 import Divider from '@mui/joy/Divider';

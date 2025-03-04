@@ -10,7 +10,6 @@ import Wait from './paymentLoad';
 
 
 
- const options = [10,20,30,40]
 function Payment() {
 
   const stripe = useStripe();
@@ -156,7 +155,7 @@ console.log(carDetails);
       />
 
 <FormControl fullWidth margin="normal" variant='standard'>
-                  <InputLabel id="demo-simple-select-label">Payment Type</InputLabel>
+                  <InputLabel id="demo-simple-select-label">partial payment</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"

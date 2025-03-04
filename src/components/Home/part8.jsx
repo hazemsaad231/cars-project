@@ -1,49 +1,37 @@
-import { SiToyota } from "react-icons/si";
-import { SiFord } from "react-icons/si";
-import { SiJeep } from "react-icons/si";
-import { SiHyundai } from "react-icons/si";
-import { SiKia } from "react-icons/si";
-import { SiMercedes } from "react-icons/si";
-import { SiBmw } from "react-icons/si";
-import { SiMaserati } from "react-icons/si";
-import Aos from "aos";
-import 'aos/dist/aos.css';
-import { useEffect } from "react";
+import ios from '../../../src/assets/img/ios.png'
+import iphone from '../../../src/assets/img/iPhone.png'
+import andriod from '../../../src/assets/img/andriod.png'
 
-const Brand = () => {
-
-
-   useEffect(() => {
-      Aos.init({
-        duration: 1000,  // مدة التأثير
-        once: true,  // التأثير يتم مرة واحدة فقط عند التمرير
-      });
-    }, []);
-
-
-
+const Eight = () => {
     return (
-
-        <div className="py-20" data-aos="zoom-in">
-            <h1 className='font-bold text-2xl mb-16 mt-8 text-blue-700 tracking-[5px]'style={{ fontFamily: "arial" }}>Popular Brands</h1>
-
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 place-items-center gap-12 w-[90%] m-auto cursor-pointer">
-
-                <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn"> <SiJeep size={100} className=' text-blue-700 m-auto' /></div>
-                <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn"> <SiFord size={100} className=' text-blue-700 m-auto' /></div>
-                <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn"> <SiHyundai size={100} className=' text-blue-700 m-auto'/></div>
-                <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn"> <SiKia size={100} className=' text-blue-700 m-auto'/></div>
-                <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn"> <SiMercedes size={100} className=' text-blue-700 m-auto'/></div>
-                <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn"> <SiBmw size={100} className=' text-blue-700 m-auto'/></div>
-                <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn"> <SiMaserati size={100} className=' text-blue-700 m-auto'/></div>
-                <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn"> <SiToyota size={100} className=' text-blue-700 m-auto'/></div>
-
-
-               
-            
-            </div>
+   <>
+   
+   <div className='mt-16 ml-16 text-start' data-aos="zoom-in" style={{ fontFamily: "arial" }}>
+        <h1 className='font-semibold text-4xl mb-3'> Download Rentcars App for <span className='text-blue-700'>FREE</span> </h1>
+        <p className='text-gray-500 text-sm'>For faster, easier booking and exclusive deals.</p>
+        <div>
+            <img src={iphone} alt="" className='absolute right-[5%] w-[20%] h-80 hidden sm:hidden md:hidden lg:block xl:block' />
         </div>
+
+
+        <div className='flex gap-5 mt-5' id='contact' data-aos="zoom-in">
+            <img src={ios} alt="" />
+            <img src={andriod} alt="" />
+        </div>
+        <div className='flex flex-col gap-3 mt-5'>
+            <input type="text" placeholder='Name' className='border border-gray-100 rounded-xl p-2 w-60 bg-blue-200' />
+            <input type="text" placeholder='Phone number' className='border border-gray-100 rounded-xl p-2 w-60 bg-blue-200' />
+            <input type="text" placeholder='Email' className='border border-gray-100 rounded-xl p-2 w-60 bg-blue-200' />
+            <button className='bg-blue-700 w-max p-2 rounded-xl text-white flex text-center px-4 ml-20'>send</button>
+
+        </div>
+    </div>
+   
+   
+   
+   
+   </>
     )
 }
 
-export default Brand
+export default Eight

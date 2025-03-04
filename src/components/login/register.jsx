@@ -21,6 +21,9 @@ export default function Register() {
       role: "admin",
     },
   });
+ 
+
+  {/* خاص بconfirm password */}
   const password = watch('password');
 
   const onSubmit = async (data) => {
@@ -53,6 +56,8 @@ export default function Register() {
     }
   };
 
+
+  
   return (
     <>
     <ToastContainer />

@@ -1,84 +1,99 @@
-import { useEffect, useState } from "react";
+import Names from "./data";
+import star from "../../../src/assets/img/star.png";
+import { useEffect, useContext } from "react";
 import Aos from "aos";
-import 'aos/dist/aos.css';
-const Offer = () => {
+import "aos/dist/aos.css";
+import Slider from "react-slick";
+import { Context } from "../context/Context";
 
+const Seven = () => {
+  // تشغيل تأثيرات AOS عند تحميل المكون لمرة واحدة فقط
+  useEffect(() => {
+    Aos.init({ duration: 1000, once: true });
+  }, []);
 
+  // الحصول على وضع الثيم (فاتح أو داكن) من الـ Context
+  const { isDarkMode } = useContext(Context);
 
-    useEffect(() => {
-        Aos.init({
-          duration: 500,  // مدة التأثير
-          once: true,  // التأثير يتم مرة واحدة فقط عند التمرير
-        });
-      }, []);
+  {/* التنسيقات للسلايدر */}
+  const settings = {
+    dots: true, 
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    autoplay: true,
+    autoplaySpeed: 4000,
+    pauseOnHover: true, 
+    slidesToScroll: 1,
+    arrows: false,
+    responsive: [
+      { breakpoint: 1024, settings: { slidesToShow: 3 } },
+      { breakpoint: 768, settings: { slidesToShow: 2 } }, 
+      { breakpoint: 480, settings: { slidesToShow: 1 } },
+    ],
+  };
 
+  return (
+    <>
+      <h1
+        className="font-semibold text-4xl mt-24 mb-10 p-2"
+        style={{ fontFamily: "arial" }}
+      >
+        <span className="text-blue-700">Tweets</span> of some users
+      </h1>
 
+      {/* الحاوبه مع تأثير AOS */}
+      <div className="my-4 w-full" data-aos="zoom-in">
+        <Slider {...settings}>
+          {Names.map((item) => (
+            <div key={item.id}>
+              {/* عنصر التغريدة الفردي */}
+              <div
+                className={`flex flex-col xl:flex-row gap-2 rounded-xl shadow-lg m-10 ${
+                  isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"
+                }`}
+              >
+                {/* الصورة */}
+                <div className="h-80 overflow-hidden rounded-l-lg">
+                  <img
+                    src={item.image}
+                    alt={`Profile of ${item.name}`} // تحسين الـ alt ليكون أكثر دقة
+                    className="w-96 h-80 object-cover m-auto"
+                  />
+                </div>
 
+                {/* تفاصيل التغريدة */}
+                <div className="flex flex-col pt-2 text-center">
+                  <h1>{item.num} stars</h1>
 
-    const targetDate = new Date("2025-12-30T23:59:59").getTime();
+                  {/* عرض النجوم بناءً على التقييم */}
+                  <div className="flex justify-center">
+                    {Array.from({ length: item.star.length }).map((_, index) => (
+                      <img
+                        key={index}
+                        src={star}
+                        alt="Star"
+                        className="w-5 mr-1"
+                      />
+                    ))}
+                  </div>
 
-    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+                  {/* نص التغريدة */}
+                  <p className="font-serif w-48 h-48 p-2 mx-auto">
+                    {item.discription}
+                  </p>
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            // حساب الأيام، الساعات، الدقائق، والثواني
-            const days = Math.floor(distance / (6000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-            // تحديث الحالة
-            setTimeLeft({ days, hours, minutes, seconds });
-
-            // إذا انتهى العداد، أوقف التحديث
-            if (distance < 0) {
-                clearInterval(interval);
-                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
-            }
-        }, 1000);
-
-        return () => clearInterval(interval); // تنظيف عند فك التعلق
-    }, [targetDate]);
-
-
-
-    return (
-        <div style={{ fontFamily: "arial" }}>  <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-around items-center p-10 rounded-xl m-10">
-        <div className="flex flex-col justify-center items-center" data-aos="zoom-in">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-700">All cars are 20% off now!
-                <div>Don't miss this offer</div>
-            </h1>
-            <div>
+                  {/* معلومات المستخدم */}
+                  <h3 className="px-2">{item.name}</h3>
+                  <p className="text-gray-500 text-sm px-2 pb-2">{item.date}</p>
+                </div>
+              </div>
             </div>
-            <p className="text-gray-500 w-full p-2 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 m-2">This offer applies to most cars offered for rent.</p>
+          ))}
+        </Slider>
+      </div>
+    </>
+  );
+};
 
-                <table >
-                    <thead className="text-gray-400">
-                    <th className="p-2">Days</th>
-                    <th className="p-2">Hours</th>
-                    <th className="p-2">Minutes</th>
-                    <th className="p-2">Seconds</th>
-                    </thead>
-                    
-                    <tr className="text-center text-blue-700 text-2xl font-semibold">
-                        <td>{timeLeft.days}</td>
-                        <td>{timeLeft.hours}</td>
-                        <td>{timeLeft.minutes}</td>
-                        <td>{timeLeft.seconds}</td>
-                    </tr>
-                </table>
-           
-        </div>
-    </div>
-
-    </div>
-      
-    )
-
-}
-
-
-export default Offer
+export default Seven;

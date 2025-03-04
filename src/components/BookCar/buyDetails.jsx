@@ -8,6 +8,7 @@ import { Context } from '../context/Context';
 import { useContext } from "react";
 
 const BuyDetails = () => {
+  
   const { id } = useParams();
   const [carDetails, setCarDetails] = useState({});
   const [loading, setLoading] = useState(true);

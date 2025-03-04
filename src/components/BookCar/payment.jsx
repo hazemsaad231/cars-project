@@ -13,6 +13,7 @@ import Wait from './paymentLoad';
 
 function Payment({carId}) {
 
+
   const stripe = useStripe();
   const elements = useElements();
   const navigate = useNavigate()
@@ -182,7 +183,7 @@ const isBooked = localStorage.getItem("isBooked");
                 />
 
 <FormControl fullWidth margin="normal" variant='standard'>
-                  <InputLabel id="demo-simple-select-label">Payment Type</InputLabel>
+                  <InputLabel id="demo-simple-select-label">partial payment</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"

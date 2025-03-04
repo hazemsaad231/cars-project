@@ -20,7 +20,10 @@ import { HiOutlineLockClosed } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 import frame from '../../../src/assets/img/Frame.png';
 
+
+
 const AllCars = () => {
+
 
   const [cars, setCars] = useState([]);
   const [value, setValue] = useState('');
@@ -32,8 +35,6 @@ const AllCars = () => {
 
   const isLoggedIn = localStorage.getItem("token") !== null;
 
-
-
    const location = useLocation();
   
       useEffect(() => {
@@ -43,6 +44,7 @@ const AllCars = () => {
       }, [location.state]);
   
 
+      {/* جلب السيارات من قاعدة البيانات */}
   const fetchCars = async () => {
     const Allcars = await getDocs(collection(db, "cars"));
     const carsList = Allcars.docs.map((doc) => ({
@@ -58,16 +60,17 @@ const AllCars = () => {
     fetchCars();
   }, []);
 
+
+
   const role = localStorage.getItem("role");
 
 
-  
+  {/* البحث */}
   const search = () => {
     if (mood === 'price') {
       return cars.filter((item) => {
         const price = parseFloat(item.price);  // تحويل السعر إلى رقم
         const enteredValue = parseFloat(value); 
-
         if(value === '') {
           return true;
         }
@@ -81,6 +84,7 @@ const AllCars = () => {
   };
   
 
+  {/* pagnation */}
   const filterData = search()
   const [current, setCurrent] = useState(1);
   const itemsPerPage = 12;
@@ -88,7 +92,8 @@ const AllCars = () => {
   const startIndex = lastIndex - itemsPerPage;
   const totalPages = Math.ceil(filterData.length / itemsPerPage);
   const currentData = filterData.slice(startIndex, lastIndex);
- 
+
+ {/* حذف السيارة */}
   const handleDelete = async () => {
     try {
       await deleteDoc(doc(db, "cars", selectedDelete));
@@ -288,5 +293,4 @@ const AllCars = () => {
 };
 
 export default AllCars;
-
 

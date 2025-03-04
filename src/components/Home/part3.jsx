@@ -1,58 +1,84 @@
-import { Rent } from "./data"
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from "react";
 import Aos from "aos";
 import 'aos/dist/aos.css';
-const Three = () => {
+const Offer = () => {
+
 
 
     useEffect(() => {
         Aos.init({
-          duration: 1000,  // مدة التأثير
+          duration: 500,  // مدة التأثير
           once: true,  // التأثير يتم مرة واحدة فقط عند التمرير
         });
       }, []);
 
-      const role = localStorage.getItem("role");
+
+
+
+    const targetDate = new Date("2025-12-30T23:59:59").getTime();
+
+    const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+
+            // حساب الأيام، الساعات، الدقائق، والثواني
+            const days = Math.floor(distance / (6000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // تحديث الحالة
+            setTimeLeft({ days, hours, minutes, seconds });
+
+            // إذا انتهى العداد، أوقف التحديث
+            if (distance < 0) {
+                clearInterval(interval);
+                setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+            }
+        }, 1000);
+
+        return () => clearInterval(interval); // تنظيف عند فك التعلق
+    }, [targetDate]);
 
 
 
     return (
-        <>
-        <div style={{ fontFamily: "arial" }}>
-        <h1 className='font-bold text-2xl mt-16 mb-16 p-2 text-blue-700 tracking-[2px]' >Our special car rental offers</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 place-items-center m-auto">
- {Rent.map((item) => (
-            <div key={item.id} data-aos="zoom-in" >
-<div className="flex flex-col">
-   <div className='flex pt-2'>
-                    <img src={item.img} alt="image" className='w-96 h-72 rounded-l-lg m-3  hover:scale-110'  />
-                </div>    
-                <div className='flex flex-col pt-2'>
-                    <h1 className="font-bold text-xl text-blue-700">{item.title}</h1>
-                    <p className='font-serif text-sm w-60 h-36 p-2 text-center m-auto '>{item.text}</p>
-                    <div className='flex gap-4 justify-center'>
-                        <h1 className='font-semibold line-through'>${item.price}</h1>
-                        <h1 className='font-semibold text-blue-700'>${item.newPrice}</h1>
-
-                    </div>
-                </div>
-</div>
-             
+        <div style={{ fontFamily: "arial" }}>  <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-around items-center p-10 rounded-xl m-10">
+        <div className="flex flex-col justify-center items-center" data-aos="zoom-in">
+            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-700">All cars are 20% off now!
+                <div>Don't miss this offer</div>
+            </h1>
+            <div>
             </div>
-        ))}
+            <p className="text-gray-500 w-full p-2 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 m-2">This offer applies to most cars offered for rent.</p>
 
+                <table >
+                    <thead className="text-gray-400">
+                    <th className="p-2">Days</th>
+                    <th className="p-2">Hours</th>
+                    <th className="p-2">Minutes</th>
+                    <th className="p-2">Seconds</th>
+                    </thead>
+                    
+                    <tr className="text-center text-blue-700 text-2xl font-semibold">
+                        <td>{timeLeft.days}</td>
+                        <td>{timeLeft.hours}</td>
+                        <td>{timeLeft.minutes}</td>
+                        <td>{timeLeft.seconds}</td>
+                    </tr>
+                </table>
+           
         </div>
-   
-        </div>
+    </div>
 
-        <div className='text-start flex justify-center mt-10'> 
-    <button className='m-auto border-2 border-blue-600 text-xl text-blue-600 rounded-lg px-12 py-1 hover:bg-blue-600 hover:text-white'><Link to={'/offers'}> Show All Cars</Link></button>
-  </div>
-
-
-        </>
+    </div>
+      
     )
+
 }
 
-export default Three
+
+export default Offer

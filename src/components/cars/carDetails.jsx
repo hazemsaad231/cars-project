@@ -9,21 +9,24 @@ import { Link } from "react-router-dom";
 import Loader from "../load/Load";
 import { toast, ToastContainer } from 'react-toastify';
 
+
 const Details = () => {
+
   const { id } = useParams();
   const [carDetails, setCarDetails] = useState({});
 
   const isLoggedIn = localStorage.getItem("token") !== null;
 
+  {/* تخزين البيانات في localStorage */}
   localStorage.setItem("id", id);
   localStorage.setItem("isBooked", carDetails.isBooked);
 
   const role = localStorage.getItem("role");
 
-  console.log(role);
 
-const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   
+  {/* جلب بيانات السيارة من قاعدة البيانات */}
   useEffect(() => {
     const fetchCarDetails = async () => {
       const docRef = doc(db, "cars", id);
@@ -41,6 +44,8 @@ const [loading, setLoading] = useState(true);
 
   }, [id]);
 
+
+{/* تعيين اعدادات السلايدر */}
   const settings = {
     dots: true,
     infinite: true,

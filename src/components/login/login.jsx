@@ -11,14 +11,14 @@ import { toast, ToastContainer } from 'react-toastify';
 
 const Login = ()=>{
  
-
-  let navigate = useNavigate();
-
-const isLoginIn = true
-
   const { register, handleSubmit, formState: { errors } } = useForm();
+
+   let navigate = useNavigate();
+   const isLoginIn = true
+
   
  
+  {/* ارسال البيانات */}
    const onSubmit = async (data) => {
      try {
        const response = await signInWithEmailAndPassword(auth, data.email, data.password);
@@ -53,7 +53,6 @@ const isLoginIn = true
       const user = result.user;
       console.log("Logged in via Google: ", user);
 
-      // هنا يمكنك إرسال المستخدم إلى الصفحة الرئيسية أو الصفحة المطلوبة بعد تسجيل الدخول
     } catch (error) {
       setLoginError("Google login error: " + error.message);
     }

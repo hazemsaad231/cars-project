@@ -24,6 +24,8 @@ const RentCar = () => {
   const [loading, setLoading] = useState(true);
   const isLoggedIn = localStorage.getItem("token") !== null;
 
+
+  {/* جلب السيارات */}
   const fetchCars = async () => {
     const Rentcars = await getDocs(collection(db,'Rent'));
     const carsList = Rentcars.docs.map((doc) => ({
@@ -39,8 +41,10 @@ const RentCar = () => {
     fetchCars();
   }, []);
 
+
   const role = localStorage.getItem("role");
 
+  {/* pagination */}
   const [current, setCurrent] = useState(1);
   const itemsPerPage = 6;
   const lastIndex = current * itemsPerPage;
@@ -48,6 +52,8 @@ const RentCar = () => {
   const totalPages = Math.ceil(cars.length / itemsPerPage);
   const currentData = cars.slice(startIndex, lastIndex);
  
+
+  {/* حذف السيارة */}
   const handleDelete = async () => {
     try {
       await deleteDoc(doc(db, "Rent", selectedDelete));
@@ -144,28 +150,6 @@ const RentCar = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
           <div className="flex justify-center mt-4 mb-8">
               <button
                 onClick={() => setCurrent(current > 1 ? current - 1 : current)}
@@ -200,6 +184,7 @@ const RentCar = () => {
 
         </div>
       </div>
+
 
       {/* Confirmation Modal */}
       <React.Fragment>

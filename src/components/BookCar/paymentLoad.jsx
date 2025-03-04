@@ -1,8 +1,8 @@
 import { ColorRing } from 'react-loader-spinner'
 const Wait = () => {
     return (
-        <div className="flex items-center justify-center">
-        <ColorRing
+    <div className="flex items-center justify-center">
+<ColorRing
   visible={true}
   height="32"
   width="32"

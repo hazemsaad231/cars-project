@@ -1,48 +1,57 @@
-import yser from '../../../src/assets/img/yser.png'
-import message from '../../../src/assets/img/message.png'
-import chat from '../../../src/assets/img/chat.png'
-import newImage from '../../../src/assets/img/new.mp4'
+import { Rent } from "./data"
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Aos from "aos";
 import 'aos/dist/aos.css';
-
-
 const Four = () => {
 
 
-   useEffect(() => {
-      Aos.init({
-        duration: 1000,  // مدة التأثير
-        once: true,  // التأثير يتم مرة واحدة فقط عند التمرير
-      });
-    }, []);
+    useEffect(() => {
+        Aos.init({
+          duration: 1000,  // مدة التأثير
+          once: true,  // التأثير يتم مرة واحدة فقط عند التمرير
+        });
+      }, []);
 
 
 
 
     return (
-       <>
-       
-       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 place-items-center m-auto mt-10'style={{ fontFamily: "arial" }} >
+        <>
+        <div style={{ fontFamily: "arial" }}>
+        <h1 className='font-bold text-2xl mt-16 mb-16 p-2 text-blue-700 tracking-[2px]' >Our special car rental offers</h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 place-items-center m-auto">
+ {Rent.map((item) => (
+            <div key={item.id} data-aos="zoom-in" >
+<div className="flex flex-col">
+   <div className='flex pt-2'>
+                    <img src={item.img} alt="image" className='w-96 h-72 rounded-l-lg m-3  hover:scale-110'  />
+                </div>    
+                <div className='flex flex-col pt-2'>
+                    <h1 className="font-bold text-xl text-blue-700">{item.title}</h1>
+                    <p className='font-serif text-sm w-60 h-36 p-2 text-center m-auto '>{item.text}</p>
+                    <div className='flex gap-4 justify-center'>
+                        <h1 className='font-semibold line-through'>${item.price}</h1>
+                        <h1 className='font-semibold text-blue-700'>${item.newPrice}</h1>
 
-<div className='flex flex-col' data-aos="zoom-in" >
- <div className=' border-2 border-blue-700  w-max px-4 py-1 text-center text-blue-700 rounded-lg hover:bg-blue-700 hover:text-white m-auto mb-4'>WHY CHOOSE US</div>
-  <h1 className='font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-3xl mb-5 p-2'>We offer the best experience with our rentalcars</h1>
-  <div className='flex flex-col gap-3'>
-  <div className='flex gap-2 mx-2'> <img src={yser} alt="user"/> <div><h1 className='text-lg font-semibold text-start'>Best price guaranteed</h1>  <p className='font-serif text-gray-500 text-start'>Find a lower price? Well refund you 100%.</p></div> </div>
-  <div className='flex gap-2 mx-2'> <img src={message} alt="doors"/> <div><h1 className='text-lg font-semibold text-start'>24 hour car delivery </h1>  <p className='font-serif text-gray-500 text-start'>Book your car anytime and we will deliver it.</p></div>   </div>
-  <div className='flex gap-2 mx-2'> <img src={chat} alt="frame"/> <div><h1 className='text-lg font-semibold text-start'>24/7 technical support</h1>  <p className='font-serif text-gray-500 text-start '>Have a question? Contact Rentcars support any time.</p></div>  </div>
+                    </div>
+                </div>
+</div>
+             
+            </div>
+        ))}
+
+        </div>
+   
+        </div>
+
+        <div className='text-start flex justify-center mt-10'> 
+    <button className='m-auto border-2 border-blue-600 text-xl text-blue-600 rounded-lg px-12 py-1 hover:bg-blue-600 hover:text-white'><Link to={'/offers'}> Show All Cars</Link></button>
   </div>
-  </div> 
-  <div className='mt-20'>
-   <video src={newImage} autoPlay loop muted playsinline disablePictureInPicture className='rounded-full' data-aos ="zoom-in" ></video>
-</div>
-</div>
-       
-       
-       
-       </>
+
+
+        </>
     )
-}        
+}
 
 export default Four
