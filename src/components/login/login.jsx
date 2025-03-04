@@ -28,7 +28,6 @@ const Login = ()=>{
           navigate("/home", {state:{message:"Login successful"} });
         }, 1000);
        }
-        
        console.log(response._tokenResponse.idToken)
        localStorage.setItem('token',response._tokenResponse.idToken);
        localStorage.setItem('role',response.user.email);
