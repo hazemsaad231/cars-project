@@ -8,6 +8,8 @@ import { signInWithEmailAndPassword , signInWithPopup, GoogleAuthProvider} from 
 import { auth } from "../firebase/firebase";
 import { FaGoogle } from "react-icons/fa6";
 import { toast, ToastContainer } from 'react-toastify';
+import { Tooltip } from '@mui/material';
+
 
 const Login = ()=>{
  
@@ -75,6 +77,7 @@ const Login = ()=>{
           <h1 className="font-bold text-black text-2xl mb-4">Login to your account</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
+           
             <Box
               component="form"
               sx={{
@@ -83,12 +86,13 @@ const Login = ()=>{
               noValidate
               autoComplete="off"
             >
-              <div>
+              <div className='flex flex-col gap-3'> 
+
+                <Tooltip title={errors.email?.message} open={!!errors.email} arrow>
                 <TextField
                   id="outlined-basic"
                   label="Email"
                   variant="outlined"
-                  
                   {...register("email", {
                     required: 'Email is required',
                     pattern: {
@@ -96,11 +100,12 @@ const Login = ()=>{
                       message: 'Please enter a valid email'
                     }
                   })}
+                  error={errors.email}
                   className='bg-transparent shadow-2xl'
                 />
-                {errors.email && <span className='text-red-400 text-start text-sm'>Email is required</span>}
+             </Tooltip>
 
-                <div className='mt-4'>
+             <Tooltip title={errors.password?.message} open={!!errors.password} arrow>
                   <TextField
                     id="outlined-basic"
                     label="Password"
@@ -110,9 +115,9 @@ const Login = ()=>{
                       required: 'Password is required',
                     })}
                     className='bg-transparent shadow-2xl'
+                    error={errors.password}
                   />
-                  {errors.password && <span className='text-red-400 text-start text-sm'>Password is required</span>}
-                </div>
+                  </Tooltip>
               </div>
             </Box>
 

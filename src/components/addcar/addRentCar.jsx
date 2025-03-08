@@ -13,7 +13,9 @@ const AddRent = () => {
   const { id } = useParams();
   const { register, handleSubmit,setValue, formState: { errors } } = useForm();
  const navigate = useNavigate()
+
  const{isDarkMode} = useContext(Context);
+ 
   useEffect(() => {
     const fetchCarData = async () => {
       if (id) {

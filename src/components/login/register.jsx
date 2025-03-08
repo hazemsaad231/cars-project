@@ -8,6 +8,8 @@ import { IoCarSport } from "react-icons/io5";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 import { doc, setDoc, getFirestore } from "firebase/firestore";
+import { Tooltip } from '@mui/material';
+
 
 export default function Register() {
   const navigate = useNavigate();
@@ -66,53 +68,50 @@ export default function Register() {
           <div className="p-2">
             <IoCarSport className="w-20 h-20 m-auto text-black" />
 
-            <h3 className="text-gray-800 text-lg text-start">
+            <h3 className="text-gray-800 text-lg text-center">
               Create new account
             </h3>
-            <h1 className="font-bold text-2xl mb-3">Register</h1>
+            <h1 className="font-bold text-2xl mb-3 text-center">Register</h1>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box
               sx={{
-                "& > :not(style)": { my : 2, width: "27ch"  },
+                "& > :not(style)": { my : 1, width: "27ch"  },
               }}
               noValidate
               autoComplete="off"
+              className="flex flex-col"
             >
               <div className="flex gap-2">
-                <div>
+
+                <Tooltip title={errors.first_name?.message} open={!!errors.first_name} arrow>
                   <TextField
                     id="outlined-basic"
                     label="firstName"
                     variant="outlined"
-                    {...register("first_name", { required: true })}
+                    {...register("first_name", { required: 'First name is required' })}
+                    error={!!errors.first_name}
                     className="bg-transparent shadow-xl"
                   />
-                  {errors.first_name && (
-                    <span className="text-red-400 text-start text-sm">
-                      firstName is required
-                    </span>
-                  )}
-                </div>
+               </Tooltip>
+                
 
-                <div className="">
+                <Tooltip title={errors.last_name?.message} open={!!errors.last_name} arrow>
                   <TextField
                     id="outlined-basic"
                     label="lastName"
                     variant="outlined"
-                    {...register("last_name", { required: true })}
+                    {...register("last_name", { required: 'Last name is required' })}
                     className="bg-transparent shadow-xl"
+                    error={!!errors.last_name}
                   />
-                  {errors.last_name && (
-                    <span className="text-red-400 text-start text-sm">
-                      lastName is required
-                    </span>
-                  )}
-                </div>
-              </div>
+                 </Tooltip>
 
-              <div className="flex flex-col justify-center">
+                </div>
+            
+
+        <Tooltip title={errors.email?.message} open={!!errors.email} arrow>
                 <TextField
                   id="outlined-basic"
                   label="Email"
@@ -124,15 +123,15 @@ export default function Register() {
                       message: "Please enter a valid email",
                     },
                   })}
+                  error={!!errors.email}
+                  fullWidth
+
                   className="bg-transparent shadow-xl"
                 />
-                {errors.email && (
-                  <span className="text-red-400 text-start text-sm">
-                    {errors.email.message}
-                  </span>
-                )}
+               
+              </Tooltip>
 
-                <div className="mt-4 flex flex-col justify-center">
+                <Tooltip title={errors.password?.message} open={!!errors.password} arrow>
                   <TextField
                     id="outlined-basic"
                     label="Password"
@@ -144,17 +143,13 @@ export default function Register() {
                       message: "Password must be at least 7 characters",
                     }
                      })}
+                    error={!!errors.password}
                     className="bg-transparent shadow-xl"
                   />
-                  {errors.password && (
-                    <span className="text-red-400 text-start text-sm">
-                      {errors.password.message}
-                    </span>
-                  )}
-                </div>
+              </Tooltip>
 
 
-                <div className="mt-4 flex flex-col">
+                <Tooltip title={errors.confirm_password?.message} open={!!errors.confirm_password} arrow>
                   <TextField
                     id="outlined-basic"
                     label="Confirm Password"
@@ -163,18 +158,14 @@ export default function Register() {
                     {...register("confirm_password", { required: "confirm password is required",
                       validate: (value) => value === password || "Passwords do not match",
                      })}
+                    error={!!errors.confirm_password}
                     className="bg-transparent shadow-xl"
                   />
-                  {errors.confirm_password && (
-                    <span className="text-red-400 text-start text-sm">
-                      {errors.confirm_password.message}
-                    </span>
-                  )}
-                </div>
+                
+              </Tooltip>
 
 
-
-              </div>
+              
             </Box>
 
             <div className="flex flex-col justify-center gap-2">
