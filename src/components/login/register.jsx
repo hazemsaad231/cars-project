@@ -83,7 +83,7 @@ export default function Register() {
               autoComplete="off"
               className="flex flex-col"
             >
-              <div className="flex gap-2">
+              <div className="flex gap-5">
 
                 <Tooltip title={errors.first_name?.message} open={!!errors.first_name} arrow>
                   <TextField
