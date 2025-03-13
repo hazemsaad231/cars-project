@@ -1,6 +1,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { IoCarSport } from "react-icons/io5";
@@ -9,7 +10,8 @@ import { auth } from "../firebase/firebase";
 import { FaGoogle } from "react-icons/fa6";
 import { toast, ToastContainer } from 'react-toastify';
 import { Tooltip } from '@mui/material';
-
+import Aos from "aos";
+import "aos/dist/aos.css";
 
 const Login = ()=>{
  
@@ -18,7 +20,9 @@ const Login = ()=>{
    let navigate = useNavigate();
    const isLoginIn = true
 
-  
+   useEffect(() => {
+      Aos.init({ duration: 1500, once: true });
+    }, []);
  
   {/* ارسال البيانات */}
    const onSubmit = async (data) => {
@@ -67,9 +71,9 @@ const Login = ()=>{
   return (
     <>
     <ToastContainer/>
-      <div className=' flex flex-col justify-center items-center my-8'>
+      <div className=' flex flex-col justify-center items-center my-8' data-aos="fade-down">
  <div className='w-[100%] sm:w-[100%] md:w-max lg:w-max xl:w-max border px-8 sm:px-8 md:px-12 lg:px-16 xl:px-16 py-10 rounded-lg shadow-2xl bg-gradient-to-t from-blue-50 to-transparent'>
-          <div className="p-6">
+          <div className="pb-4">
             <IoCarSport className="w-20 h-20 m-auto text-black" />  
           </div>
 
