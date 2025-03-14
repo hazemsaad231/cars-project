@@ -126,7 +126,7 @@ const AllCars = () => {
               <input
                 type="text"
                 placeholder={`Search by ${mood}`}
-                className='w-[60%] p-1.5 mt-4 shadow-2xl border  rounded-l-lg outline-blue-700 text-gray-400'
+                className='w-[60%] p-1 mt-4 shadow-2xl border  rounded-l-lg outline-blue-700 text-gray-400'
                 value={value}
                 onChange={(e) => setValue(e.target.value)} />
 

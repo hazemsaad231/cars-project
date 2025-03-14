@@ -147,7 +147,7 @@ const Details = () => {
 
 </div>
 
-<div className="mt-4 mb-4 text-center block sm:block md:hidden lg:hidden xl:hidden">
+<div className="mt-8 mb-4 text-center block sm:block md:hidden lg:hidden xl:hidden">
         { role !== 'hazemsaad231@gmail.com' ? 
            <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2"
            onClick={() => {
