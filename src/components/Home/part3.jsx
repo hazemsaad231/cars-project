@@ -46,36 +46,35 @@ const Offer = () => {
 
 
     return (
-        <div style={{ fontFamily: "arial" }}>  <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-around items-center p-10 rounded-xl m-10">
-        <div className="flex flex-col justify-center items-center" data-aos="zoom-in">
-            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-700">All cars are 20% off now!
-                <div>Don't miss this offer</div>
-            </h1>
-            <div>
-            </div>
-            <p className="text-gray-500 w-full p-2 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 m-2">This offer applies to most cars offered for rent.</p>
-
-                <table >
-                    <thead className="text-gray-400">
-                    <th className="p-2">Days</th>
-                    <th className="p-2">Hours</th>
-                    <th className="p-2">Minutes</th>
-                    <th className="p-2">Seconds</th>
-                    </thead>
-                    
-                    <tr className="text-center text-blue-700 text-2xl font-semibold">
-                        <td>{timeLeft.days}</td>
-                        <td>{timeLeft.hours}</td>
-                        <td>{timeLeft.minutes}</td>
-                        <td>{timeLeft.seconds}</td>
-                    </tr>
-                </table>
-           
+    <div style={{ fontFamily: "arial" }}>  <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-around items-center p-10 rounded-xl m-10">
+    <div className="flex flex-col justify-center items-center" data-aos="zoom-in">
+        <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-700">All cars are 20% off now!
+            <div>Don't miss this offer</div>
+        </h1>
+        <div>
         </div>
-    </div>
+        <p className="text-gray-500 w-full p-2 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 m-2">This offer applies to most cars offered for rent.</p>
 
+            <table >
+                <thead className="text-gray-400">
+                <th className="p-2">Days</th>
+                <th className="p-2">Hours</th>
+                <th className="p-2">Minutes</th>
+                <th className="p-2">Seconds</th>
+                </thead>
+                
+                <tr className="text-center text-blue-700 text-2xl font-semibold">
+                    <td>{timeLeft.days}</td>
+                    <td>{timeLeft.hours}</td>
+                    <td>{timeLeft.minutes}</td>
+                    <td>{timeLeft.seconds}</td>
+                </tr>
+            </table>
+       
     </div>
-      
+</div>
+
+</div>
     )
 
 }
