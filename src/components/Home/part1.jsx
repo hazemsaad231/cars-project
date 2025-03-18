@@ -21,7 +21,7 @@ const One = () => {
                     </p>
                 </div>
                 <div className='pt-10'>
-                    <img src={bg} alt="bg" id='bg'/>
+                    <img src={bg} alt="bg" id='bg' className='w-[100%]'/>
                 </div>
             </div>
         </>
