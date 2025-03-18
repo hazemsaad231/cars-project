@@ -45,7 +45,7 @@ const BuyDetails = () => {
           <div className={`flex flex-col rounded-lg shadow-xl border ${isDarkMode ? "border-gray-700" : "bg-white"}`}>
             {carDetails?.img && carDetails?.img.length > 0 && (
               <div className="w-[100%] h-80 overflow-hidden">
-              <img src={carDetails.img[0]} alt="" className="w-[100%] h-80 rounded-lg transform hover:scale-125 transition duration-500 ease-out" />
+              <img src={carDetails.img[0]} alt="details" className="w-[100%] h-80 rounded-lg transform hover:scale-125 transition duration-500 ease-out" />
               </div>
             )}
             <div className="flex flex-col gap-4 p-4 font-thin text-xl">
