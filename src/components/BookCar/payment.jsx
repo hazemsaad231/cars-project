@@ -11,7 +11,7 @@ import { useState } from 'react';
 import Wait from './paymentLoad';
   
 
-const Payment = React.memo( ({carId})=> {
+const Payment = ({carId})=> {
 
 
   const stripe = useStripe();
@@ -240,6 +240,6 @@ const isBooked = localStorage.getItem("isBooked");
     
     </>
   );
-});
+};
 
-export default Payment;
+export default React.memo(Payment); // استخدام React.memo للحفظ من التكرار الذاتي للعنصر Payment;

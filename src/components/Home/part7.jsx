@@ -59,6 +59,7 @@ const Seven = () => {
                     src={item.image}
                     alt={`Profile of ${item.name}`} // تحسين الـ alt ليكون أكثر دقة
                     className="w-96 h-80 object-cover m-auto"
+                    loading="lazy"
                   />
                 </div>
 

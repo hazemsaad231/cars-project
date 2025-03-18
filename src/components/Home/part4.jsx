@@ -25,7 +25,7 @@ const Four = () => {
             <div key={item.id} data-aos="zoom-in" >
 <div className="flex flex-col">
    <div className='flex pt-2'>
-                    <img src={item.img} alt="image" className='w-[23rem] h-72 rounded-l-lg m-3 transition-all duration-500  hover:scale-105'  />
+                    <img src={item.img} alt="image" className='w-[23rem] h-72 rounded-l-lg m-3 transition-all duration-500  hover:scale-105' loading="lazy"  />
                 </div>    
                 <div className='flex flex-col pt-2'>
                     <h1 className="font-bold text-xl text-blue-700">{item.title}</h1>
@@ -54,4 +54,4 @@ const Four = () => {
     )
 }
 
-export default Four
+export default Four;

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import React from "react";
 import Aos from "aos";
 import 'aos/dist/aos.css';
 const Offer = () => {
@@ -80,4 +81,4 @@ const Offer = () => {
 }
 
 
-export default Offer
+export default React.memo(Offer); // استخدام React.memo للحفظ من التكرار الذاتي للعنصر Offer

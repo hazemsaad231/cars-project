@@ -10,6 +10,7 @@ import Aos from "aos";
 import 'aos/dist/aos.css';
 
 const AddRent = () => {
+  
   const { id } = useParams();
   const { register, handleSubmit,setValue, formState: { errors } } = useForm();
  const navigate = useNavigate()

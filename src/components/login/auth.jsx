@@ -3,11 +3,10 @@ import Image from "./image"
 
 
 const Auth = () => {
+
+
     return (
        
-         
-           
-
             <div class="relative h-screen">
 
              <div class="absolute w-full">

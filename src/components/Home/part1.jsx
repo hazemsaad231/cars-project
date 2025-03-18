@@ -1,5 +1,4 @@
 import bg from '../../assets/img/car.png';
-
 const One = () => {
 
 
@@ -35,7 +34,3 @@ export default One;
 
 
 
-
-{/* <div className='father'>
-                    <img src={bg} alt="bg" id='bg' />
-                </div> */}

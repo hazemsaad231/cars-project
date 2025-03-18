@@ -45,4 +45,4 @@ const Six = () => {
     )
 }        
 
-export default Six
+export default Six;

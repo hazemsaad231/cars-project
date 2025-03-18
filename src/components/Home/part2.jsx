@@ -70,7 +70,7 @@ const Two = () => {
             className={`flex flex-col text-center ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"} mb-4 shadow-xl gap-2 justify-center rounded-t-xl`}
             data-aos="zoom-out"
           >
-            <img src={car.img[0]} alt="Car" className="w-full h-60 m-auto mb-5 rounded-t-xl shadow-xl" />
+            <img src={car.img[0]} alt="Car" className="w-full h-60 m-auto mb-5 rounded-t-xl shadow-xl" loading="lazy"/>
             <h2 className="text-start font-medium text-2xl mt-2 ml-6 mb-2 h-16">{car.car}</h2>
 
             {/* تقييم السيارة */}
