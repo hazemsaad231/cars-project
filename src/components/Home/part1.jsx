@@ -22,7 +22,7 @@ const One = () => {
                     </p>
                 </div>
                 <div className='father pt-10'>
-                    <img src={bg} alt="bg" id='bg' />
+                    <img src={bg} alt="bg" id='bg'/>
                 </div>
             </div>
         </>

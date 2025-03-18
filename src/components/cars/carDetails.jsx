@@ -69,7 +69,7 @@ const Details = () => {
       <div className="flex flex-col sm:flex-row md:flex-row lg:flex-row xl:flex-row gap-2 p-2 sm:p-2 md:p-6 lg:p-8 xl:p-12">
 
 
-        <div className=" w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 bg-white shadow-2xl rounded-l-xl" data-aos="fade-right">
+        <div className=" w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 bg-white shadow-2xl rounded-l-xl p-2" data-aos="fade-right">
 
            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl font-extrabold text-gray-800 mt-8 mb-8 leading-tight">
               Elevate Your Ride with Our Premium Cars
@@ -110,7 +110,7 @@ const Details = () => {
       
          
           
-          <div className="mt-8 mb-6 text-center hidden sm:hidden md:block lg:block xl:block">
+          <div className="text-center hidden sm:hidden md:block lg:block xl:block">
           { role !== 'hazemsaad231@gmail.com' ? 
            <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2"
            onClick={() => {
@@ -140,14 +140,14 @@ const Details = () => {
         key={index}
         src={image}
         alt="Car"
-        className="w-[30vw] sm:w-[30vw] md:w-[35vw] lg:w-[50vw] xl:w-[50vw] h-[30vh] sm:h-[30vh] md:h-[40vh] lg:h-[50vh] xl:h-[50vh] rounded-r-xl transform hover:scale-110 transition duration-500"
+        className="h-[30vh] sm:h-[30vh] md:h-[35vh] lg:h-[60vh] xl:h-[50vh] rounded-r-xl transform hover:scale-110 transition duration-500"
       />
     ))}
 </Slider>
 
 </div>
 
-<div className="mt-8 mb-4 text-center block sm:block md:hidden lg:hidden xl:hidden">
+<div className="mt-8 mb-2 text-center block sm:block md:hidden lg:hidden xl:hidden">
         { role !== 'hazemsaad231@gmail.com' ? 
            <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2"
            onClick={() => {

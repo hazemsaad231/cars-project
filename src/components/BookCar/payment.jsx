@@ -6,12 +6,12 @@ import { db } from '../firebase/firebase';
 import { useNavigate } from 'react-router-dom';
 import { collection, addDoc} from "firebase/firestore";
 import  {Context}  from '../context/Context';
-import {useContext} from "react";
+import React, {useContext} from "react";
 import { useState } from 'react';
 import Wait from './paymentLoad';
   
 
-function Payment({carId}) {
+const Payment = React.memo( ({carId})=> {
 
 
   const stripe = useStripe();
@@ -240,6 +240,6 @@ const isBooked = localStorage.getItem("isBooked");
     
     </>
   );
-}
+});
 
 export default Payment;

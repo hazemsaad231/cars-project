@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from 'react-router-dom';
 import { db, collection, addDoc } from "../firebase/firebase";
@@ -17,33 +17,33 @@ const AddCar = () => {
  const{isDarkMode} = useContext(Context);
 
 
+ const fetchCarData = useCallback(async () => {
+  if (id) {
+    try {
+      const docRef = doc(db, "cars", id);
+      const docSnap = await getDoc(docRef);
+      if (docSnap.exists()) {
+        const carData = docSnap.data();
+
+        // تحويل المصفوفة إلى نص مفصول بفواصل
+        if (Array.isArray(carData.img)) {
+          carData.img = carData.img.join(", ");
+        }
+
+        Object.keys(carData).forEach((key) => {
+          setValue(key, carData[key]);
+        });
+      } else {
+        console.log("No such document!");
+      }
+    } catch (error) {
+      console.error("Error fetching car data: ", error);
+    }
+  }
+}, [id, setValue]);
+
 
   useEffect(() => {
-    const fetchCarData = async () => {
-      if (id) {
-        try {
-          const docRef = doc(db, "cars", id);
-          const docSnap = await getDoc(docRef);
-          if (docSnap.exists()) {
-            const carData = docSnap.data();
-
-            // تحويل المصفوفة إلى نص مفصول بفواصل
-            if (Array.isArray(carData.img)) {
-              carData.img = carData.img.join(", ");
-            }
-
-            Object.keys(carData).forEach((key) => {
-              setValue(key, carData[key]);
-            });
-          } else {
-            console.log("No such document!");
-          }
-        } catch (error) {
-          console.error("Error fetching car data: ", error);
-        }
-      }
-    };
-
     fetchCarData();
   }, [id, setValue]);
 
