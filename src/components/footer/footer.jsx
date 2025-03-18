@@ -18,22 +18,31 @@ const Footer = () => {
           
 
             <ul>
-            <div className='flex gap-2 mb-2 relative bottom-4'>
+
+          <li>
+          <div className='flex gap-2 mb-2 relative bottom-4'>
                 <FaLocationArrow className='text-2xl '/>
                 <li className='text-sm font-thin'> hosary mosque, 6 october, cairo, egypt</li>
                 </div>
-                <div className='flex gap-2 mb-2'>
+            </li>  
+<li>
+
+<div className='flex gap-2 mb-2'>
           <FaPhoneAlt className='text-2xl '/>
                 <li className='text-sm font-thin'>+20123456789</li>
                 </div>
-                <div className='flex gap-2'>
+</li>
+
+<li>
+
+<div className='flex gap-2'>
         <FaVoicemail className='text-2xl '/>
                 <li className='text-sm font-thin'>rentcars@gmail.com</li>
                 </div>
+</li>
 
-              
-           
             </ul>
+
           </div>
 
 
