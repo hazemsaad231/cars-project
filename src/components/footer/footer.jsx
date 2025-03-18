@@ -22,14 +22,14 @@ const Footer = () => {
           <li>
           <div className='flex gap-2 mb-2 relative bottom-4'>
                 <FaLocationArrow className='text-2xl '/>
-                <li className='text-sm font-thin'> hosary mosque, 6 october, cairo, egypt</li>
+                <h2 className='text-sm font-thin'> hosary mosque, 6 october, cairo, egypt</h2>
                 </div>
             </li>  
 <li>
 
 <div className='flex gap-2 mb-2'>
           <FaPhoneAlt className='text-2xl '/>
-                <li className='text-sm font-thin'>+20123456789</li>
+                <h2 className='text-sm font-thin'>+20123456789</h2>
                 </div>
 </li>
 
@@ -37,7 +37,7 @@ const Footer = () => {
 
 <div className='flex gap-2'>
         <FaVoicemail className='text-2xl '/>
-                <li className='text-sm font-thin'>rentcars@gmail.com</li>
+                <h2 className='text-sm font-thin'>rentcars@gmail.com</h2>
                 </div>
 </li>
 
