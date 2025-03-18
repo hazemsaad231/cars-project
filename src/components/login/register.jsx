@@ -67,7 +67,7 @@ export default function Register() {
   return (
     <>
     <ToastContainer />
-      <div className="flex flex-col justify-center" data-aos="fade-down">
+      <div className="flex flex-col justify-center" data-aos="fade-right">
       <div className='w-[100%] m-auto sm:w-[100%] md:w-max lg:w-max xl:w-max border pb-4 px-10 sm:px-10 md:px-10 lg:px-16 xl:px-16 rounded-lg shadow-2xl bg-gradient-to-t from-blue-50 to-transparent'>
           <div className="p-2">
             <IoCarSport className="w-20 h-20 m-auto text-black" />

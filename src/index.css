@@ -10,6 +10,7 @@ body{
 }
 
 
+
 #bg {
     margin: 0 auto;
     animation-name: stretch;
@@ -114,3 +115,4 @@ body{
     box-shadow: 0 0 50px white, 0 0 60px white, 0 0 70px white, 0 0 80px black;
    
   }
+
