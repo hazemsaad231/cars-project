@@ -26,7 +26,7 @@ const Home = ()=>{
 <>
 <ToastContainer/>
 <div>
-{/* <One/> */}
+<One/>
 <Two/>
 <Offer/>
 <Four/>
