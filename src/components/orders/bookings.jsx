@@ -25,7 +25,7 @@ import Rentings from './rentings';
 import { Context } from '../context/Context';
 
 
-export default function Bookings() {
+ const Bookings = () => {
 
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -180,3 +180,4 @@ export default function Bookings() {
 }
 
 
+export default React.memo(Bookings); // استخدام React.memo للحفظ من التكرار الذاتي للعنصر Bookings

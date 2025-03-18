@@ -1,93 +1,88 @@
-import { createContext, useEffect, useState } from "react";
-import { collection, getDocs, doc, updateDoc} from "firebase/firestore";
+import { createContext, useEffect, useState, useCallback, useMemo } from "react";
+import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-
 
 export const Context = createContext(null);
 
+const ContextProvider = ({ children }) => {
+  const [orderList, setOrderList] = useState([]);
+  const [Cars, setCars] = useState([]);
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-const ContextProvider = (props) => {
+  // ✅ تحميل البيانات مرة واحدة فقط
+  useEffect(() => {
+    const getData = async () => {
+      try {
+        const response = await getDocs(collection(db, "orders"));
+        const orders = response.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setOrderList(orders);
+      } catch (error) {
+        console.error("Error fetching orders:", error);
+      }
+    };
+    getData();
+  }, []);
 
-
-   const [orderList, setOrderList] = useState([])
-
-    const getData = async() => {
+  // ✅ جلب بيانات السيارات - وتحزينها محليًا لتقليل الفتش المتكرر
+  useEffect(() => {
+    const fetchCars = async () => {
+      const storedCars = localStorage.getItem("cars");
+      if (storedCars) {
+        setCars(JSON.parse(storedCars));
+      } else {
         try {
-            const response = await getDocs(collection(db,"orders"));
-            const orders = response.docs.map((doc) =>( {
-                id: doc.id,
-                ...doc.data()}))
-            setOrderList(orders);
+          const allCars = await getDocs(collection(db, "cars"));
+          const carsList = allCars.docs.map((doc) => ({
+            id: doc.id, // تعديل هنا
+            ...doc.data(),
+          }));
+          setCars(carsList);
+          localStorage.setItem("cars", JSON.stringify(carsList));
+        } catch (error) {
+          console.error("Error fetching cars:", error);
         }
-        catch (error) {
+      }
+    };
+    fetchCars();
+  }, []);
 
-        }
-    }
+  // ✅ تحسين toggleMode باستخدام useCallback
+  const toggleMode = useCallback(() => {
+    document.body.style.transition = "background-color 0.7s ease, color 0.7s ease";
+    document.body.style.backgroundColor = isDarkMode ? "white" : "black";
+    document.body.style.color = isDarkMode ? "black" : "white";
+    setIsDarkMode((prev) => !prev);
+  }, [isDarkMode]);
 
+  // ✅ تحسين handleBook لمنع fetch غير ضروري
+  const handleBook = useCallback(
+    async (id, isBooked) => {
+      try {
+        const carRef = doc(db, "cars", id);
+        await updateDoc(carRef, { isBooked: !isBooked });
 
+        // تحديث الـ state يدويًا بدلاً من جلب البيانات من جديد
+        setCars((prevCars) =>
+          prevCars.map((car) =>
+            car.id === id ? { ...car, isBooked: !isBooked } : car
+          )
+        );
+        localStorage.setItem("cars", JSON.stringify(Cars));
+      } catch (error) {
+        console.error("Error booking car:", error);
+      }
+    },
+    [Cars]
+  );
 
+  return (
+    <Context.Provider value={{ orderList, isDarkMode, toggleMode, handleBook, Cars }}>
+      {children}
+    </Context.Provider>
+  );
+};
 
-    useEffect(() => {
-    getData()
-    }, [])  
-  
-
-   const [isDarkMode, setIsDarkMode] = useState(false);
-
-   const toggleMode = () => {
-     if (isDarkMode) {
-      document.body.style.backgroundColor = 'white';
-      document.body.style.color = 'black';
-       document.body.style.transition = 'background-color 0.7s ease, color 0.7s ease';
-      
-     } else {
-       document.body.style.backgroundColor = 'black';
-       document.body.style.color = 'white';
-       document.body.style.transition = 'background-color 0.7s ease, color 0.7s ease';
-     }
-     setIsDarkMode(!isDarkMode); // تحديث الحالة
-   };
-
-   const [Cars, setCars] = useState([]);
-   const fetchCars = async () => {
-     const Allcars = await getDocs(collection(db, "cars"));
-     const carsList = Allcars.docs.map((doc) => ({
-       isNaNd: doc.id,
-       ...doc.data()
-     }));
-     setCars(carsList);
-     console.log(carsList);
-     localStorage.setItem("cars", JSON.stringify(carsList));
-   };
- 
-   useEffect(() => {
-     fetchCars();
-   }, []);
-
-
-
-
-
-const handleBook = async (id, isBooked) => {
-  try {
-    const carRef = doc(db,"cars", id);
-    await updateDoc(carRef, { isBooked: !isBooked });
-    fetchCars();  
-  } catch (error) {
-    console.error("Error booking car: ", error);
-   
-  }
-}
-
-
-    return (
-        <>
-        <Context.Provider value={{orderList, isDarkMode, toggleMode, handleBook , Cars}}>{props.children}</Context.Provider>
-        </>
-    )
-}
-
-export default ContextProvider
-
-
-
+export default ContextProvider;

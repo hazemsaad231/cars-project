@@ -72,4 +72,4 @@ const BuyDetails = () => {
   );
 };
 
-export default BuyDetails;
+export default React.memo(BuyDetails); // استخدام React.memo للحفظ من التكرار الذاتي للعنصر BuyDetails;

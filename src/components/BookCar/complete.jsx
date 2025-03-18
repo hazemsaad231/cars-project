@@ -26,6 +26,6 @@ const Complete = () => {
   );
 };
 
-export default Complete;
+export default Complete
 
 

@@ -292,5 +292,5 @@ const AllCars = () => {
   );
 };
 
-export default AllCars;
+export default AllCars
 
