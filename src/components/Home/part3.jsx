@@ -50,7 +50,7 @@ const Offer = () => {
     <div style={{ fontFamily: "arial" }}>  <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-around items-center p-10 rounded-xl m-10">
     <div className="flex flex-col justify-center items-center" data-aos="zoom-in">
         <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-700">All cars are 20% off now!
-            <div>Don't miss this offer</div>
+            <p>do not miss this offer</p>
         </h1>
         <div>
         </div>

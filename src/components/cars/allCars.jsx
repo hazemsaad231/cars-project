@@ -161,11 +161,11 @@ const AllCars = () => {
 
 
 
-<div class="w-full h-60 overflow-hidden rounded-lg">
+<div className="w-full h-60 overflow-hidden rounded-lg">
   <img 
     src={el.img[0]} 
     alt="Zoom" 
-    class="w-full h-full object-center transform hover:scale-110 transition duration-500"
+    className="w-full h-full object-center transform hover:scale-110 transition duration-500"
   />
 </div>
 
@@ -216,8 +216,7 @@ const AllCars = () => {
                   </button>):
                   (
                      <div className="grid grid-cols-3 gap-2 p-2 place-items-center">
-                        <button className='bg-blue-700 w-full m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'
-                          onClick={() => handleShow()}>
+                        <button className='bg-blue-700 w-full m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
                           <Link to={`/addCar/${el.id}`}>update</Link>
                         </button>
                         <button className='bg-red-500 w-full m-auto rounded-lg p-3 mb-3 hover:bg-red-800 text-white'

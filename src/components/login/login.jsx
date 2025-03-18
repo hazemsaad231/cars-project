@@ -44,7 +44,7 @@ const Login = ()=>{
        console.error("Error:", error.message);
        toast.error(error.message , {autoClose: 2000});
      } finally {
-      
+      console.log("Login attempt completed.");
      }
    };
 
@@ -59,7 +59,7 @@ const Login = ()=>{
       console.log("Logged in via Google: ", user);
 
     } catch (error) {
-      setLoginError("Google login error: " + error.message);
+      console.error("Error logging in via Google:", error);
     }
   };
 

@@ -7,14 +7,14 @@ const Auth = () => {
 
     return (
        
-            <div class="relative h-screen">
+            <div className="relative h-screen">
 
-             <div class="absolute w-full">
+             <div className="absolute w-full">
               <Image/>
             </div>
 
   
-              <div class="absolute  flex flex-col justify-center items-center w-full h-full">
+              <div className="absolute  flex flex-col justify-center items-center w-full h-full">
                   <Outlet/>  
                   </div>
 

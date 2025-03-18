@@ -40,31 +40,32 @@ const MyOrders = () => {
    const isBooked = localStorage.getItem("isBooked");
 
 
-   if (!userId) {
-    console.error("Invalid userId");
-    return;
-  }
-  const fetchOrders = async () => {
-    try {
-      const q = query(collection(db, "orders"), where("userId", "==", userId));
-      const querySnapshot = await getDocs(q);
-      const ordersList = querySnapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setOrders(ordersList);
-      setLoading(false);
-    } catch (error) {
-      console.error("Error fetching orders: ", error);
-    }
-  };
 
-  
+   
 
   useEffect(() => {
+    if (!userId) {
+      console.error("Invalid userId");
+      return;
+    }
+  
+    const fetchOrders = async () => {
+      try {
+        const q = query(collection(db, "orders"), where("userId", "==", userId));
+        const querySnapshot = await getDocs(q);
+        const ordersList = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setOrders(ordersList);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching orders: ", error);
+      }
+    }
     fetchOrders();
-  }, [userId]);
-
+  }, [userId]); // يعتمد على userId
+  
   const handleDelete = async () => {
     try {
       await deleteDoc(doc(db,"orders", selectedDelete));
