@@ -35,7 +35,7 @@ const Navbar = () => {
             <div className='flex flex-row mr-20 mt-5 gap-4'>
                 <img src={logo} alt="logo" className='w-10 h-10' id='logo'/> 
                 <h2 className='text-md sm:text-lg md:text-lg lg:text-lg xl:text-lg text-blue-600 font-extrabold mt-1 hover:text-blue-800'>RENTCARS</h2>
-                <GiHamburgerMenu className="text-3xl absolute right-4 text-blue-700 cursor-pointer block sm:hidden" onClick={toggleNavbar} />
+                <GiHamburgerMenu className="text-3xl absolute right-4 text-blue-700 cursor-pointer block sm:block md:block lg:hidden" onClick={toggleNavbar} />
                 {isDarkMode ? <MdOutlineLightMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} /> : <MdOutlineDarkMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} />}
             </div>
 
@@ -62,7 +62,7 @@ const Navbar = () => {
             )}
 
             {/* قائمة الروابط في الشاشات الكبيرة */}
-            <div className='hidden sm:block'>
+            <div className='hidden sm:hidden md:hidden lg:block xl:block'>
                 <ul className="flex gap-3 justify-center m-6 cursor-pointer font-bold text-lg text-blue-700">
                     <li><Link to="home" className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 border-transparent transition duration-300'>Home</Link></li>
                     <li><Link to="allcars" className='border-b-2 border-l-2 px-2 rounded-xl hover:border-blue-800 border-transparent transition duration-300'>Book a Car</Link></li>

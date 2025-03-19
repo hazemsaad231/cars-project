@@ -20,9 +20,9 @@ const One = () => {
                         Get a car wherever and whenever you need it with your iOS and Android.
                     </p>
                 </div>
-                <div className='pt-10'>
-                    <img src={bg} alt="bg" id='bg' className='w-[100%]'/>
-                </div>
+                {/* <div className='pt-10 sm:pt-10 md:pt-24 lg:pt-20 xl:pt-10'>
+                    <img src={bg} alt="bg" id='bg' />
+                </div> */}
             </div>
         </>
     );
