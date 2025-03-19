@@ -1,4 +1,4 @@
-import bg from '../../assets/img/car.png';
+import bg from '../../assets/img/car.webp';
 const One = () => {
 
 
