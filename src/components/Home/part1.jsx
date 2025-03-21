@@ -1,7 +1,11 @@
 import bg from '../../assets/img/car.webp';
+import { useEffect } from 'react';
 const One = () => {
 
-
+    useEffect(() => {
+        const img = new Image();
+        img.src = bg;
+      }, []);
 
     return (
         <>
