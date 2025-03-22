@@ -9,8 +9,6 @@ body{
   overflow-x: hidden;
 }
 
-
-
 #bg {
     max-width: 100%;
     height: auto;
@@ -23,12 +21,10 @@ body{
   
   @keyframes stretch {
     0% {
-      opacity: 0;
       transform: scale(.4);
      
     }
     100% {
-      opacity: 1;
       transform: scale(1);
      
     }
