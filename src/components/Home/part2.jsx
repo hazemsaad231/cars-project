@@ -45,7 +45,7 @@ const Two = () => {
       </h2>
 
       {/* مربع البحث */}
-      <div className="mt-10 text-gray-500">
+      <div className="mt-4 text-gray-500">
         <input
           type="text"
           placeholder="Search"
@@ -68,7 +68,7 @@ const Two = () => {
 
             {/* تقييم السيارة */}
             <div className="flex gap-0.5 px-3">
-              <img src={starIcon} alt="Star" className="w-5 h-5" />
+              <img src={starIcon} alt="Star" className="w-5 h-5" loading="lazy" />
               <span className="font-bold">{car.evaluation}</span>
               <span className="font-thin"> ({car.reviews} reviews)</span>
             </div>
@@ -81,7 +81,7 @@ const Two = () => {
               </div>
 
               <div className="flex gap-1">
-                <img src={airIcon} alt="Air Conditioning" className="w-5 h-6" />
+                <img src={airIcon} alt="Air Conditioning" className="w-5 h-6" loading="lazy" />
                 <span className="text-gray-400 text-sm">Air Conditioning</span>
               </div>
             </div>
@@ -89,7 +89,7 @@ const Two = () => {
             <div className="flex font-serif justify-between px-3">
               <span className="text-gray-400 text-lg">{car.carType}</span>
               <div className="flex ml-28">
-                <img src={frameIcon} alt="Car Year" className="w-5 h-5" />
+                <img src={frameIcon} alt="Car Year" className="w-5 h-5" loading="lazy"/>
                 <span className="text-gray-400 text-sm font-sans">{car.car_model_year}</span>
               </div>
             </div>

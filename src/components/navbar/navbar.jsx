@@ -33,7 +33,7 @@ const Navbar = () => {
     return (
         <div className="flex flex-row justify-between w-full px-10" style={{ fontFamily: "arial" }}>
             <div className='flex flex-row mr-20 mt-5 gap-4'>
-                <img src={logo} alt="logo" className='w-10 h-10' id='logo'/> 
+                <img src={logo} alt="logo" className='w-10 h-10' id='logo' loading='lazy'/> 
                 <h2 className='text-md sm:text-lg md:text-lg lg:text-lg xl:text-lg text-blue-600 font-extrabold mt-1 hover:text-blue-800'>RENTCARS</h2>
                 <GiHamburgerMenu className="text-3xl absolute right-4 text-blue-700 cursor-pointer block sm:block md:block lg:hidden" onClick={toggleNavbar} />
                 {isDarkMode ? <MdOutlineLightMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} /> : <MdOutlineDarkMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} />}

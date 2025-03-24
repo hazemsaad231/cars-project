@@ -39,7 +39,7 @@ const Seven = () => {
 
       {/* الحاوبه مع تأثير AOS */}
       <div className="my-4 w-full" data-aos="fade-up">
-        
+
         <Slider {...settings}>
           {Names.map((item) => (
             <div key={item.id}>
@@ -71,6 +71,7 @@ const Seven = () => {
                         src={star}
                         alt="Star"
                         className="w-5 mr-1"
+                        loading="lazy"
                       />
                     ))}
                   </div>
