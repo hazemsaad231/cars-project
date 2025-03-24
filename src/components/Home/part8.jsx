@@ -6,7 +6,8 @@ const Eight = () => {
     return (
    <>
    
-   <div className='mt-16 ml-16 text-start' data-aos="zoom-in" style={{ fontFamily: "arial" }}>
+   <div className='mt-16 ml-16 text-start' data-aos="fade-up">
+
         <h1 className='font-semibold text-4xl mb-3'> Download Rentcars App for <span className='text-blue-700'>FREE</span> </h1>
         <p className='text-gray-500 text-sm'>For faster, easier booking and exclusive deals.</p>
         <div>
@@ -28,6 +29,7 @@ const Eight = () => {
             <button className='bg-blue-700 w-max p-2 rounded-xl text-white flex text-center px-4 ml-20'>send</button>
 
         </div>
+        
     </div>
    
    

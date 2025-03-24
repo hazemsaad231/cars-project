@@ -2,20 +2,13 @@ import yser from '../../../src/assets/img/yser.png'
 import message from '../../../src/assets/img/message.png'
 import chat from '../../../src/assets/img/chat.png'
 import newImage from '../../../src/assets/img/new.mp4'
-import { useEffect } from 'react';
-import Aos from "aos";
-import 'aos/dist/aos.css';
+
 
 
 const Six = () => {
 
 
-   useEffect(() => {
-      Aos.init({
-        duration: 1000,  // مدة التأثير
-        once: true,  // التأثير يتم مرة واحدة فقط عند التمرير
-      });
-    }, []);
+ 
 
 
 
@@ -23,9 +16,9 @@ const Six = () => {
     return (
        <>
        
-<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 place-items-center m-auto mt-10'style={{ fontFamily: "arial" }} >
+<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 place-items-center m-auto mt-10' data-aos="fade-up">
 
-<div className='flex flex-col' data-aos="zoom-in" >
+<div className='flex flex-col'>
  <div className=' border-2 border-blue-700  w-max px-4 py-1 text-center text-blue-700 rounded-lg hover:bg-blue-700 hover:text-white m-auto mb-4'>WHY CHOOSE US</div>
   <h1 className='font-serif text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-3xl mb-5 p-2'>We offer the best experience with our rentalcars</h1>
   <div className='flex flex-col gap-3'>
@@ -37,6 +30,8 @@ const Six = () => {
   <div className='mt-20'>
    <video src={newImage} autoPlay loop muted playsInline disablePictureInPicture className='rounded-full'  data-aos ="zoom-in" ></video>
 </div>
+
+
 </div>
        
        

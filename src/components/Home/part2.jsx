@@ -1,8 +1,6 @@
 import { useEffect, useState, useContext, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { FaUserAlt } from "react-icons/fa";
-import Aos from "aos";
-import "aos/dist/aos.css";
 import { db, collection, getDocs } from "../firebase/firebase";
 import { Context } from "../context/Context";
 // الصور
@@ -11,15 +9,11 @@ import frameIcon from "../../../src/assets/img/Frame.png";
 import starIcon from "../../../src/assets/img/star.png";
 
 
+
 const Two = () => {
   const [cars, setCars] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const { isDarkMode } = useContext(Context);
-
-  // تهيئة تأثيرات التمرير
-  useEffect(() => {
-    Aos.init({ duration: 1000, once: true });
-  }, []);
 
   // جلب بيانات السيارات من قاعدة البيانات
   useEffect(() => {
@@ -46,7 +40,7 @@ const Two = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mt-20 text-blue-700 tracking-[4px]" style={{ fontFamily: "Arial" }}>
+      <h2 className="text-2xl font-bold mt-20 text-blue-700 tracking-[4px]">
         Most Popular Cars
       </h2>
 
@@ -63,12 +57,11 @@ const Two = () => {
       </div>
 
       {/* عرض السيارات */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-[80%] m-auto mt-5 gap-4 place-items-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-[80%] m-auto mt-5 gap-4 place-items-center" data-aos="fade-up">
         {filteredCars().map((car) => (
           <div
             key={car.id}
             className={`flex flex-col text-center ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"} mb-4 shadow-xl gap-2 justify-center rounded-t-xl`}
-            data-aos="zoom-out"
           >
             <img src={car.img[0]} alt="Car" className="w-full h-60 m-auto mb-5 rounded-t-xl shadow-xl" loading="lazy"/>
             <h2 className="text-start font-medium text-2xl mt-2 ml-6 mb-2 h-16">{car.car}</h2>

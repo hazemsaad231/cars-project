@@ -1,16 +1,12 @@
 import Names from "./data";
 import star from "../../../src/assets/img/star.png";
-import { useEffect, useContext } from "react";
-import Aos from "aos";
-import "aos/dist/aos.css";
+import { useContext } from "react";
 import Slider from "react-slick";
 import { Context } from "../context/Context";
 
+
+
 const Seven = () => {
-  // تشغيل تأثيرات AOS عند تحميل المكون لمرة واحدة فقط
-  useEffect(() => {
-    Aos.init({ duration: 1000, once: true });
-  }, []);
 
   // الحصول على وضع الثيم (فاتح أو داكن) من الـ Context
   const { isDarkMode } = useContext(Context);
@@ -36,20 +32,20 @@ const Seven = () => {
   return (
     <>
       <h1
-        className="font-semibold text-4xl mt-24 mb-10 p-2"
-        style={{ fontFamily: "arial" }}
+        className="font-semibold text-4xl mt-16 mb-4 p-2"
       >
         <span className="text-blue-700">Tweets</span> of some users
       </h1>
 
       {/* الحاوبه مع تأثير AOS */}
-      <div className="my-4 w-full" data-aos="zoom-in">
+      <div className="my-4 w-full" data-aos="fade-up">
+        
         <Slider {...settings}>
           {Names.map((item) => (
             <div key={item.id}>
               {/* عنصر التغريدة الفردي */}
               <div
-                className={`flex flex-col xl:flex-row gap-2 rounded-xl shadow-lg m-10 ${
+                className={`flex flex-col xl:flex-row gap-2 rounded-xl shadow-lg m-8 ${
                   isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"
                 }`}
               >
