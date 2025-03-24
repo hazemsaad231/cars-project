@@ -111,8 +111,8 @@ const Home = () => {
     <>
       <ToastContainer />
       <div style={{ fontFamily: "Arial" }}>
-        <Suspense fallback={<div>Loading...</div>}>
-          <One />
+        <One />
+        <Suspense fallback={null}>
           <Two />
           <Offer />
           <Four />
