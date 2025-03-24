@@ -42,7 +42,7 @@ const Home = () => {
   return (
     <>
       <ToastContainer />
-      <div style={{ fontFamily: "Arial" }}>
+      <div style={{ fontFamily: "Arial" }} className="h-screen">
         <One />
         <Suspense fallback={null}>
           <Two />
