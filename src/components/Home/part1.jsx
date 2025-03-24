@@ -18,7 +18,7 @@ const One = () => {
                     </p>
                 </div>
                 <div className='pt-10 sm:pt-10 md:pt-24 lg:pt-20 xl:pt-10'>
-                    <img src='/car.webp' alt="bg" id='bg'/>
+                    <img src='/car.webp' alt="bg" id='bg' className="w-96 sm:w-96 md:w-96 lg:w-full xl:w-full"/>
                 </div>
             </div>
         </>
