@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "homepage": "https://hazemsaad231.github.io/Cars",
   "type": "module",
-  "sideEffects": false, 
+  "sideEffects": false,
   "scripts": {
     "dev": "vite",
     "build": "vite build",
