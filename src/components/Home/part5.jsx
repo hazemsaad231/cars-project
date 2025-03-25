@@ -11,7 +11,7 @@ const Brand = () => {
             <div  className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 place-items-center gap-12 w-[90%] m-auto cursor-pointer">
             {Brands.map(({ item, icon: Icon }) => (
     <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn">
-      <Icon size={100} className="text-blue-700 m-auto" />
+      <Icon size={50} className="text-blue-700 m-auto" />
     </div>
 ))}
             </div>
