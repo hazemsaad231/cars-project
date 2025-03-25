@@ -19,7 +19,7 @@ const Brand = () => {
 const BrandItem = memo(({ Icon }) => (
   <div className="border border-gray-300 rounded-lg p-4 bg-transparent" id="btn">
     <Icon
-      className="text-blue-700 m-auto text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-7xl transition-transform duration-300 hover:scale-110"
+      className="text-blue-700 m-auto text-6xl sm:text-6xl md:text-6xl lg:text-7xl xl:text-7xl transition-transform duration-300 hover:scale-110"
       style={{ willChange: "transform" }}
     />
   </div>
