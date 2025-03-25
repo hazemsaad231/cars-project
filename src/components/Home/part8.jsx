@@ -1,6 +1,7 @@
 import ios from '../../../src/assets/img/ios.png'
 import iphone from '../../../src/assets/img/iPhone.png'
 import andriod from '../../../src/assets/img/andriod.png'
+import React from 'react'
 
 const Eight = () => {
     return (
@@ -39,4 +40,4 @@ const Eight = () => {
     )
 }
 
-export default Eight;
+export default React.memo(Eight);

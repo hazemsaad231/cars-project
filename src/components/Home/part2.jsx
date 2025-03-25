@@ -7,6 +7,7 @@ import { Context } from "../context/Context";
 import airIcon from "../../../src/assets/img/air.png";
 import frameIcon from "../../../src/assets/img/Frame.png";
 import starIcon from "../../../src/assets/img/star.png";
+import React from "react";
 
 
 
@@ -117,4 +118,4 @@ const Two = () => {
   );
 };
 
-export default Two;
+export default React.memo(Two); 

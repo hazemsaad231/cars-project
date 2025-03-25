@@ -2,7 +2,7 @@ import yser from '../../../src/assets/img/yser.png'
 import message from '../../../src/assets/img/message.png'
 import chat from '../../../src/assets/img/chat.png'
 import newImage from '../../../src/assets/img/new.mp4'
-
+import React from 'react'
 
 
 const Six = () => {
@@ -40,4 +40,4 @@ const Six = () => {
     )
 }        
 
-export default Six;
+export default React.memo(Six);

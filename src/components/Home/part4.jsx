@@ -1,5 +1,6 @@
 import { Rent } from "./data"
 import { Link } from 'react-router-dom';
+import React from "react";
 
 const Four = () => {
 
@@ -45,4 +46,4 @@ const Four = () => {
     )
 }
 
-export default Four;
+export default React.memo(Four);
