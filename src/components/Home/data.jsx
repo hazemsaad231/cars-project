@@ -1,11 +1,11 @@
-import boy from '../../assets/img/boy.jpg'
-import boy2 from '../../assets/img/boy2.jpg'
-import boy3 from '../../assets/img/boy3.jpg'
-import boy4 from '../../assets/img/boy4.jpg'
+import boy from '../../assets/img/boy.webp'
+import boy2 from '../../assets/img/boy2.webp'
+import boy3 from '../../assets/img/boy3.webp'
+import boy4 from '../../assets/img/boy4.webp'
 import star from '../../../src/assets/img/star.png'
-import bmw from '../../../src/assets/img/Bmw.jpg'
-import audi from '../../../src/assets/img/audi.jpg'
-import mercedes from '../../../src/assets/img/Mercedes.jpg'
+import bmw from '../../../src/assets/img/Bmw.webp'
+import audi from '../../../src/assets/img/audi.webp'
+import mercedes from '../../../src/assets/img/Mercedes.webp'
 import { SiToyota } from "react-icons/si";
 import { SiFord } from "react-icons/si";
 import { SiJeep } from "react-icons/si";
