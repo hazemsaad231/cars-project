@@ -42,7 +42,11 @@ function App() {
 
 {
   path: "/",
-  element: <Suspense fallback={<div className='bg-black h-screen text-white flex justify-center items-center'>Loading...</div>} > <Master /></Suspense>,
+  element: <Suspense fallback={<div className='spinner-container'>
+    <div className='spinner'>
+      
+    </div>
+  </div>} > <Master /></Suspense>,
   errorElement: <div>Error</div>,
   children: [
     {index: true, element: <Home />},
