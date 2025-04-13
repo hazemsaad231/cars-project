@@ -9,7 +9,7 @@ const Four = () => {
 
         <div data-aos="fade-up">
 
-        <h1 className='font-bold text-2xl my-10 p-2 text-blue-700 tracking-[2px]' >Our special car rental offers</h1>
+        <h1 className='font-bold text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl my-10 p-2 text-blue-700 tracking-[2px]' >Our special car rental offers</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 place-items-center m-auto">
  {Rent.map((item) => (
             <div key={item.id}>

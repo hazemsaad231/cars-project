@@ -9,7 +9,7 @@ const Eight = () => {
    
    <div className='mt-16 ml-16 text-start' data-aos="fade-up">
 
-        <h1 className='font-semibold text-4xl mb-3'> Download Rentcars App for <span className='text-blue-700'>FREE</span> </h1>
+        <h1 className='font-semibold text-3xl sm:text-3xl md:text-4xl lg:text-4xl xl:text-4xl mb-2'> Download Rentcars App for <span className='text-blue-700'>FREE</span> </h1>
         <p className='text-gray-500 text-sm'>For faster, easier booking and exclusive deals.</p>
         <div>
             <img src={iphone}

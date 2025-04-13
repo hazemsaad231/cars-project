@@ -41,7 +41,7 @@ const Two = () => {
 
   return (
     <div>
-      <h2 className="text-2xl font-bold mt-20 text-blue-700 tracking-[4px]">
+      <h2 className="text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl font-bold mt-20 text-blue-700 tracking-[4px]">
         Most Popular Cars
       </h2>
 

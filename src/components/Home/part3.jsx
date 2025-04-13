@@ -43,21 +43,21 @@ const Offer = () => {
 
           {/* تحسين إمكانية الوصول بإضافة aria-live */}
           <div aria-live="polite">
-            <table className="border-collapse border border-gray-300 mt-4">
+            <table className="border-collapse mt-4">
               <thead className="text-gray-400">
                 <tr>
-                  <th className="p-2 border border-gray-300">Days</th>
-                  <th className="p-2 border border-gray-300">Hours</th>
-                  <th className="p-2 border border-gray-300">Minutes</th>
-                  <th className="p-2 border border-gray-300">Seconds</th>
+                  <th className="p-2">Days</th>
+                  <th className="p-2">Hours</th>
+                  <th className="p-2">Minutes</th>
+                  <th className="p-2">Seconds</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className="text-center text-blue-700 text-2xl font-semibold">
-                  <td className="border border-gray-300 p-2">{timeLeft.days}</td>
-                  <td className="border border-gray-300 p-2">{timeLeft.hours}</td>
-                  <td className="border border-gray-300 p-2">{timeLeft.minutes}</td>
-                  <td className="border border-gray-300 p-2">{timeLeft.seconds}</td>
+                  <td className="p-2">{timeLeft.days}</td>
+                  <td className="p-2">{timeLeft.hours}</td>
+                  <td className="p-2">{timeLeft.minutes}</td>
+                  <td className="p-2">{timeLeft.seconds}</td>
                 </tr>
               </tbody>
             </table>

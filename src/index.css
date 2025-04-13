@@ -29,6 +29,7 @@ body{
      
     }
   }
+  
   #logo{
     animation-name: fadeIn;
     animation-duration: 3s; 
