@@ -1,5 +1,5 @@
 import { createBrowserRouter , RouterProvider } from 'react-router-dom'
-import Home from './components/Home/Home'
+// import Home from './components/Home/Home'
 // import Master from './components/login/master'
 import Details from './components/cars/carDetails'
 import AllCars from './components/cars/allCars'
@@ -22,6 +22,7 @@ import { lazy , Suspense } from 'react'
 function App() {
  
   const Master = lazy(() => import('./components/login/master'))
+  const Home = lazy(() => import('./components/Home/Home'))
 
 
   const Stripe = loadStripe("pk_test_51QFwLTBBBCgBrYZETIOQg6jU8b6FNOuHyjGPeIWliPqSeYXqTbJkV8QYxeNHqUMCyzf5m4meV3J3HX1m7mMEEWVj00Hz8287JJ")
