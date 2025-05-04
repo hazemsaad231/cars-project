@@ -1,6 +1,4 @@
 import { createBrowserRouter , RouterProvider } from 'react-router-dom'
-// import Home from './components/Home/Home'
-// import Master from './components/login/master'
 import Details from './components/cars/carDetails'
 import AllCars from './components/cars/allCars'
 import AddCar from './components/addcar/addCar'
