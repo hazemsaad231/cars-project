@@ -62,7 +62,7 @@ const Two = () => {
         {filteredCars().map((car) => (
           <div
             key={car.id}
-            className={`flex flex-col text-center ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"} mb-4 shadow-xl gap-2 justify-center rounded-t-xl`}
+            className={`flex flex-col text-center font-sans ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"} mb-4 shadow-xl gap-2 justify-center rounded-t-xl`}
           >
             <img src={car.img[0]} alt="Car" className="w-full h-60 m-auto mb-5 rounded-t-xl shadow-xl" loading="lazy"/>
             <h2 className="text-start font-medium text-2xl mt-2 ml-6 mb-2 h-16">{car.car}</h2>
@@ -78,24 +78,24 @@ const Two = () => {
             <div className="flex justify-between px-3">
               <div className="flex px-1 gap-1">
                 <FaUserAlt className="text-xl" />
-                <span className="text-gray-400 text-sm font-sans">4 Passengers</span>
+                <span className="text-sm">4 Passengers</span>
               </div>
 
               <div className="flex gap-1">
                 <img src={airIcon} alt="Air Conditioning" className="w-5 h-6" loading="lazy" />
-                <span className="text-gray-400 text-sm">Air Conditioning</span>
+                <span className="text-sm">Air Conditioning</span>
               </div>
             </div>
 
             <div className="flex font-serif justify-between px-3">
-              <span className="text-gray-400 text-lg">{car.carType}</span>
+              <span className=" text-lg">{car.carType}</span>
               <div className="flex ml-28">
                 <img src={frameIcon} alt="Car Year" className="w-5 h-5" loading="lazy"/>
-                <span className="text-gray-400 text-sm font-sans">{car.car_model_year}</span>
+                <span className="text text-sm">{car.car_model_year}</span>
               </div>
             </div>
 
-            <hr className="h-[2px] w-full bg-gray-400 m-auto" />
+            <hr className="h-[2px] w-full m-auto" />
 
             {/* السعر */}
             <div className="flex justify-between px-3 mt-4">
