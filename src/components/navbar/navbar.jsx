@@ -12,6 +12,7 @@ import DialogContent from '@mui/joy/DialogContent';
 import DialogActions from '@mui/joy/DialogActions';
 import Button from '@mui/joy/Button';
 import Divider from '@mui/joy/Divider';
+import { t } from 'i18next';
 const Navbar = () => {
 
   
@@ -56,7 +57,7 @@ const handleLogout = () => {
 
             {/* قائمة الروابط في الشاشات الصغيرة */}
             {isNavbarVisible && (
-                <div className="fixed inset-0 bg-black bg-opacity-100 flex flex-col items-center justify-center gap-20 z-50"  data-aos="zoom-in">
+                <div className="fixed inset-0 bg-black bg-opacity-100 flex flex-col items-center justify-center gap-20 z-50"  data-aos="fade-out">
                     <ul className="text-center flex flex-col gap-20 font-bold text-2xl text-blue-700">
                         <li><Link to="home" onClick={toggleNavbar}>Home</Link></li>
                         <li><Link to="allcars" onClick={toggleNavbar}>Book a Car</Link></li>
@@ -69,7 +70,14 @@ const handleLogout = () => {
                                 <li><a href='#contact' onClick={toggleNavbar}>Contact Us</a></li>
                             </>
                         )}
-                        <li><Link to="login" onClick={toggleNavbar}>Sign in</Link></li>
+                        {isLoggedIn ? 
+
+<li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800' onClick={()=>(setOpen(true), toggleNavbar())
+}><IoIosLogOut size={25}/></button></li>
+    : 
+       <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800' onClick={toggleNavbar}><Link to="login"><IoIosLogIn size={25}/></Link></button></li>
+   
+   }
                     </ul>
                     {/* زر الإغلاق */}
                     <button onClick={toggleNavbar} className="text-red-500 font-bold text-xl absolute top-4 right-4">✖</button>
@@ -95,9 +103,9 @@ const handleLogout = () => {
 
                     {isLoggedIn ? 
 
-                 <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800' onClick={()=>setOpen(true)}><IoIosLogOut/></button></li>
+                 <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800' onClick={()=>setOpen(true)}><IoIosLogOut size={25}/></button></li>
                      : 
-                        <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800'><Link to="login"><IoIosLogIn/></Link></button></li>
+                        <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800'><Link to="login"><IoIosLogIn size={25}/></Link></button></li>
                     
                     }
 
