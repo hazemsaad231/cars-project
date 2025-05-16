@@ -1,4 +1,4 @@
-import newImage from '../../../src/assets/img/new.jpeg'
+import newImage from '../../../src/assets/img/New.jpeg'
 
 const Image = () => {
     
