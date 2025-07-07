@@ -49,7 +49,7 @@ const Home = () => {
 
   return (
     <>
-      <ToastContainer />
+      <ToastContainer limit={1} />
       <div style={{ fontFamily: "Arial" }}>
         <One />
         <Two />

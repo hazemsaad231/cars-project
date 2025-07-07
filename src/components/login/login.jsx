@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import 'react-toastify/dist/ReactToastify.css';
 import { IoCarSport } from "react-icons/io5";
@@ -24,6 +24,7 @@ const Login = ()=>{
       Aos.init({ duration: 1500, once: true });
     }, []);
  
+
   {/* ارسال البيانات */}
    const onSubmit = async (data) => {
      try {
@@ -42,7 +43,8 @@ const Login = ()=>{
        console.log(response.user.uid);
      } catch (error) {
        console.error("Error:", error.message);
-       toast.error(error.message , {autoClose: 2000});
+         toast.error('Email or password is incorrect' , {autoClose: 2000}, );
+          setToastShown(true);
      } finally {
       console.log("Login attempt completed.");
      }
@@ -70,7 +72,7 @@ const Login = ()=>{
 
   return (
     <>
-    <ToastContainer/>
+    <ToastContainer limit={1}/>
       <div className=' flex flex-col justify-center items-center my-8' data-aos="fade-left">
  <div className='w-[100%] sm:w-[100%] md:w-max lg:w-max xl:w-max border px-8 sm:px-8 md:px-12 lg:px-16 xl:px-16 py-10 rounded-lg shadow-2xl bg-gradient-to-t from-blue-50 to-transparent'>
           <div className="pb-4">

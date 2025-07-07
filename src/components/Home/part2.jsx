@@ -55,11 +55,15 @@ const Two = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
         />
         <button className="bg-blue-800 text-white p-1.5 rounded-r-lg w-[16vw]">Search</button>
-      </div>
+      </div>  
 
       {/* عرض السيارات */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 w-[80%] m-auto mt-5 gap-4 place-items-center" data-aos="fade-up">
-        {filteredCars().map((car) => (
+       
+
+{filteredCars().length > 0 ? (
+  
+            filteredCars().map((car) => (
           <div
             key={car.id}
             className={`flex flex-col text-center font-sans ${isDarkMode ? "bg-gray-800 text-white" : "bg-white text-black"} mb-4 shadow-xl gap-2 justify-center rounded-t-xl`}
@@ -105,7 +109,11 @@ const Two = () => {
 
             <br />
           </div>
-        ))}
+        ))
+) : (
+  <div></div>
+ 
+        )}
       </div>
 
       {/* زر عرض جميع السيارات */}

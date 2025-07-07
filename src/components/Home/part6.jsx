@@ -19,7 +19,7 @@ const Six = () => {
 <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 place-items-center m-auto mt-10' data-aos="fade-up">
 
 <div className='flex flex-col'>
- <div className=' border-2 border-blue-700  w-max px-4 py-1 text-center text-blue-700 rounded-lg hover:bg-blue-700 hover:text-white m-auto mb-4'>WHY CHOOSE US</div>
+ <div className=' border-2 border-blue-700  w-max px-4 py-1 text-center text-blue-700 rounded-lg hover:bg-blue-700 hover:text-white m-auto mb-4 cursor-pointer'>WHY CHOOSE US</div>
   <h1 className='font-serif text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl mb-5 p-2'>We offer the best experience with our rentalcars</h1>
   <div className='flex flex-col gap-3'>
   <div className='flex gap-2 mx-2'> <img src={yser} alt="user" loading='lazy'/> <div><h1 className='text-lg font-semibold text-start'>Best price guaranteed</h1>  <p className='font-serif text-gray-500 text-start'>Find a lower price? Well refund you 100%.</p></div> </div>
