@@ -16,11 +16,10 @@ import Bookings from './components/orders/bookings'
 import Footer from './components/footer/footer'
 import PrivateRoute from './components/login/protected'
 import Reservations from './components/myReservations/reservations'
-import { lazy , Suspense } from 'react'
+import Master from './components/login/master'
+import Home from './components/Home/Home'
 function App() {
  
-  const Master = lazy(() => import('./components/login/master'))
-  const Home = lazy(() => import('./components/Home/Home'))
 
 
   const Stripe = loadStripe("pk_test_51QFwLTBBBCgBrYZETIOQg6jU8b6FNOuHyjGPeIWliPqSeYXqTbJkV8QYxeNHqUMCyzf5m4meV3J3HX1m7mMEEWVj00Hz8287JJ")
@@ -41,11 +40,7 @@ function App() {
 
 {
   path: "/",
-  element: <Suspense fallback={<div className='spinner-container'>
-    <div className='spinner'>
-      
-    </div>
-  </div>} > <Master /></Suspense>,
+  element: <Master />,
   errorElement: <div>Error</div>,
   children: [
     {index: true, element: <Home />},
