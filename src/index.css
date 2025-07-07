@@ -7,7 +7,7 @@
 
 body{
   overflow-x: hidden;
-  background-image: url('public/color.png');
+  background-image: url('./assets/img/color.png');
 }
 
 #bg {
