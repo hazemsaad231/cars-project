@@ -67,7 +67,7 @@ function App() {
 
   return (
     <>
-    <div>
+    <div className='app'>
     <Elements stripe={Stripe}>
     <RouterProvider router={route} />
     </Elements>

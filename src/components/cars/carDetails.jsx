@@ -63,7 +63,7 @@ const Details = () => {
 
     
 <div className="py-16 sm:py-16 md:py-20 lg:py-32 xl:py-40">
-  <ToastContainer />
+  <ToastContainer limit={1} />
 
 { loading ? <Loader/>:
       <div className="flex flex-col sm:flex-row md:flex-row lg:flex-row xl:flex-row gap-2 p-2 sm:p-2 md:p-6 lg:p-8 xl:p-12">

@@ -115,7 +115,7 @@ const AllCars = () => {
 
   return (
   <>
-      <ToastContainer />
+      <ToastContainer limit={1} />
 <div>
 {loading ? <Loader />:
 

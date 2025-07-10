@@ -5,7 +5,7 @@
 
 
 
-body{
+.app{
   overflow-x: hidden;
   background-image: url('./assets/img/color.png');
 }
@@ -31,6 +31,8 @@ body{
     }
   }
   
-.slick-dots {
- color: red !important;
+
+
+.slick-dots li button:before {
+  color: blue !important;
 }
