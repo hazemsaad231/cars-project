@@ -1,4 +1,5 @@
-import React from 'react';
+
+
 const One = () => {
 
    
@@ -25,7 +26,7 @@ const One = () => {
     );
 };
 
-export default React.memo(One);
+export default One;
 
 
 
