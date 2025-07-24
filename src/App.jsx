@@ -1,3 +1,4 @@
+import './i18n'; // مهم جدًا
 import { createBrowserRouter , RouterProvider } from 'react-router-dom'
 import Details from './components/cars/carDetails'
 import AllCars from './components/cars/allCars'
@@ -18,7 +19,6 @@ import PrivateRoute from './components/login/protected'
 import Reservations from './components/myReservations/reservations'
 import Master from './components/login/master'
 import Home from './components/Home/Home'
-import './i18n'; // مهم جدًا
 
 function App() {
  
