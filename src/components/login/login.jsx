@@ -12,10 +12,12 @@ import { toast, ToastContainer } from 'react-toastify';
 import { Tooltip } from '@mui/material';
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { useTranslation } from 'react-i18next';
 
 const Login = ()=>{
  
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const { t } = useTranslation();
 
    let navigate = useNavigate();
    const isLoginIn = true
@@ -79,8 +81,8 @@ const Login = ()=>{
             <IoCarSport className="w-20 h-20 m-auto text-black" />  
           </div>
 
-          <h3 className="text-black text-lg text-start">Welcome back!</h3>
-          <h1 className="font-bold text-black text-2xl mb-4">Login to your account</h1>
+          <h3 className="text-black text-lg text-start">{t('Welcome back!')}</h3>
+          <h1 className="font-bold text-black text-2xl mb-4">{t('Login to your account')}</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
            
@@ -97,7 +99,7 @@ const Login = ()=>{
                 <Tooltip title={errors.email?.message} open={!!errors.email} arrow>
                 <TextField
                   id="outlined-basic"
-                  label="Email"
+                  label={t('Email')}
                   variant="outlined"
                   {...register("email", {
                     required: 'Email is required',
@@ -114,7 +116,7 @@ const Login = ()=>{
              <Tooltip title={errors.password?.message} open={!!errors.password} arrow>
                   <TextField
                     id="outlined-basic"
-                    label="Password"
+                    label={t('Password')}
                     type="password"
                     variant="outlined"
                     {...register("password", {
@@ -132,13 +134,13 @@ const Login = ()=>{
                 type="submit"
                 className='bg-black border text-white p-2 rounded-lg mt-4 '
               >
-                Login
+                {t('Login')}
               </button>
               <button
                 className='border border-black p-2 rounded-lg mt-4 text-black'
                 onClick={() => navigate("register")}
               >
-                Register
+                {t('Register')}
               </button>
             </div>
 

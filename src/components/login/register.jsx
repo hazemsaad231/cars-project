@@ -12,9 +12,11 @@ import { doc, setDoc, getFirestore } from "firebase/firestore";
 import { Tooltip } from '@mui/material';
 import Aos from "aos";
 import "aos/dist/aos.css";
+import { useTranslation } from 'react-i18next';
 
 export default function Register() {
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { register, handleSubmit, watch, formState: { errors } } = useForm({
     defaultValues: {
@@ -73,9 +75,9 @@ export default function Register() {
             <IoCarSport className="w-20 h-20 m-auto text-black" />
 
             <h3 className="text-gray-800 text-lg text-center">
-              Create new account
+              {t('Create new account')}
             </h3>
-            <h1 className="font-bold text-2xl mb-3 text-center">Register</h1>
+            <h1 className="font-bold text-2xl mb-3 text-center">{t('Register')}</h1>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -92,7 +94,7 @@ export default function Register() {
                 <Tooltip title={errors.first_name?.message} open={!!errors.first_name} arrow>
                   <TextField
                     id="outlined-basic"
-                    label="firstName"
+                    label={t('firstName')}
                     variant="outlined"
                     {...register("first_name", { required: 'First name is required' })}
                     error={!!errors.first_name}
@@ -104,7 +106,7 @@ export default function Register() {
                 <Tooltip title={errors.last_name?.message} open={!!errors.last_name} arrow>
                   <TextField
                     id="outlined-basic"
-                    label="lastName"
+                    label={t('lastName')}
                     variant="outlined"
                     {...register("last_name", { required: 'Last name is required' })}
                     className="bg-transparent shadow-xl"
@@ -118,7 +120,7 @@ export default function Register() {
         <Tooltip title={errors.email?.message} open={!!errors.email} arrow>
                 <TextField
                   id="outlined-basic"
-                  label="Email"
+                  label={t('Email')}
                   variant="outlined"
                   {...register("email", {
                     required: "Email is required",
@@ -138,7 +140,7 @@ export default function Register() {
                 <Tooltip title={errors.password?.message} open={!!errors.password} arrow>
                   <TextField
                     id="outlined-basic"
-                    label="Password"
+                    label={t('Password')}
                     type="password"
                     variant="outlined"
                     {...register("password", { required: "Password is required",
@@ -156,7 +158,7 @@ export default function Register() {
                 <Tooltip title={errors.confirm_password?.message} open={!!errors.confirm_password} arrow>
                   <TextField
                     id="outlined-basic"
-                    label="Confirm Password"
+                    label={t('Confirm Password')}
                     type="password"
                     variant="outlined"
                     {...register("confirm_password", { required: "confirm password is required",
@@ -177,13 +179,13 @@ export default function Register() {
                 type="submit"
                 className="bg-black text-white p-2 rounded-lg mt-4"
               >
-                Register
+                {t('Register')}
               </button>
               <button
                 className="border border-black p-2 rounded-lg mt-4 text-black"
                 onClick={() => navigate("/login")}
               >
-                Login
+                {t('Login')}
               </button>
             </div>
           </form>

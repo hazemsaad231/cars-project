@@ -6,11 +6,13 @@ import { Context } from "../context/Context";
 import airIcon from "../../../src/assets/img/air.png";
 import frameIcon from "../../../src/assets/img/Frame.png";
 import starIcon from "../../../src/assets/img/star.png";
+import { useTranslation } from 'react-i18next';
 
 const Two = () => {
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
   const { isDarkMode } = useContext(Context);
+  const { t } = useTranslation();
 
   useEffect(() => {
     const fetchCars = async () => {
@@ -27,7 +29,7 @@ const Two = () => {
 
   return (
     <div className="w-[80%] m-auto mt-20">
-      <h2 className="text-3xl font-bold text-blue-700 mb-6">Most Popular Cars</h2>
+      <h2 className="text-3xl font-bold text-blue-700 mb-6">{t('Most Popular Cars')}</h2>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {loading
@@ -57,21 +59,21 @@ const Two = () => {
                   alt="Car"
                   className="h-48 w-full object-cover rounded mb-4"
                 />
-                <h2 className="text-xl font-bold mb-2">{car.car}</h2>
+                <h2 className="text-xl font-bold mb-2">{t(car.car)}</h2>
                 <div className="flex items-center mb-2">
                   <img src={starIcon} alt="" className="w-5 h-5 mr-2" />
                   <span>{car.evaluation}</span>
                 </div>
                 <div className="flex justify-between items-center mb-2">
                   <div className="flex items-center">
-                    <FaUserAlt className="mr-1" /> 4 Passengers
+                    <FaUserAlt className="mr-1" />{t('4 Passengers')}
                   </div>
                   <div className="flex items-center">
                     <img src={airIcon} alt="" className="w-5 h-5 mr-1" /> AC
                   </div>
                 </div>
                 <div className="flex justify-between items-center mb-2">
-                  <span>{car.carType}</span>
+                  <span>{t(car.carType)}</span>
                   <div className="flex items-center">
                     <img src={frameIcon} alt="" className="w-5 h-5 mr-1" />
                     {car.car_model_year}
@@ -79,7 +81,7 @@ const Two = () => {
                 </div>
                 <hr className="my-2" />
                 <div className="flex justify-between">
-                  <span>Price</span>
+                  <span>{t('Price')}</span>
                   <span className="font-bold">{car.price}</span>
                 </div>
               </div>
@@ -88,7 +90,7 @@ const Two = () => {
 
       <div className="flex justify-center mt-10">
         <button className="border-2 border-blue-800 px-6 py-2 text-blue-700 hover:bg-blue-800 hover:text-white rounded-lg">
-          <Link to="/allcars">Show All Cars</Link>
+          <Link to="/allcars">{t('Show All Cars')}</Link>
         </button>
       </div>
     </div>

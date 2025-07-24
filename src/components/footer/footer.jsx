@@ -1,8 +1,10 @@
 import { FaFacebookF, FaTwitter, FaInstagram,FaLocationArrow,FaPhoneAlt,FaVoicemail } from 'react-icons/fa';
 import { IoCarSport } from "react-icons/io5";
+import { useTranslation } from 'react-i18next';
 
 
 const Footer = () => {
+  const { t } = useTranslation();
   return (
     <div className='w-full bg-gradient-to-b from-gray-700 to-gray-900 flex justify-center mt-10' id='contact'>
     <footer className="bg-gradient-to-b from-gray-700 to-gray-900 text-white py-10" style={{fontFamily:"arial"}}>
@@ -22,14 +24,14 @@ const Footer = () => {
           <li>
           <div className='flex gap-2 mb-2 relative bottom-4'>
                 <FaLocationArrow className='text-2xl '/>
-                <h2 className='text-sm font-thin'> hosary mosque, 6 october, cairo, egypt</h2>
+                <h2 className='text-sm font-thin'> {t('address')}</h2>
                 </div>
             </li>  
 <li>
 
 <div className='flex gap-2 mb-2'>
           <FaPhoneAlt className='text-2xl '/>
-                <h2 className='text-sm font-thin'>+20123456789</h2>
+                <h2 className='text-sm font-thin'>{t('phone')}</h2>
                 </div>
 </li>
 
@@ -37,7 +39,7 @@ const Footer = () => {
 
 <div className='flex gap-2'>
         <FaVoicemail className='text-2xl '/>
-                <h2 className='text-sm font-thin'>rentcars@gmail.com</h2>
+                <h2 className='text-sm font-thin'>{t('email')}</h2>
                 </div>
 </li>
 
@@ -47,39 +49,39 @@ const Footer = () => {
 
 
           <div>
-            <h3 className="font-bold text-md mb-4">Our Products</h3>
+            <h3 className="font-bold text-md mb-4">{t('products')}</h3>
             <ul>
-            <li className='text-sm font-thin'>Career</li>
-              <li className='text-sm font-thin'>Car</li>
-              <li className='text-sm font-thin'>Packages</li>
-              <li className='text-sm font-thin'>Features</li>
-              <li className='text-sm font-thin'>Priceline</li>  
+            <li className='text-sm font-thin'>{t('career')}</li>
+              <li className='text-sm font-thin'>{t('car')}</li>
+              <li className='text-sm font-thin'>{t('packages')}</li>
+              <li className='text-sm font-thin'>{t('features')}</li>
+              <li className='text-sm font-thin'>{t('priceline')}</li>  
               </ul>
            
           </div>
 
    
           <div>
-            <h3 className="font-bold text-md mb-4">Resources</h3>
+            <h3 className="font-bold text-md mb-4">{t('resources')}</h3>
             <ul>
-            <li className='text-sm font-thin'>Why choose us</li>
-              <li className='text-sm font-thin'>Our Story</li>
-              <li className='text-sm font-thin'>Investor Relations</li>
-              <li className='text-sm font-thin'>Press Center</li>
-              <li className='text-sm font-thin'>Cruises</li> 
-              <li className='text-sm font-thin'>Developer</li> 
+            <li className='text-sm font-thin'>{t('whyChooseUs')}</li>
+              <li className='text-sm font-thin'>{t('ourStory')}</li>
+              <li className='text-sm font-thin'>{t('investorRelations')}</li>
+              <li className='text-sm font-thin'>{t('pressCenter')}</li>
+              <li className='text-sm font-thin'>{t('cruises')}</li> 
+              <li className='text-sm font-thin'>{t('developer')}</li> 
               </ul>
             </div>
           
 
           <div>
-            <h3 className="font-bold text-md mb-4"> About Rentcars </h3>
+            <h3 className="font-bold text-md mb-4">{t('aboutRentcars')}</h3>
             <ul>
-              <li className='text-sm font-thin'>download</li>
-              <li className='text-sm font-thin'>Help Centre</li>
-              <li className='text-sm font-thin'>Guides</li>
-              <li className='text-sm font-thin'>Partner Network</li>
-              <li className='text-sm font-thin'> Advertise</li>
+              <li className='text-sm font-thin'>{t('download')}</li>
+              <li className='text-sm font-thin'>{t('helpCentre')}</li>
+              <li className='text-sm font-thin'>{t('guides')}</li>
+              <li className='text-sm font-thin'>{t('partnerNetwork')}</li>
+              <li className='text-sm font-thin'> {t('advertise')}</li>
                         
                         
 
@@ -88,7 +90,7 @@ const Footer = () => {
 
    
           <div>
-            <h3 className="font-bold text-md mb-4">Follow Us</h3>
+            <h3 className="font-bold text-md mb-4">{t('followUs')}</h3>
            
            <div className='flex gap-4 justify-center'>
            <FaFacebookF className="text-xl hover:text-blue-500"/>
@@ -101,7 +103,7 @@ const Footer = () => {
         </div>
 
         <div className="text-center mt-10">
-          <p>© 2025 My Website. All rights reserved.</p>
+          <p>{t('© 2025 My Website. All rights reserved.')}</p>
         </div>
       </div>
     </footer>

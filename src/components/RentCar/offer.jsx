@@ -12,7 +12,7 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import Loader from "../load/Load";
 import { useLocation } from "react-router-dom";
-
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -23,6 +23,7 @@ const RentCar = () => {
   const [selectedDelete, setSelectedDelete] = useState(null);
   const [loading, setLoading] = useState(true);
   const isLoggedIn = localStorage.getItem("token") !== null;
+  const { t } = useTranslation();
 
 
   {/* جلب السيارات */}
@@ -59,7 +60,7 @@ const RentCar = () => {
       await deleteDoc(doc(db, "Rent", selectedDelete));
       setOpen(false);
       fetchCars();
-      toast.success("Car deleted successfully!", { autoClose: 2000 });
+      toast.success(t('Car deleted successfully!'), { autoClose: 2000 });
     } catch (error) {
       console.error("Error deleting car: ", error);
     }
@@ -86,13 +87,13 @@ const RentCar = () => {
         <div>
 
  <div>
-        <h1 className='font-bold text-2xl mt-16 mb-16 text-blue-700 tracking-[2px]' style={{fontFamily:"arial"}}>the most popular cars rental offers</h1>
+        <h1 className='font-bold text-2xl mt-16 mb-16 text-blue-700 tracking-[2px]' style={{fontFamily:"arial"}}>{t('the most popular cars rental offers')}</h1>
 
         {
            role === "hazemsaad231@gmail.com"&&isLoggedIn ? (
             < div className="flex flex-col gap-4 justify-center mb-8" style={{fontFamily:"arial"}}>
-                <Link to="/addRent" className="text-white py-2 px-4 rounded-md font-semibold text-md bg-blue-700 w-max m-auto">Add Car</Link>
-               <h1 className="text-xl font-semibold text-blue-700" style={{fontFamily:"arial"}}>count or cars : {cars.length} </h1>
+                <Link to="/addRent" className="text-white py-2 px-4 rounded-md font-semibold text-md bg-blue-700 w-max m-auto">{t('Add Car')}</Link>
+               <h1 className="text-xl font-semibold text-blue-700" style={{fontFamily:"arial"}}>{t('count or cars :')} {cars.length} </h1>
              </div>
        ):(null)}
 

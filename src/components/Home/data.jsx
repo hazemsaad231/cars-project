@@ -70,7 +70,7 @@ export const Rent = [
     {
         id: 1,
         img:bmw,
-        title:'Bmw Xm ',
+        title:'Bmw Xm',
         text:'The BMW XM is one of the latest and most respected SUVs in the world. It is a high-performance SUV, known for combining sporty driving experience with advanced technology.',
         price:'100',
         newPrice:'70',

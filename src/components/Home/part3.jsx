@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import React from "react";
+import { useTranslation } from 'react-i18next';
 
 const Offer = () => {
 
 
   const targetDate = new Date("2025-12-30T23:59:59").getTime();
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+  const { t } = useTranslation();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -33,12 +36,11 @@ const Offer = () => {
 
       <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-around items-center p-10 rounded-xl m-10">
         <div className="flex flex-col justify-center items-center">
-          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-700">
-            All cars are 20% off now!
-            <p>Do not miss this offer</p>
+          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-700 w-[80%] m-2">
+            {t('All cars are 20% off now!  Do not miss this offer')}
           </h1>
           <p className="text-gray-500 w-full p-2 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 m-2">
-            This offer applies to most cars offered for rent.
+            {t('This offer applies to most cars offered for rent.')}
           </p>
 
           {/* تحسين إمكانية الوصول بإضافة aria-live */}
@@ -46,10 +48,10 @@ const Offer = () => {
             <table className="border-collapse mt-4">
               <thead className="text-gray-400">
                 <tr>
-                  <th className="p-2">Days</th>
-                  <th className="p-2">Hours</th>
-                  <th className="p-2">Minutes</th>
-                  <th className="p-2">Seconds</th>
+                  <th className="p-2">{t('Days')}</th>
+                  <th className="p-2">{t('Hours')}</th>
+                  <th className="p-2">{t('Minutes')}</th>
+                  <th className="p-2">{t('Seconds')}</th>
                 </tr>
               </thead>
               <tbody>

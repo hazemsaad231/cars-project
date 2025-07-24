@@ -8,6 +8,7 @@ import { getDoc } from "firebase/firestore";
 import { Context}  from "../context/Context";
 import Aos from "aos";
 import 'aos/dist/aos.css';
+import { useTranslation } from 'react-i18next';
 
 const AddCar = () => {
 
@@ -15,6 +16,7 @@ const AddCar = () => {
   const { register, handleSubmit,setValue, formState: { errors } } = useForm();
  const navigate = useNavigate()
  const{isDarkMode} = useContext(Context);
+ const { t } = useTranslation();
 
 
  const fetchCarData = useCallback(async () => {
@@ -85,73 +87,70 @@ const AddCar = () => {
       <div data-aos="zoom-in" className="text-start">
       <div className={`shadow-xl border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} p-5  w-[90%] sm:w-[90%] md:w-max lg:w-max m-auto mt-10 `} >
         <h2 className="text-xl text-center font-serif tracking-[4px]">
-          {id ? "Update Car" : "Add a New Car"}
+          {id ? t('Update Car') : t('Add a New Car')}
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="w-max p-10 m-auto font-serif text-gray-500">
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             <div className="flex flex-col">
-              <label className="text-start">Car Name</label>
+              <label className="text-start">{t('Car Name')}</label>
               <input
                 type="text"
                 className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("car", { required: "Car name is required" })}
+                {...register("car", { required: t("Car name is required") })}
               />
               {errors.car && <p className="text-red-400 text-sm">{errors.car.message}</p>}
             </div>
 
             {/* باقي الحقول */}
             <div className="flex flex-col">
-              <label className="text-start">Images</label>
+              <label className="text-start">{t('Images')}</label>
               <input
                 type="text"
                 className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("img", {
-                  required: "At least one image URL is required",
-                  validate: (value) => value.includes(",") || "Separate URLs with commas",
-                })}
+                {...register("img", { required: t("At least one image URL is required"), validate: (value) => value.includes(",") || t("Separate URLs with commas") })}
               />
               {errors.img && <p className="text-red-400 text-sm">{errors.img.message}</p>}
             </div>
 
             {/* الحقول الأخرى كما هي */}
             <div className="flex flex-col">
-              <label className="text-start">Car Type</label>
+              <label className="text-start">{t('Car Type')}</label>
               <input
                 type="text"
                 className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("carType", { required: "Car type is required" })}
+                {...register("carType", { required: t("Car type is required") })}
               />
               {errors.carType && <p className="text-red-400 text-sm">{errors.carType.message}</p>}
             </div>
 
             <div className="flex flex-col">
-              <label className="text-start">Car Color</label>
+              <label className="text-start">{t('Car Color')}</label>
               <input
                 type="text"
                 className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("car_color", { required: "Car color is required" })}
+                {...register("car_color", { required: t("Car color is required") })}
               />
               {errors.car_color && <p className="text-red-400 text-sm">{errors.car_color.message}</p>}
             </div>
 
 
             <div className = 'flex flex-col'>
-           <label className = 'text-start'>Car Model Year</label>
+           <label className = 'text-start'>{t('Car Model Year')}</label>
            <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("car_model_year", { required: "Model year is required" })}
+            {...register("car_model_year", { required: t("Model year is required") })}
           />
           {errors.car_model_year && <p className = "text-red-400 text-sm">{errors.car_model_year.message}</p>}
         </div>
 
 
         <div className = 'flex flex-col'>
-          <label className = 'text-start'>Price</label>
+          <label className = 'text-start'>{t('Price')}</label>
           <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("price", { required: "Price is required" })}
+            {...register("price", { required: t("Price is required") })}
           />
           {errors.price && <p className = "text-red-400 text-sm">{errors.price.message}</p>}
         
@@ -160,69 +159,69 @@ const AddCar = () => {
 
 
             <div className = 'flex flex-col'>
-          <label className = 'text-start'>Mileage</label>
+          <label className = 'text-start'>{t('Mileage')}</label>
           <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("mileage", { required: "Mileage is required" })}
+            {...register("mileage", { required: t("Mileage is required") })}
           />
           {errors.mileage && <p className = "text-red-400 text-sm">{errors.mileage.message}</p>}
         </div>
 
         <div className = 'flex flex-col'>
-          <label className = 'text-start'>Transmission</label>
+          <label className = 'text-start'>{t('Transmission')}</label>
           <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("Transmission", { required: "Transmission is required" })}
+            {...register("Transmission", { required: t("Transmission is required") })}
           />
           {errors.Transmission && <p className = "text-red-400 text-sm">{errors.Transmission.message}</p>}
         </div>
 
         <div className = 'flex flex-col'>
-          <label className = 'text-start'>Horsepower</label>
+          <label className = 'text-start'>{t('Horsepower')}</label>
           <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("Horsepower", { required: "Horsepower is required" })}
+            {...register("Horsepower", { required: t("Horsepower is required") })}
           />
           {errors.Horsepower && <p className = "text-red-400 text-sm">{errors.Horsepower.message}</p>}
         </div>
 
         <div className = 'flex flex-col'>
-          <label className = 'text-start'>IsBooked</label>
+          <label className = 'text-start'>{t('IsBooked')}</label>
           <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("isBooked", { required: "IsBooked is required" })}
+            {...register("isBooked", { required: t("IsBooked is required") })}
           />
           {errors.isBooked && <p className = "text-red-400 text-sm">{errors.isBooked.message}</p>}
         </div>
 
 
         <div className = 'flex flex-col'>
-          <label className = 'text-start'>evaluation</label>
+          <label className = 'text-start'>{t('evaluation')}</label>
           <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("evaluation", { required: "evaluation is required" })}
+            {...register("evaluation", { required: t("evaluation is required") })}
           />
           {errors.evaluation && <p className = "text-red-400 text-sm">{errors.evaluation.message}</p>}
         </div>
 
 
         <div className = 'flex flex-col'>
-          <label className = 'text-start'>reviews</label>
+          <label className = 'text-start'>{t('reviews')}</label>
           <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("reviews", { required: "reviews is required" })}
+            {...register("reviews", { required: t("reviews is required") })}
           />
           {errors.reviews && <p className = "text-red-400 text-sm">{errors.reviews.message}</p>}
         </div>
 
         <div className = 'flex flex-col'>
-          <label className = 'text-start'>favourite</label>
+          <label className = 'text-start'>{t('favourite')}</label>
           <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
@@ -234,7 +233,7 @@ const AddCar = () => {
           </div>
           <div className="flex justify-center">
           <button type="submit" className="bg-blue-600 text-white p-2 rounded-lg mt-4">
-            {id ? "Update Car" : "Add Car"}
+            {id ? t('Update Car') : t('Add Car')}
           </button>
           </div>
          

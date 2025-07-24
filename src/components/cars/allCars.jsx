@@ -19,7 +19,7 @@ import { Context } from '../context/Context';
 import { HiOutlineLockClosed } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 import frame from '../../../src/assets/img/Frame.png';
-
+import { useTranslation } from 'react-i18next';
 
 
 const AllCars = () => {
@@ -32,6 +32,7 @@ const AllCars = () => {
   const [selectedDelete, setSelectedDelete] = useState(null);
   const [loading, setLoading] = useState(true);
   const { isDarkMode} = useContext(Context);
+  const { t } = useTranslation();
 
   const isLoggedIn = localStorage.getItem("token") !== null;
 
@@ -99,7 +100,7 @@ const AllCars = () => {
       await deleteDoc(doc(db, "cars", selectedDelete));
       setOpen(false);
       fetchCars();
-      toast.success("Car deleted successfully!", { autoClose: 2000 });
+      toast.success(t('Car deleted successfully!'), { autoClose: 2000 });
     } catch (error) {
       console.error("Error deleting car: ", error);
     }
@@ -121,11 +122,11 @@ const AllCars = () => {
 
         <div>
         
-        <h2 className='text-2xl text-blue-700 font-bold p-8 tracking-[2px]' style={{ fontFamily: 'arial' }}>The popular cars booking offers</h2><div className='mt-10'>
+        <h2 className='text-2xl text-blue-700 font-bold p-8 tracking-[2px]' style={{ fontFamily: 'arial' }}>{t('The popular cars booking offers')}</h2><div className='mt-10'>
               {/* حقل البحث */}
               <input
                 type="text"
-                placeholder={`Search by ${mood}`}
+                placeholder={t('Search by') + ' ' + t(mood)}
                 className='w-[60%] p-1 mt-4 shadow-2xl border  rounded-l-lg outline-blue-700 text-gray-400'
                 value={value}
                 onChange={(e) => setValue(e.target.value)} />
@@ -136,18 +137,18 @@ const AllCars = () => {
                 value={mood}
                 onChange={(e) => setMood(e.target.value)}
               >
-                <option value="car">Search by car</option>
-                <option value="price">Search by price</option>
-                <option value="car_color">Search by color</option>
-                <option value="car_model_year">Search by model</option>
+                <option value="car">{t('Search by car')}</option>
+                <option value="price">{t('Search by price')}</option>
+                <option value="car_color">{t('Search by color')}</option>
+                <option value="car_model_year">{t('Search by model')}</option>
               </select>
             </div>
 
 
             {isLoggedIn && role === "hazemsaad231@gmail.com" && (
               <div className="flex flex-col justify-center items-center" style={{ fontFamily: 'arial' }}>
-                <button className="text-white w-52 text-xl h-10 mt-6 bg-blue-600 text-center rounded-lg hover:bg-blue-700"><Link to={"/addCar"}>add new car</Link></button>
-                <h1 className="text-xl font-semibold text-blue-700 tracking-tighter">count or cars : {cars.length} </h1>
+                <button className="text-white w-52 text-xl h-10 mt-6 bg-blue-600 text-center rounded-lg hover:bg-blue-700"><Link to={"/addCar"}>{t('add new car')}</Link></button>
+                <h1 className="text-xl font-semibold text-blue-700 tracking-tighter">{t('count or cars :')} {cars.length} </h1>
 
               </div>
             )}
