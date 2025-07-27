@@ -9,6 +9,7 @@ import  {Context}  from '../context/Context';
 import React, {useContext} from "react";
 import { useState } from 'react';
 import Wait from './paymentLoad';
+import { useTranslation } from 'react-i18next';
   
 
 const Payment = ({carId})=> {
@@ -97,7 +98,7 @@ const isBooked = localStorage.getItem("isBooked");
 
 
           setTimeout(() => {
-            toast.success("successful reservation", { autoClose: 2500 });
+            toast.success(t('Order placed successfully!'), { autoClose: 2500 });
           }, 2500)
           
           setTimeout(() => {
@@ -112,6 +113,8 @@ const isBooked = localStorage.getItem("isBooked");
     } 
   
   
+
+    const { t } = useTranslation();
   return (
     <>
 
@@ -121,8 +124,8 @@ const isBooked = localStorage.getItem("isBooked");
           <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 400 }}>
 
           <div className="text-center rounded-lg shadow-xl p-4 bg-gradient-to-l from-transparent to-gray-50">
-          <Typography variant="h5" gutterBottom sx={{ letterSpacing: 2 , color: "black" , fontFamily: "cursive"}}>
-                Information of buy
+          <Typography variant="h5" gutterBottom sx={{ letterSpacing: 2 , color: "black"}}>
+            {t('Payment Details')}
               </Typography>
 
 <div className="bg-transparent p-8 text-center rounded-lg shadow-xl border">
@@ -133,7 +136,7 @@ const isBooked = localStorage.getItem("isBooked");
               <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-3'>
               <TextField
                   name="fullName"
-                  label="Full Name"
+                  label={t('Full Name')}
                   fullWidth
                   variant='standard'
       
@@ -141,24 +144,24 @@ const isBooked = localStorage.getItem("isBooked");
                 />
 
                 <TextField
-                  name="email"
-                  label="Email"
-                  variant='standard'
+                  name='email'
+                  label={t('Email')}
+                  variant='standard'  
                   fullWidth
                   margin="normal"
                 />
 
                 <TextField
-                  name="phone"
-                  label="Phone" 
+                  name='phone'
+                  label={t('Phone')}
                   fullWidth
                   variant='standard'
                   margin="normal"
                 />
 
                 <TextField
-                  name="city"
-                  label="City"
+                  name='city'
+                  label= {t('City')}
                   variant='standard'
                   fullWidth
       
@@ -166,16 +169,16 @@ const isBooked = localStorage.getItem("isBooked");
                 />
 
                 <TextField
-                  name="address"
-                  label="Address"
+                  name='address'
+                  label= {t('Address')}
                   fullWidth
                   margin="normal"
                   variant='standard'
                 />  
 
                 <TextField
-                  name="ReceiptTime"
-                  label="Receipt Time"
+                  name='ReceiptTime'
+                  label= {t('Receipt Time')}
                   type="date"
                   variant='standard'
                   fullWidth
@@ -183,7 +186,7 @@ const isBooked = localStorage.getItem("isBooked");
                 />
 
 <FormControl fullWidth margin="normal" variant='standard'>
-                  <InputLabel id="demo-simple-select-label">partial payment</InputLabel>
+                  <InputLabel id="demo-simple-select-label">{t('partial payment')}</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -204,12 +207,12 @@ const isBooked = localStorage.getItem("isBooked");
             </div>
 
 <div className="bg-transparent p-2 m-4 text-center rounded-lg shadow-xl">
-              <Typography variant="h5" gutterBottom sx={{ letterSpacing: 4 , color: "black" , fontFamily: "cursive"}}>
-                Payment Info
+              <Typography variant="h5" gutterBottom sx={{ letterSpacing: 4 , color: "black"}}>
+                {t('Payment Method')}
               </Typography>
               <Grid container spacing={2} sx={{ mt: 2 }}>
                 <Grid item xs={12}>
-                  <Box sx={{ border: '1px solid #ccc', borderRadius: 1, padding: 2 }}>
+                  <Box sx={{ border: '1px solid #ccc', borderRadius: 1, padding: 2}}>
                     <CardElement options={{ hidePostalCode: true }} />
                   </Box>
                 </Grid>
@@ -227,7 +230,7 @@ const isBooked = localStorage.getItem("isBooked");
               sx={{ m: 2, width: 200 , margin: "auto"}}
               disabled={!stripe}
               >
-             {loading ? <Wait />: "Pay Now"}
+             {loading ? <Wait /> : t('Pay Now')}
 
             </Button>
             

@@ -6,6 +6,7 @@ import Payment from "./payment";
 import Loader from "../load/Load";
 import { Context } from '../context/Context';
 import { useContext } from "react";
+import { useTranslation } from 'react-i18next';
 
 const BuyDetails = () => {
   
@@ -35,12 +36,13 @@ const BuyDetails = () => {
   }, [id]);
 
 
+  const { t } = useTranslation();
   
   return (
     <>
       {loading ? <Loader />:
       <div className="w-[100%] m-auto mb-4 p-6">
-        <h1 className="font-serif text-2xl text-blue-700 tracking-[6px] mb-8">Buy the car</h1>
+        <h1 className="font-serif text-2xl text-blue-700 tracking-[6px] mb-8">{t('buy a car')}</h1>
         <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row gap-10 justify-center">
           <div className={`flex flex-col rounded-lg shadow-xl border ${isDarkMode ? "border-gray-700" : "bg-white"}`}>
             {carDetails?.img && carDetails?.img.length > 0 && (
@@ -50,16 +52,16 @@ const BuyDetails = () => {
             )}
             <div className="flex flex-col gap-4 p-4 font-thin text-xl">
               <p className="text-lg text-gray-500">
-                <strong>Car Name :</strong> {carDetails.car}
+                <strong>{t('Car Name')}:</strong> {t(carDetails.car)}
               </p>
               <p className="text-gray-500 text-lg">
-                <strong>Color :</strong> {carDetails.car_color}
+                <strong>{t('Car Color')}:</strong> {t(carDetails.car_color)}
               </p>
               <p className="text-gray-500 text-lg">
-                <strong>Model Year :</strong> {carDetails.car_model_year}
+                <strong>{t('Model Year')} :</strong> {carDetails.car_model_year}
               </p>
               <p className="text-gray-500 text-lg">
-                <strong>Price :</strong> ${carDetails.price}
+                <strong>{t('Price')} :</strong> ${carDetails.price}
               </p>
             </div>
           </div>

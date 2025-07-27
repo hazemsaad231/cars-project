@@ -225,6 +225,32 @@
   "yellow": "اصفر",
   "gold": "ذهبي",
   "electric": "كهربائي",
-  "hybrid": "هايبرد"
+  "hybrid": "هايبرد",
+  "My Reservations": "حجوزاتي",
+  "No reservations found.": "لا توجد حجوزات.",
+  "Image": "صورة",
+  "Type of Car": "نوع السيارة",
+  "Model Year": "سنة الموديل",
+  "ID": "رقم التعريف",
+  "Date": "التاريخ",
+  "Buy": "شراء",
+  "buy a car": "شراء سيارة",
+  "Payment Details": "تفاصيل الدفع",
+  "Payment Method": "طريقة الدفع",
+  "Are you sure you want to log out?": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "Logout": "تسجيل الخروج",
+  "Login successfully!": "تم تسجيل الدخول بنجاح!",
+  "You must sign in first!": "يجب عليك تسجيل الدخول أولاً!",
+  "Reservation Completed": "تم إكمال الحجز",
+  "Your reservation has been successfully completed.": "تم إكمال حجزك بنجاح.",
+  "Reservation Number": "رقم الحجز",
+  "Back to Home": "العودة إلى الصفحة الرئيسية",
+  "Order placed successfully!": "تم تسجيل الطلب بنجاح!",
+  "Partial Payment": "دفع جزئي",
+  "Return Date": "تاريخ الإرجاع",
+  "Rent Details": "تفاصيل الإيجار"
+
+
+
   
 }

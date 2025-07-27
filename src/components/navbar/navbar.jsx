@@ -138,14 +138,14 @@ const handleLogout = () => {
 <>
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog variant="outlined" role="alertdialog">
-            <DialogTitle>Confirmation</DialogTitle>
+            <DialogTitle>{t('Confirmation')}</DialogTitle>
             <Divider />
-            <DialogContent>Are you sure you want to sign out?</DialogContent>
+            <DialogContent>{t('Are you sure you want to log out?')}</DialogContent>
             <DialogActions>
               <Button variant="solid" color="danger" onClick={() => handleLogout()}>
-            Sign out
+            {t('Logout')}
               </Button>
-              <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>Cancel</Button>
+              <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>{t('Cancel')}</Button>
             </DialogActions>
           </ModalDialog>
         </Modal>

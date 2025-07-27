@@ -119,7 +119,7 @@ const Details = () => {
            <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2"
            onClick={() => {
             if (!isLoggedIn) {
-              toast.warn('You must sign in first!', {
+              toast.warn(t('You must sign in first!'), {
                 position: "top-right",
                 autoClose: 3000,
                 theme: "dark",
@@ -128,7 +128,7 @@ const Details = () => {
           }}
            >
            
-           {isLoggedIn? <Link to={`/buy/${id}`}>buying</Link>: 'buying'}
+           {isLoggedIn? <Link to={`/buy/${id}`}>{t('Buy')}</Link>: 'buying'}
          </button> :null
         }
           </div>
@@ -156,7 +156,7 @@ const Details = () => {
            <button className="bg-blue-600 text-white px-12 py-2 rounded-lg shadow-lg hover:bg-blue-700 transition-all mx-2"
            onClick={() => {
             if (!isLoggedIn) {
-              toast.warn('You must sign in first!', {
+              toast.warn(t('You must sign in first!'), {
                 position: "top-right",
                 autoClose: 3000,
                 theme: "dark",

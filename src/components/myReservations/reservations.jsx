@@ -23,6 +23,7 @@ import Modal from '@mui/joy/Modal';
 import ModalDialog from '@mui/joy/ModalDialog';
 import { useContext } from "react";
 import { Context } from "../context/Context";
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -86,6 +87,7 @@ const MyOrders = () => {
  
   const {handleBook} = useContext(Context);
 
+  const { t } = useTranslation();
 
 
   return (
@@ -98,23 +100,23 @@ const MyOrders = () => {
           gutterBottom 
           sx={{ textAlign: 'center', margin: 'auto', marginBottom: '40px', fontFamily: 'serif', letterSpacing: '2px' }}
         >
-          My Reservations
+          {t('My Reservations')}
         </Typography>
         
         {orders.length === 0 ? (
           <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', margin: 'auto', marginBottom: '40px', fontFamily: 'serif', letterSpacing: '2px' }}>
-            You have no reservations
+            {t('No reservations found.')}
           </Typography>
         ):
         <Table sx={{ minWidth: 650 ,width: '100%',border:'collapse' }} aria-label="simple table">
           <TableHead>
             <TableRow >
-            <TableCell align="center">Car</TableCell>
-              <TableCell align="center">Type of Car</TableCell>
-              <TableCell align="center">Price of Car </TableCell>
-              <TableCell align="center">Model of Car </TableCell>
-              <TableCell align="center">Booking ID</TableCell>
-              <TableCell align="center">Receipt Time</TableCell>
+            <TableCell align="center">{t('Image')}</TableCell>
+              <TableCell align="center">{t('Type of Car')}</TableCell>
+              <TableCell align="center">{t('Price')}</TableCell>
+              <TableCell align="center">{t('Model Year')} </TableCell>
+              <TableCell align="center">{t('ID')}</TableCell>
+              <TableCell align="center">{t('Date')}</TableCell>
               
             </TableRow>
           </TableHead>

@@ -7,6 +7,7 @@ import { collection, addDoc } from "firebase/firestore";
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Wait from './paymentLoad';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -92,7 +93,7 @@ console.log(carDetails);
          
 
           setTimeout(() => {
-            toast.success("successful reservation", { autoClose: 2000 });
+            toast.success(t("Order placed successfully!"), { autoClose: 2000 });
           },2000)
 
           setTimeout(() => {
@@ -105,6 +106,8 @@ console.log(carDetails);
         } 
       }
     } 
+
+    const { t } = useTranslation();
   
   
   return (
@@ -118,13 +121,13 @@ console.log(carDetails);
 
 <div className="bg-transparent p-8 text-center rounded-lg shadow-xl border-2">
   <Typography variant="h5" gutterBottom sx={{ color: 'black',fontFamily: 'cursive' }}>
-    Car Rental Form
+    {t('Payment Details')}
   </Typography>
   <Grid item xs={8}>
     <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-2 gap-3'>
       <TextField
         name="fullName"
-        label="Full Name"
+        label={t('Full Name')}
         fullWidth
         margin="normal"
         variant='standard'
@@ -132,7 +135,7 @@ console.log(carDetails);
 
       <TextField
         name="email"
-        label="Email"
+        label={t('Email')}
         fullWidth
         variant="standard"
         margin="normal"
@@ -140,7 +143,7 @@ console.log(carDetails);
 
       <TextField
         name="phone"
-        label="Phone"
+        label={t('Phone')}
         fullWidth
         margin="normal"
         variant='standard'
@@ -148,14 +151,14 @@ console.log(carDetails);
 
       <TextField
         name="city"
-        label="City"
+        label={t('City')}
         fullWidth
         variant="standard"
         margin="normal"
       />
 
 <FormControl fullWidth margin="normal" variant='standard'>
-                  <InputLabel id="demo-simple-select-label">partial payment</InputLabel>
+                  <InputLabel id="demo-simple-select-label">{t('Partial Payment')}</InputLabel>
                   <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
@@ -172,7 +175,7 @@ console.log(carDetails);
 
       <TextField
         name="address"
-        label="Address"
+        label={t('Address')}
         fullWidth
         variant="standard"
         margin="normal"
@@ -183,7 +186,7 @@ console.log(carDetails);
 
       <TextField
         name="PickupDate"
-        label="Pickup Date"
+        label={t('Pickup Date')}
         type="date"
         fullWidth
         margin="normal"
@@ -192,7 +195,7 @@ console.log(carDetails);
 
       <TextField
         name="ReturnDate"
-        label="Return Date"
+        label={t('Return Date')}
         type="date"
         fullWidth
         variant="standard"
@@ -208,8 +211,8 @@ console.log(carDetails);
 
 
 <div className="bg-transparent p-2 m-4 text-center rounded-lg shadow-xl">
-              <Typography variant="h5" gutterBottom sx={{ letterSpacing: 4 , color: "black", fontFamily: "cursive" }}>
-                Payment Info
+              <Typography variant="h5" gutterBottom sx={{ letterSpacing: 4 , color: "black" }}>
+                {t('Payment Method')}
               </Typography>
               <Grid container spacing={2} sx={{ mt: 2 }}>
                 <Grid item xs={12}>
@@ -231,7 +234,7 @@ console.log(carDetails);
               sx={{ m: 2, width: 300 }}
               disabled={!stripe}
             >
-             {loading ? <Wait />: "Pay Now"}
+             {loading ? <Wait />: t('Pay Now')}
             </Button>
 
 </div>

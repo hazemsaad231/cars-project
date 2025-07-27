@@ -34,7 +34,7 @@ const Login = ()=>{
        if(isLoginIn){
         localStorage.setItem('token',response._tokenResponse.idToken);
         setTimeout(() => {
-          navigate("/home", {state:{message:"Login successful"} });
+          navigate("/home", {state:{message:t("Login successfully!")} });
         }, 1000);
        }
        console.log(response._tokenResponse.idToken)
