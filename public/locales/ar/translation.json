@@ -54,7 +54,7 @@
   "Mercedes-Benz is renowned for its luxury, performance, and innovation, offering a diverse range of vehicles to suit various preferences and needs.": "مرسيدس بنز معروفة بالفخامة والأداء والابتكار، حيث تقدم مجموعة متنوعة من السيارات لتلبية مختلف التفضيلات والاحتياجات.",
   "The Audi R8 is a luxury mid-engine sports car first introduced in 2006. Renowned for its sleek design and exceptional performance, it has become an icon in the world of sports cars.": "أودي R8 هي سيارة رياضية فاخرة بمحرك وسطي تم تقديمها لأول مرة في عام 2006. معروفة بتصميمها الأنيق وأدائها الاستثنائي، أصبحت رمزًا في عالم السيارات الرياضية.",
   "4 Passengers": "4 مسافرين",
-  "Gasoline":"بنزين",
+  "gasoline":"بنزين",
   "Price": "السعر",
   "Update Car": "تحديث السيارة",
   "Add a New Car": "إضافة سيارة جديدة",
@@ -196,5 +196,23 @@
   "Password is required": "كلمة المرور مطلوبة",
   "Car deleted successfully!": "تم حذف السيارة بنجاح!",
   "Car data updated successfully!": "تم تحديث بيانات السيارة بنجاح!",
-  "Car data added successfully!": "تم إضافة بيانات السيارة بنجاح!"
+  "Car data added successfully!": "تم إضافة بيانات السيارة بنجاح!",
+  "Air conditioning": "تكييف الهواء",
+  "price": "السعر",
+  "Elevate Your Ride with Our Premium Cars": "ارتقِ برحلتك مع سياراتنا الفاخرة",
+  "Car Model": "موديل السيارة",
+  "Car Price": "سعر السيارة",
+  "automatic": "أوتوماتيكي",
+  "manual": "يدوي",
+  "red": "أحمر",
+  "blue": "أزرق",
+  "black": "أسود",
+  "white": "أبيض",
+  "green": "اثري",
+  "gray": "خامه",
+  "yellow": "اصفر",
+  "gold": "ذهبي",
+  "electric": "كهربائي",
+  "hybrid": "هايبرد"
+  
 }

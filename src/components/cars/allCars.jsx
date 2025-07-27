@@ -175,33 +175,32 @@ const AllCars = () => {
                     ) : (
                       <p className='text-center text-lg font-semibold bg-green-600 text-white'>{t('Available')}</p>
                     )}
-                    <h2 className='text-start font-semibold text-xl mt-2 ml-3 mb-2'>{t(el.car)}</h2>
-                    <div className='flex gap-.5 px-4'>
-                      <img src={star} alt="" className='w-5 h-5' />
-                      <span className='font-bold'>{el.evaluation}</span>
-                      <span className='font-thin'> ({el.reviews} reviews)</span>
-                    </div>
-                    <div className='flex justify-between px-3'>
+                    <h2 className='text-center font-semibold text-xl mt-2 ml-3 mb-2'>{t(el.car)}</h2>
+                     <div className="flex items-center mb-2">
+                                      <img src={star} alt="" className="w-5 h-5 mr-2" />
+                                      <span>{el.evaluation}</span>
+                                    </div>
+                    <div className='flex justify-between'>
                       <div className='flex gap-1'>
                         <FaUserAlt className='text-xl' />
-                        <span className='text-sm font-thin'>{t('4 Passanger')}</span>
+                        <span className='text-sm font-thin'>{t('4 Passengers')}</span>
                       </div>
-                      <div className='flex'>
+                      <div className='flex gap-1'>
                         <img src={air} alt="" className='w-5 h-6' />
-                        <span className='text-sm font-thin'>Air condtioning</span>
+                        <span className='text-sm font-thin'>{t('Air conditioning')}</span>
                       </div>
                     </div>
-                    <div className='flex font-thin justify-between px-3'>
+                    <div className='flex font-thin justify-between'>
                       <div className='flex mx-1'>
-                        <span className='font-thin text-sm'>{el.carType}</span>
+                        <span className='font-thin text-sm'>{t(el.carType)}</span>
                       </div>
-                      <div className='flex ml-28'>
+                      <div className='flex gap-1 justify-between'>
                         <img src={frame} alt="" className='w-5 h-5' />
                         <span className='text-sm'>{el.car_model_year}</span>
                       </div>
                     </div>
                     <hr style={{ height: '2px', width: '100%', backgroundColor: 'gray', margin: 'auto' }} />
-                    <div className='flex justify-between px-3'>
+                    <div className='flex justify-between'>
                       <h5 className='font-serif'>{t('price')}</h5>
                       <h5 className='font-bold'>{el.price}$</h5>
                     </div>

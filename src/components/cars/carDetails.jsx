@@ -8,6 +8,8 @@ import Slider from "react-slick";
 import { Link } from "react-router-dom";
 import Loader from "../load/Load";
 import { toast, ToastContainer } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
+
 
 
 const Details = () => {
@@ -44,6 +46,8 @@ const Details = () => {
 
   }, [id]);
 
+  const { t } = useTranslation();
+
 
 {/* تعيين اعدادات السلايدر */}
   const settings = {
@@ -72,38 +76,38 @@ const Details = () => {
         <div className=" w-full sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 bg-white shadow-2xl rounded-l-xl p-2" data-aos="fade-right">
 
            <h1 className="text-xl sm:text-xl md:text-2xl lg:text-2xl xl:text-2xl font-extrabold text-gray-800 mt-8 mb-8 leading-tight">
-              Elevate Your Ride with Our Premium Cars
+            {t('Elevate Your Ride with Our Premium Cars')}
             </h1>
 
           <div className="grid grid-cols-2 gap-y-4 m-auto">
             <p className="text-sm sm:text-sm md:text-md lg:text-lg xl:text-lg text-gray-600">
-            <strong>car:</strong>   {carDetails.car}
+            <strong>{t('Car Name')}:</strong>   {t(carDetails.car)}
             </p>
            
               <p className="text-gray-600 text-sm sm:text-sm md:text-md lg:text-lg xl:text-lg">
-                <strong>fuel Type:</strong> {carDetails.carType}
+                <strong>{t('Car Type')}:</strong> {t(carDetails.carType)}
                 </p>
 
             <p className="text-gray-600 text-sm sm:text-sm md:text-md lg:text-lg xl:text-lg">
-              <strong>Color:</strong> {carDetails.car_color}
+              <strong>{t('Car Color')}:</strong> {t(carDetails.car_color)}
             </p>
             <p className="text-gray-600 text-sm sm:text-sm md:text-md lg:text-lg xl:text-lg">
-              <strong>Model Year:</strong> {carDetails.car_model_year}
+              <strong>{t('Car Model')}:</strong> {t(carDetails.car_model_year)}
             </p>
             <p className="text-gray-600 text-sm sm:text-sm md:text-md lg:text-lg xl:text-lg">
-              <strong>Price:</strong> ${carDetails.price}
+              <strong>{t('Car Price')}:</strong> ${t(carDetails.price)}
             </p>
             
             <p className="text-gray-600 text-sm sm:text-sm md:text-md lg:text-lg xl:text-lg">
-              <strong>Mileage:</strong> {carDetails.mileage}
+              <strong>{t('Mileage')}:</strong> {t(carDetails.mileage)}
             </p>
 
             <p className="text-gray-600 text-sm sm:text-sm md:text-md lg:text-lg xl:text-lg">
-              <strong>Transmission :</strong> {carDetails.Transmission}
+              <strong>{t('Transmission')} :</strong> {t(carDetails.Transmission)}
             </p>
 
             <p className="text-gray-600 text-sm sm:text-sm md:text-md lg:text-lg xl:text-lg mb-6">
-              <strong>Horsepower:</strong> {carDetails.Horsepower}
+              <strong>{t('Horsepower')}:</strong> {t(carDetails.Horsepower)}
             </p>
            
           </div>
