@@ -1,26 +1,25 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import translationAR from '../public/locales/ar/translation.json';
-import translationEN from '../public/locales/en/translation.json';
-
-const resources = {
-  en: {
-    translation: translationEN
-  },
-  ar: {
-    translation: translationAR
-  }
-};
+import HttpApi from 'i18next-http-backend';
+import LanguageDetector from 'i18next-browser-languagedetector';
 
 i18n
+  .use(HttpApi)
+  .use(LanguageDetector)
   .use(initReactI18next)
   .init({
-    resources,
-    lng: 'en', // اللغة الافتراضية
+    supportedLngs: ['en', 'ar'],
     fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false
-    }
+    detection: {
+      order: ['localStorage', 'cookie', 'htmlTag'],
+      caches: ['localStorage'],
+    },
+    backend: {
+      loadPath: '/locales/{{lng}}/{{ns}}.json',
+    },
+    react: {
+      useSuspense: false,
+    },
   });
 
 export default i18n;
