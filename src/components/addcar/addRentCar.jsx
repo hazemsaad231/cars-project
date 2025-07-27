@@ -103,7 +103,7 @@ const AddRent = () => {
 
             {/* باقي الحقول */}
             <div className="flex flex-col">
-              <label className="text-start">Images</label>
+              <label className="text-start">{t('Images')}</label>
               <input
                 type="text"
                 className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
@@ -114,7 +114,7 @@ const AddRent = () => {
 
             {/* الحقول الأخرى كما هي */}
             <div className="flex flex-col">
-              <label className="text-start">Price</label>
+              <label className="text-start">{t('Price')}</label>
               <input
                 type="text"
                 className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
@@ -124,7 +124,7 @@ const AddRent = () => {
             </div>
 
             <div className="flex flex-col">
-              <label className="text-start">New Price</label>
+              <label className="text-start">{t('New Price')}</label>
               <input
                 type="text"
                 className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
@@ -135,7 +135,7 @@ const AddRent = () => {
 
 
             <div className = 'flex flex-col'>
-           <label className = 'text-start'>description</label>
+           <label className = 'text-start'>{t('Description')}</label>
            <input
             type="text"
             className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
@@ -147,7 +147,7 @@ const AddRent = () => {
           </div>
           <div className="flex justify-center">
           <button type="submit" className="bg-blue-600 text-white p-2 rounded-lg mt-4">
-            {id ? "Update Car" : "Add Car"}
+            {id ? t("Update Car") : t("Add Car")}
           </button>
           </div>
         </form>

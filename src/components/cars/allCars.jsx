@@ -158,7 +158,7 @@ const AllCars = () => {
 
               <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 p-10 gap-4 justify-items-center place-items-center' data-aos="fade-up">
                 {currentData.map((el, index) => (
-                  <div key={el.id || index} className={`flex flex-col text-center mb-2 shadow-xl hover:shadow-2xl transition duration-500 w-[95%] gap-2 justify-between opacity-90 hover:opacity-100  ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} `}>
+                  <div key={el.id || index} className={`flex flex-col text-center mb-2 shadow-xl hover:shadow-2xl transition duration-500 w-[95%] gap-2 justify-between opacity-90 hover:opacity-100 p-4  ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} `}>
 
 
 
@@ -170,15 +170,12 @@ const AllCars = () => {
   />
 </div>
 
-
-
-
                     {el.isBooked === true ? (
-                      <p className='text-center text-lg font-semibold bg-red-600 text-white shadow-xl'>Booked</p>
+                      <p className='text-center text-lg font-semibold bg-red-600 text-white shadow-xl'>{t('Booked')}</p>
                     ) : (
-                      <p className='text-center text-lg font-semibold bg-green-600 text-white'>Available</p>
+                      <p className='text-center text-lg font-semibold bg-green-600 text-white'>{t('Available')}</p>
                     )}
-                    <h2 className='text-start font-semibold text-xl mt-2 ml-3 mb-2'>{el.car}</h2>
+                    <h2 className='text-start font-semibold text-xl mt-2 ml-3 mb-2'>{t(el.car)}</h2>
                     <div className='flex gap-.5 px-4'>
                       <img src={star} alt="" className='w-5 h-5' />
                       <span className='font-bold'>{el.evaluation}</span>
@@ -187,7 +184,7 @@ const AllCars = () => {
                     <div className='flex justify-between px-3'>
                       <div className='flex gap-1'>
                         <FaUserAlt className='text-xl' />
-                        <span className='text-sm font-thin'>4 Passanger</span>
+                        <span className='text-sm font-thin'>{t('4 Passanger')}</span>
                       </div>
                       <div className='flex'>
                         <img src={air} alt="" className='w-5 h-6' />
@@ -205,7 +202,7 @@ const AllCars = () => {
                     </div>
                     <hr style={{ height: '2px', width: '100%', backgroundColor: 'gray', margin: 'auto' }} />
                     <div className='flex justify-between px-3'>
-                      <h5 className='font-serif'>price</h5>
+                      <h5 className='font-serif'>{t('price')}</h5>
                       <h5 className='font-bold'>{el.price}$</h5>
                     </div>
                     <br />
@@ -213,17 +210,17 @@ const AllCars = () => {
                   <button className='bg-blue-700 w-max m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
                     {el.isBooked === true ? <HiOutlineLockClosed size={25} color="white" className="w-20 animate-bounce" /> :
                 
-                    <Link to={`/details/${el.id}`}>view details</Link>}
+                    <Link to={`/details/${el.id}`}>{t('Details')}</Link>}
                   </button>):
                   (
                      <div className="grid grid-cols-3 gap-2 p-2 place-items-center">
                         <button className='bg-blue-700 w-full m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
-                          <Link to={`/addCar/${el.id}`}>update</Link>
+                          <Link to={`/addCar/${el.id}`}>{t('Update')}</Link>
                         </button>
                         <button className='bg-red-500 w-full m-auto rounded-lg p-3 mb-3 hover:bg-red-800 text-white'
-                          onClick={() => handleClickOpen(el.id)}>delete</button>
+                          onClick={() => handleClickOpen(el.id)}>{t('Delete')}</button>
                         <button className='bg-blue-700 m-auto  w-full rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
-                          <Link to={`/details/${el.id}`}>Details</Link>
+                          <Link to={`/details/${el.id}`}>{t('Details')}</Link>
                         </button>
                       </div>
                       )}
@@ -239,7 +236,7 @@ const AllCars = () => {
                 className="px-2 py-2 mx-1 text-white bg-blue-700 rounded hover:bg-blue-600"
                 disabled={current === 1}
               >
-                Prev
+                {t('Prev')}
               </button>
 
               {Array.from({ length: totalPages }, (_, index) => (
@@ -257,7 +254,7 @@ const AllCars = () => {
                 className="px-2 py-2 mx-1 text-white bg-blue-700 hover:bg-blue-600 rounded"
                 disabled={current === totalPages}
               >
-                Next
+                {t('Next')}
               </button>
             </div>
 

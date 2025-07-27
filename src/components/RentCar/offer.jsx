@@ -105,8 +105,8 @@ const RentCar = () => {
    <div className='flex pt-2'>  <img src={item.img} alt="image" className='w-[90%] h-80 m-auto rounded-l-lg transition-all duration-500 hover:scale-105'  />
                 </div>    
                 <div className='flex flex-col pt-2'>
-                    <h1 className="font-bold text-xl text-blue-700">{item.title}</h1>
-                    <p className='font-serif text-sm w-60 h-36 p-2 text-center m-auto '>{item.text}</p>
+                    <h1 className="font-bold text-xl text-blue-700">{t(item.title)} </h1>
+                    <p className='font-serif text-sm w-60 h-36 p-2 text-center m-auto '>{t(item.text)}</p>
                     <div className='flex gap-4 justify-center'>
                         <h1 className='font-semibold line-through'>${item.price}</h1>
                         <h1 className='font-semibold text-blue-700'>${item.new_price}</h1>
@@ -125,14 +125,14 @@ const RentCar = () => {
                                         }
                                         }}
                                           >
-                                         {isLoggedIn? <Link to={`/rent/${item.id}`}>Rent Now</Link>: 'rent now'}
+                                         {isLoggedIn? <Link to={`/rent/${item.id}`}>{t('Rent now')}</Link>: 'rent now'}
                                           </button>
                                         ) : (
                                           <div className="flex gap-2 mx-2">
                                             <button className='bg-blue-700 w-full m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
-                                              <Link to={`/addRent/${item.id}`}>update</Link>
+                                              <Link to={`/addRent/${item.id}`}>{t('Update')}</Link>
                                             </button>
-                                            <button className='bg-red-500 w-full m-auto rounded-lg p-3 mb-3 hover:bg-red-800 text-white' onClick={() => handleClickOpen(item.id)}>delete</button>
+                                            <button className='bg-red-500 w-full m-auto rounded-lg p-3 mb-3 hover:bg-red-800 text-white' onClick={() => handleClickOpen(item.id)}>{t('Delete')}</button>
                                           </div>
                                         )}
                     </div>
@@ -156,7 +156,7 @@ const RentCar = () => {
                 className="px-1 py-2 mx-1 text-white bg-blue-700 rounded hover:bg-blue-600"
                 disabled={current === 1}
               >
-                Prev
+                {t('Prev')}
               </button>
 
               {Array.from({ length: totalPages }, (_, index) => (
@@ -174,7 +174,7 @@ const RentCar = () => {
                 className="px-1 py-2 mx-1 text-white bg-blue-700 hover:bg-blue-600 rounded"
                 disabled={current === totalPages}
               >
-                Next
+                {t('Next')}
               </button>
             </div>
 
