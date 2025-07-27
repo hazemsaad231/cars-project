@@ -23,12 +23,14 @@ import Loader from "../load/Load";
 import { useContext } from "react";
 import Rentings from './rentings';
 import { Context } from '../context/Context';
+import { useTranslation } from 'react-i18next';
 
 
  const Bookings = () => {
 
   const [cars, setCars] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { t } = useTranslation();
 
    const [open, setOpen] = useState(false);
    const [selectedDelete, setSelectedDelete] = useState(null);
@@ -58,7 +60,7 @@ import { Context } from '../context/Context';
        await deleteDoc(doc(db, "orders", selectedDelete));
        setOpen(false);
        fetchCars();
-       toast.success("Car deleted successfully!", { autoClose: 2000 });
+       toast.success(t("Car deleted successfully!"), { autoClose: 2000 });
      } catch (error) {
        console.error("Error deleting car: ", error);
      }
@@ -90,19 +92,19 @@ import { Context } from '../context/Context';
           gutterBottom 
           sx={{ textAlign: 'center', margin: 'auto', marginBottom: '40px', fontFamily: 'serif', letterSpacing: '2px' }}
         >
-          List of Booked cars
+          {t('List of Booked cars')}
         </Typography>
         <Table sx={{ minWidth: 650 ,width: '100%',border:'collapse' }} aria-label="simple table">
           <TableHead>
             <TableRow >
-              <TableCell align="center">Booking ID</TableCell>
-              <TableCell align="center">Full Name</TableCell>
-              <TableCell align="center">Email</TableCell>
-              <TableCell align="center">City</TableCell>
-              <TableCell align="center">Receipt Time</TableCell>
-              <TableCell align="center">Car</TableCell>
-              <TableCell align="center">Car Type</TableCell>
-              <TableCell align="center">Status</TableCell>
+              <TableCell align="center">{t('Booking ID')}</TableCell>
+              <TableCell align="center">{t('Full Name')}</TableCell>
+              <TableCell align="center">{t('Email')}</TableCell>
+              <TableCell align="center">{t('City')}</TableCell>
+              <TableCell align="center">{t('Receipt Time')}</TableCell>
+              <TableCell align="center">{t('Car')}</TableCell>
+              <TableCell align="center">{t('Car Type')}</TableCell>
+              <TableCell align="center">{t('Status')}</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -125,7 +127,7 @@ import { Context } from '../context/Context';
                 <TableCell align="center">
                   {car.carDetails.img?.[0] ? (
                     <img src={car.carDetails.img[0]} alt="Car" style={{ width: '50px', height: '50px' }} />
-                  ) : "No Image"}
+                  ) : t("No Image")}
                 </TableCell>
                 <TableCell align="center">{car.carDetails.car}</TableCell>
                 <TableCell align="center">
@@ -136,8 +138,8 @@ import { Context } from '../context/Context';
                     displayEmpty
                     size="small"
                   >
-                    <MenuItem value="confirmed">Confirmed</MenuItem>
-                    <MenuItem value="completed">Completed</MenuItem>
+                    <MenuItem value="confirmed">{t('Confirmed')}</MenuItem>
+                    <MenuItem value="completed">{t('Completed')}</MenuItem>
                   </Select>
                 </TableCell>
                 <TableCell align="center">
@@ -151,15 +153,15 @@ import { Context } from '../context/Context';
 <React.Fragment>
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog variant="outlined" role="alertdialog">
-            <DialogTitle>Confirmation</DialogTitle>
+            <DialogTitle>{t('Confirmation')}</DialogTitle>
             <Divider />
-            <DialogContent>Are you sure you want to delete?</DialogContent>
+            <DialogContent>{t('Are you sure you want to delete?')}</DialogContent>
             <DialogActions>
               <Button variant="solid" color="danger" onClick={() =>{
                handleDelete() 
                handleBook(car.carId,isBooked)
-              }}>Delete</Button>
-              <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>Cancel</Button>
+              }}>{t('Delete')}</Button>
+              <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>{t('Cancel')}</Button>
             </DialogActions>
           </ModalDialog>
         </Modal>

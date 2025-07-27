@@ -8,6 +8,7 @@ import { getDoc } from "firebase/firestore";
 import { Context}  from "../context/Context";
 import Aos from "aos";
 import 'aos/dist/aos.css';
+import { useTranslation } from 'react-i18next';
 
 const AddRent = () => {
   
@@ -16,6 +17,7 @@ const AddRent = () => {
  const navigate = useNavigate()
 
  const{isDarkMode} = useContext(Context);
+ const { t } = useTranslation();
  
   useEffect(() => {
     const fetchCarData = async () => {
@@ -55,7 +57,7 @@ const AddRent = () => {
         const docRef = doc(db, "Rent", id);
         await updateDoc(docRef, data);
       
-          navigate("/offers",{state:{message:"Car data updated successfully!"}});
+          navigate("/offers",{state:{message:t("Car data updated successfully!")}});
       
       
       
@@ -63,7 +65,7 @@ const AddRent = () => {
         await addDoc(collection(db, "Rent"), data);
         console.log("Car data added successfully!");
       
-          navigate("/offers",{state:{message:"Car data added successfully!"}});
+          navigate("/offers",{state:{message:t("Car data added successfully!")}});
       
     
       }
@@ -85,16 +87,16 @@ const AddRent = () => {
       <div data-aos="zoom-in" className="text-start">
       <div className={`shadow-xl border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} p-5  w-[90%] sm:w-[90%] md:w-max lg:w-max m-auto mt-10 `} >
         <h2 className="text-xl text-center font-serif tracking-[4px]">
-          {id ? "Update Car" : "Add a New Car"}
+          {id ? t("Update Car") : t("Add a New Car")}
         </h2>
         <form onSubmit={handleSubmit(onSubmit)} className="w-max p-10 m-auto font-serif text-gray-500">
           <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
             <div className="flex flex-col">
-              <label className="text-start">Car Name</label>
+              <label className="text-start">{t('Car Name')}</label>
               <input
                 type="text"
                 className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("title", { required: "Car name is required" })}
+                {...register("title", { required: t("Car name is required") })}
               />
               {errors.title && <p className="text-red-400 text-sm">{errors.title.message}</p>}
             </div>
@@ -105,7 +107,7 @@ const AddRent = () => {
               <input
                 type="text"
                 className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("img", { required: "At least one image URL is required"})}
+                {...register("img", { required: t("At least one image URL is required")})}
               />
               {errors.img && <p className="text-red-400 text-sm">{errors.img.message}</p>}
             </div>

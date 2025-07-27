@@ -123,10 +123,10 @@ export default function Register() {
                   label={t('Email')}
                   variant="outlined"
                   {...register("email", {
-                    required: "Email is required",
+                    required: t("Email is required"),
                     pattern: {
                       value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                      message: "Please enter a valid email",
+                      message: t("Please enter a valid email"),
                     },
                   })}
                   error={!!errors.email}
@@ -143,10 +143,10 @@ export default function Register() {
                     label={t('Password')}
                     type="password"
                     variant="outlined"
-                    {...register("password", { required: "Password is required",
+                    {...register("password", { required: t("Password is required"),
                     minLength: {
                       value: 7,
-                      message: "Password must be at least 7 characters",
+                      message: t("Password must be at least 7 characters"),
                     }
                      })}
                     error={!!errors.password}

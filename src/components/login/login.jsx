@@ -45,7 +45,7 @@ const Login = ()=>{
        console.log(response.user.uid);
      } catch (error) {
        console.error("Error:", error.message);
-         toast.error('Email or password is incorrect' , {autoClose: 2000}, );
+         toast.error(t('Email or password is incorrect') , {autoClose: 2000}, );
           setToastShown(true);
      } finally {
       console.log("Login attempt completed.");
@@ -102,10 +102,10 @@ const Login = ()=>{
                   label={t('Email')}
                   variant="outlined"
                   {...register("email", {
-                    required: 'Email is required',
+                    required: t('Email is required'),
                     pattern: {
                       value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                      message: 'Please enter a valid email'
+                      message: t('Please enter a valid email')
                     }
                   })}
                   error={errors.email}
@@ -120,7 +120,7 @@ const Login = ()=>{
                     type="password"
                     variant="outlined"
                     {...register("password", {
-                      required: 'Password is required',
+                      required: t('Password is required'),
                     })}
                     className='bg-transparent shadow-2xl'
                     error={errors.password}
