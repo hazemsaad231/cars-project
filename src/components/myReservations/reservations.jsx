@@ -149,15 +149,15 @@ const MyOrders = () => {
 <React.Fragment>
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog variant="outlined" role="alertdialog">
-            <DialogTitle>Confirmation</DialogTitle>
+            <DialogTitle>{t('Confirmation')}</DialogTitle>
             <Divider />
-            <DialogContent>Are you sure you want to delete?</DialogContent>
+            <DialogContent>{t('Are you sure you want to delete this reservation?')}</DialogContent>
             <DialogActions>
               <Button variant="solid" color="danger" onClick={() =>{
                handleDelete() 
                handleBook(car.carId,isBooked)
-              }}>Delete</Button>
-              <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>Cancel</Button>
+              }}>{t('Delete')}</Button>
+              <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>{t('Cancel')}</Button>
             </DialogActions>
           </ModalDialog>
         </Modal>

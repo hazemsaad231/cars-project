@@ -200,5 +200,6 @@
   "Order placed successfully!": "Order placed successfully!",
   "Partial Payment": "Partial Payment",
   "Return Date": "Return Date",
-  "Rent Details": "Rent Details"
+  "Rent Details": "Rent Details",
+  "Are you sure you want to delete this reservation?": "Are you sure you want to delete this reservation?"
 }
