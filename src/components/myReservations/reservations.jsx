@@ -39,18 +39,10 @@ const MyOrders = () => {
 
    const [selectedDelete, setSelectedDelete] = useState(null);
    const isBooked = localStorage.getItem("isBooked");
+  const { t } = useTranslation();
 
 
-
-   
-
-  useEffect(() => {
-    if (!userId) {
-      console.error("Invalid userId");
-      return;
-    }
-  
-    const fetchOrders = async () => {
+ const fetchOrders = async () => {
       try {
         const q = query(collection(db, "orders"), where("userId", "==", userId));
         const querySnapshot = await getDocs(q);
@@ -64,6 +56,15 @@ const MyOrders = () => {
         console.error("Error fetching orders: ", error);
       }
     }
+   
+
+  useEffect(() => {
+    if (!userId) {
+      console.error("Invalid userId");
+      return;
+    }
+  
+   
     fetchOrders();
   }, [userId]); // يعتمد على userId
   
@@ -72,7 +73,7 @@ const MyOrders = () => {
       await deleteDoc(doc(db,"orders", selectedDelete));
       setOpen(false);
       fetchOrders();
-      toast.success("Reservation deleted successfully!", { autoClose: 2000 });
+      toast.success(t("Reservation deleted successfully!"), { autoClose: 2000 });
     } catch (error) {
       console.error("Error deleting car: ", error);
     }
@@ -87,7 +88,6 @@ const MyOrders = () => {
  
   const {handleBook} = useContext(Context);
 
-  const { t } = useTranslation();
 
 
   return (

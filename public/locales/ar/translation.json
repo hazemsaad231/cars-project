@@ -249,7 +249,8 @@
   "Partial Payment": "دفع جزئي",
   "Return Date": "تاريخ الإرجاع",
   "Rent Details": "تفاصيل الإيجار",
-  "Are you sure you want to delete this reservation?": "هل أنت متأكد أنك تريد حذف هذا الحجز؟"
+  "Are you sure you want to delete this reservation?": "هل أنت متأكد أنك تريد حذف هذا الحجز؟",
+  "Reservation deleted successfully!": "تم حذف الحجز بنجاح!"
 
 
 
