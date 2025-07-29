@@ -24,7 +24,7 @@ const Six = () => {
 <div className='flex flex-col'>
  <div className=' border-2 border-blue-700  w-max px-4 py-1 text-center text-blue-700 rounded-lg hover:bg-blue-700 hover:text-white m-auto mb-4 cursor-pointer'>{t('whyChooseUs')}</div>
   <h1 className='font-serif text-xl sm:text-2xl md:text-2xl lg:text-3xl xl:text-3xl mb-5 p-2'>{t('we offer best experience')}</h1>
-  <div className='flex flex-col gap-3'>
+  <div className='flex flex-col justify-center w-full m-auto gap-3'>
   <div className='flex gap-4 mx-2'> <img src={yser} alt="user" loading='lazy'/> <div><h1 className='text-lg font-semibold text-start'>{t('best price guaranteed')}</h1>  <p className='font-serif text-gray-500 text-start'>{t('find lower price')}</p></div> </div>
   <div className='flex gap-4 mx-2'> <img src={message} alt="doors" loading='lazy'/> <div><h1 className='text-lg font-semibold text-start'>{t('24 hour car delivery')}</h1>  <p className='font-serif text-gray-500 text-start'>{t('book your car anytime')}</p></div>   </div>
   <div className='flex gap-4 mx-2'> <img src={chat} alt="frame" loading='lazy'/> <div><h1 className='text-lg font-semibold text-start'>{t('24 7 technical support')}</h1>  <p className='font-serif text-gray-500 text-start '>{t('have a question')}</p></div>  </div>
