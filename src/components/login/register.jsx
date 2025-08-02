@@ -62,7 +62,7 @@ export default function Register() {
       }, 2000);
     } catch (error) {
       console.error("Error:", error.message);
-      toast.error(`Failed to register: ${error.message}`);
+      toast.error(`${error.message}`);
     }
   };
 
