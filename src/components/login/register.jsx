@@ -164,7 +164,7 @@ export default function Register() {
                     type="password"
                     variant="outlined"
                     {...register("confirm_password", { required: t("confirm password is required"),
-                      validate: (value) => value === password || "Passwords do not match",
+                      validate: (value) => value === password || t("Passwords do not match"),
                      })}
                     error={!!errors.confirm_password}
                     className="bg-transparent shadow-xl"
