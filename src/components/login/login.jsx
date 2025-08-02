@@ -14,6 +14,8 @@ import Aos from "aos";
 import "aos/dist/aos.css";
 import { useTranslation } from 'react-i18next';
 
+
+
 const Login = ()=>{
  
   const { register, handleSubmit, formState: { errors } } = useForm();
@@ -76,7 +78,7 @@ const Login = ()=>{
     <>
     <ToastContainer limit={1}/>
       <div className=' flex flex-col justify-center items-center my-8' data-aos="fade-left">
- <div className='w-[100%] sm:w-[100%] md:w-max lg:w-max xl:w-max border px-8 sm:px-8 md:px-12 lg:px-16 xl:px-16 py-10 rounded-lg shadow-2xl bg-gradient-to-t from-blue-50 to-transparent'>
+ <div className='w-[100%] sm:w-[100%] md:w-max lg:w-max xl:w-max border px-8 sm:px-8 md:px-12 lg:px-16 xl:px-16 py-10 rounded-lg shadow-2xl bg-gradient-to-l from-blue-50 to-transparent'>
           <div className="pb-4">
             <IoCarSport className="w-20 h-20 m-auto text-black" />  
           </div>
