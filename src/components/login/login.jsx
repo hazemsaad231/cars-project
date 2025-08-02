@@ -78,12 +78,12 @@ const Login = ()=>{
     <>
     <ToastContainer limit={1}/>
       <div className=' flex flex-col justify-center items-center my-8' data-aos="fade-left">
- <div className='w-[100%] sm:w-[100%] md:w-max lg:w-max xl:w-max border px-8 sm:px-8 md:px-12 lg:px-16 xl:px-16 py-10 rounded-lg shadow-2xl bg-gradient-to-l from-blue-50 to-transparent'>
+ <div className='w-[100%] sm:w-[100%] md:w-max lg:w-max xl:w-max px-8 sm:px-8 md:px-12 lg:px-16 xl:px-16 py-10 rounded-lg shadow-2xl bg-blue-50'>
           <div className="pb-4">
             <IoCarSport className="w-20 h-20 m-auto text-black" />  
           </div>
 
-          <h3 className="text-black text-lg text-start">{t('Welcome back!')}</h3>
+          <h3 className="text-black text-lg text-center">{t('Welcome back!')}</h3>
           <h1 className="font-bold text-black text-2xl mb-4">{t('Login to your account')}</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
