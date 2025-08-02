@@ -98,7 +98,7 @@ export default function Register() {
                     id="outlined-basic"
                     label={t('firstName')}
                     variant="outlined"
-                    {...register("first_name", { required: 'First name is required' })}
+                    {...register("first_name", { required: t ('First name is required') })}
                     error={!!errors.first_name}
                     className="bg-transparent shadow-xl"
                   />
@@ -110,7 +110,7 @@ export default function Register() {
                     id="outlined-basic"
                     label={t('lastName')}
                     variant="outlined"
-                    {...register("last_name", { required: 'Last name is required' })}
+                    {...register("last_name", { required: t('Last name is required') })}
                     className="bg-transparent shadow-xl"
                     error={!!errors.last_name}
                   />
@@ -163,7 +163,7 @@ export default function Register() {
                     label={t('Confirm Password')}
                     type="password"
                     variant="outlined"
-                    {...register("confirm_password", { required: "confirm password is required",
+                    {...register("confirm_password", { required: t("confirm password is required"),
                       validate: (value) => value === password || "Passwords do not match",
                      })}
                     error={!!errors.confirm_password}
