@@ -71,18 +71,27 @@ export default function Register() {
   return (
     <>
     <ToastContainer />
-      <div className="flex flex-col justify-center" data-aos="fade-right">
-      <div className='w-[100%] m-auto sm:w-[100%] md:w-max lg:w-max xl:w-max pb-4 px-10 sm:px-10 md:px-10 lg:px-16 xl:px-16 rounded-lg shadow-2xl bg-blue-50'>
-          <div className="p-2">
-            <IoCarSport className="w-20 h-20 m-auto text-black" />
+      <div className="flex flex-col justify-center text-blue-700" data-aos="fade-right">
 
-            <h3 className="text-gray-800 text-lg text-center">
+      <div className='w-[100%] m-auto sm:w-[100%] md:w-max lg:w-max xl:w-max pb-4 px-8 sm:px-10 md:px-10 lg:px-16 xl:px-16 rounded-3xl shadow-2xl bg-white'>
+          <div className="flex flex-col relative z-20 text-white">
+            <IoCarSport className="w-20 h-20 m-auto " />
+
+            <h3 className="text-lg text-center text-white mb-2">
+
               {t('Create new account')}
             </h3>
-            <h1 className="font-bold text-2xl mb-3 text-center">{t('Register')}</h1>
+            <h1 className="font-bold text-2xl mb-3 text-center text-white">{t('Register')}</h1>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)}>
+<div class="absolute inset-0 pointer-events-none">
+  <svg width="100%" height="100%" viewBox="3 0 20 120" preserveAspectRatio="none" className="rounded-xl">
+    <circle cx="50" cy="0" r="50" fill="blue" />
+  </svg>
+</div>
+
+
             <Box
               sx={{
                 "& > :not(style)": { my : 1, width: "27ch"  },
@@ -91,7 +100,7 @@ export default function Register() {
               autoComplete="off"
               className="flex flex-col"
             >
-              <div className="flex gap-5">
+              <div className="flex gap-5 relative z-30">
 
                 <Tooltip title={errors.first_name?.message} open={!!errors.first_name} arrow>
                   <TextField
@@ -179,12 +188,12 @@ export default function Register() {
             <div className="flex flex-col justify-center gap-2">
               <button
                 type="submit"
-                className="bg-black text-white p-2 rounded-lg mt-4"
+                className="bg-blue-700 text-white p-2 rounded-lg mt-4"
               >
                 {t('Register')}
               </button>
               <button
-                className="border border-black p-2 rounded-lg mt-4 text-black"
+                className="border border-blue-700 p-2 rounded-lg mt-4"
                 onClick={() => navigate("/login")}
               >
                 {t('Login')}

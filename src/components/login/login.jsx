@@ -77,17 +77,25 @@ const Login = ()=>{
   return (
     <>
     <ToastContainer limit={1}/>
-      <div className=' flex flex-col justify-center items-center my-8' data-aos="fade-left">
- <div className='w-[100%] sm:w-[100%] md:w-max lg:w-max xl:w-max px-8 sm:px-8 md:px-12 lg:px-16 xl:px-16 py-10 rounded-lg shadow-2xl bg-blue-50'>
-          <div className="pb-4">
-            <IoCarSport className="w-20 h-20 m-auto text-black" />  
-          </div>
+      <div className=' flex flex-col justify-center items-center my-8 text-blue-700' data-aos="fade-left">
+ <div className='w-[100%] sm:w-[100%] md:w-max lg:w-max xl:w-max px-8 sm:px-8 md:px-12 lg:px-16 xl:px-16 py-10 rounded-3xl shadow-2xl bg-white'>
+          <div className="flex flex-col z-20 relative text-white">
+            <IoCarSport className="w-20 h-20 m-auto " />  
+          
 
-          <h3 className="text-black text-lg text-center">{t('Welcome back!')}</h3>
-          <h1 className="font-bold text-black text-2xl mb-4">{t('Login to your account')}</h1>
-
+          <h3 className="text-lg text-center">{t('Welcome back!')}</h3>
+          <h1 className="font-bold text-2xl mb-4">{t('Login to your account')}</h1>
+</div>
         <form onSubmit={handleSubmit(onSubmit)}>
            
+<div class="absolute inset-0 pointer-events-none">
+  <svg width="100%" height="100%" viewBox="12 4 4 150" preserveAspectRatio="none" className="rounded-xl">
+    <circle cx="50" cy="20" r="50" fill="blue" />
+  </svg>
+</div>
+
+
+
             <Box
               component="form"
               sx={{
@@ -134,12 +142,12 @@ const Login = ()=>{
             <div className='flex flex-col gap-2'>
               <button
                 type="submit"
-                className='bg-black border text-white p-2 rounded-lg mt-4 '
+                className='bg-blue-700 border text-white p-2 rounded-lg mt-4 '
               >
                 {t('Login')}
               </button>
               <button
-                className='border border-black p-2 rounded-lg mt-4 text-black'
+                className='border border-blue-700 p-2 rounded-lg mt-4 text-blue-700'
                 onClick={() => navigate("register")}
               >
                 {t('Register')}
@@ -147,7 +155,7 @@ const Login = ()=>{
             </div>
 
             <div>
-            <button onClick={handleGoogleLogin} className='border bg-black  w-full p-3  px-16 rounded-lg mt-4 text-white text-center flex'><span className='m-auto'><FaGoogle size={25}></FaGoogle></span></button>
+            <button onClick={handleGoogleLogin} className='border bg-blue-700 w-full p-3  px-16 rounded-lg mt-4 text-white text-center flex'><span className='m-auto'><FaGoogle size={25}></FaGoogle></span></button>
             </div>
           </form>
         </div>
