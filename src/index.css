@@ -6,7 +6,7 @@
 .app{
   overflow-x: hidden;
   background-image: url('./assets/img/color.png');
-  font-family:Georgia, 'Times New Roman', Times, serif
+  font-family:serif;
 }
 
 #bg {

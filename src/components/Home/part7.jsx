@@ -62,7 +62,7 @@ const Seven = () => {
                     <img
                       src={item.image}
                       alt={`Profile of ${item.name}`}
-                      className="w-96 h-80 object-cover m-auto"
+                      className="w-96 h-80 object-center m-auto"
                       loading="lazy"
                       width="384"
                       height="320"

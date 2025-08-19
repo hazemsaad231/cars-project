@@ -45,8 +45,7 @@ console.log(carId);
       PartialPayment: 'Full Payment',
     },
   });
-  const onSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
 
     if (!stripe || !elements) {
       return;
@@ -72,16 +71,16 @@ console.log(carId);
           return;
         }
 
-        const data = {
+        const Data = {
           token: 'tok_visa',
           delivery_address: {
-           fullName: event.target.fullName.value,
-            email: event.target.email.value,
-            phone: event.target.phone.value,
-            city: event.target.city.value,
-            address: event.target.address.value,
-            ReceiptTime: event.target.ReceiptTime.value,
-            PartialPayment: event.target.PartialPayment.value,
+           fullName: data.fullName,
+            email: data.email,
+            phone: data.phone,
+            city: data.city,
+            address: data.address,
+            ReceiptTime: data.ReceiptTime,
+            PartialPayment: data.PartialPayment,
             building: 1,
             floor: 1,
             apartment: 1,
@@ -100,13 +99,13 @@ console.log(carId);
           await addDoc(orders, {
             userId: Id,
             token: token?.id,
-            delivery_address: data.delivery_address,
-            carDetails: data.carDetails,
+            delivery_address: Data.delivery_address,
+            carDetails: Data.carDetails,
             timestamp: new Date(),
             carId:carId
           });
 
-          console.log("Order placed successfully!",data);
+          console.log("Order placed successfully!", Data);
 
 
           setTimeout(() => {
