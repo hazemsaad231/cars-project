@@ -57,7 +57,7 @@ const handleLogout = () => {
     localStorage.setItem('language', lng); // حفظ اللغة في localStorage
   };
     return (
-        <div className="flex flex-row justify-between w-full px-10" style={{ fontFamily: "arial" }}>
+        <div className="flex flex-row justify-between w-full px-10">
             <div className='flex flex-row mr-20 mt-5 gap-4'>
                
                 <img src={logo} alt="logo" className='w-10 h-10' id='logo' loading='lazy'/> 

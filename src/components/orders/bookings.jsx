@@ -121,13 +121,10 @@ import { useTranslation } from 'react-i18next';
                 <TableCell align="center">{car.delivery_address.fullName}</TableCell>
                 <TableCell align="center">{car.delivery_address.email}</TableCell>
                 <TableCell align="center">{car.delivery_address.city}</TableCell>
-                <TableCell align="right">
+                <TableCell align="center">
                   {new Date(car.delivery_address.ReceiptTime).toLocaleDateString()}
                 </TableCell>
-                <TableCell align="center">
-                  {car.carDetails.img?.[0] ? (
-                    <img src={car.carDetails.img[0]} alt="Car" style={{ width: '50px', height: '50px' }} />
-                  ) : t("No Image")}
+                <TableCell align="center"><img src={car?.carDetails?.img[0]} alt="Car" style={{ width: '60px', height: '50px' , objectFit: 'cover'  , margin: 'auto' }} />
                 </TableCell>
                 <TableCell align="center">{car.carDetails.car}</TableCell>
                 <TableCell align="center">

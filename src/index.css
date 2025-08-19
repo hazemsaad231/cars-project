@@ -3,11 +3,10 @@
 @tailwind utilities;
 
 
-
-
 .app{
   overflow-x: hidden;
   background-image: url('./assets/img/color.png');
+  font-family:Georgia, 'Times New Roman', Times, serif
 }
 
 #bg {
@@ -36,3 +35,4 @@
 .slick-dots li button:before {
   color: blue !important;
 }
+

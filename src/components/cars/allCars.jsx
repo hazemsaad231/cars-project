@@ -44,6 +44,7 @@ const AllCars = () => {
           }
       }, [location.state]);
   
+const admin = 'hazemsaad231@gmail.com';
 
       {/* جلب السيارات من قاعدة البيانات */}
   const fetchCars = async () => {
@@ -122,7 +123,7 @@ const AllCars = () => {
 
         <div>
         
-        <h2 className='text-2xl text-blue-700 font-bold p-8 tracking-[2px]' style={{ fontFamily: 'arial' }}>{t('The popular cars booking offers')}</h2><div className='mt-10'>
+        <h2 className='text-2xl text-blue-700 font-bold p-8 tracking-[2px]'>{t('The popular cars booking offers')}</h2><div className='mt-10'>
               {/* حقل البحث */}
               <input
                 type="text"
@@ -145,7 +146,7 @@ const AllCars = () => {
             </div>
 
 
-            {isLoggedIn && role === "hazemsaad231@gmail.com" && (
+            {isLoggedIn && role === admin && (
               <div className="flex flex-col justify-center items-center" style={{ fontFamily: 'arial' }}>
                 <button className="text-white w-52 text-xl h-10 mt-6 bg-blue-600 text-center rounded-lg hover:bg-blue-700"><Link to={"/addCar"}>{t('add new car')}</Link></button>
                 <h1 className="text-xl font-semibold text-blue-700 tracking-tighter">{t('count or cars :')} {cars.length} </h1>
@@ -156,7 +157,7 @@ const AllCars = () => {
 
             <div className="w-full sm:w-full md:w-full lg:w-full xl:w-[80%] m-auto">
 
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 p-10 gap-4 justify-items-center place-items-center' data-aos="fade-up">
+              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 p-2 gap-4 justify-items-center place-items-center' data-aos="fade-up">
                 {currentData.map((el, index) => (
                   <div key={el.id || index} className={`flex flex-col text-center mb-2 shadow-xl hover:shadow-2xl transition duration-500 w-[95%] gap-2 justify-between opacity-90 hover:opacity-100 p-4  ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} `}>
 

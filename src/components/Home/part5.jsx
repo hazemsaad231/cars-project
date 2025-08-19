@@ -6,8 +6,8 @@ const Brand = () => {
   const { t } = useTranslation();
   return (
     <div data-aos="fade-up" className="my-20">
-      <h1 className="font-bold text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl mb-16 mt-8 text-blue-700 tracking-[5px]" style={{ fontFamily: "arial" }}>
-        {t('popularBrands')}
+      <h1 className="font-bold text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl mb-16 mt-8 text-blue-700 tracking-[5px]">
+        {t('popular Brands')}
       </h1>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 place-items-center gap-12 w-[90%] m-auto cursor-pointer">
         {Brands.map(({ item, icon: Icon }) => (

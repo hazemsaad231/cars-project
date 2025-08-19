@@ -36,8 +36,8 @@ const Offer = () => {
 
       <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row justify-around items-center p-10 rounded-xl m-10">
         <div className="flex flex-col justify-center items-center">
-          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-700 w-[80%] m-2">
-            {t('All cars are 20% off now!  Do not miss this offer')}
+          <h1 className="text-xl sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold text-blue-700 w-[60%] m-2">
+            {t(`All cars are 20% off now! Do not miss this offer`)}
           </h1>
           <p className="text-gray-500 w-full p-2 sm:w-full md:w-1/2 lg:w-1/2 xl:w-1/2 m-2">
             {t('This offer applies to most cars offered for rent.')}

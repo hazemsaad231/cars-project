@@ -50,7 +50,7 @@ const Home = () => {
   return (
     <>
       <ToastContainer limit={1} />
-      <div style={{ fontFamily: "Arial" }}>
+      <div>
         <One />
         <Two />
         <Offer />

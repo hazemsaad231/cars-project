@@ -40,7 +40,7 @@ const RentDetails = () => {
         <>
         {loading && <Loader />}
 
-<div className={`m-auto my-16 mb-4 p-8`} style={{fontFamily:'cursive'}}>
+<div className={`m-auto my-16 mb-4 p-8`}>
   <h1 className="font-serif text-2xl text-blue-700 tracking-[8px] mb-8">{t('Rent Details')}</h1>
   <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center justify-center gap-20 ">
                 <div className="flex flex-col">

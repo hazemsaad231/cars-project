@@ -31,8 +31,9 @@ import { useTranslation } from 'react-i18next';
 
 const MyOrders = () => {
 
-  const { id: userId } = useParams();
-  const [orders, setOrders] = useState([]);
+  const { id : userId} = useParams();
+
+  const [cars, setCars] = useState([]);
   
   const [loading, setLoading] = useState(true);
    const [open, setOpen] = useState(false)
@@ -50,13 +51,14 @@ const MyOrders = () => {
           id: doc.id,
           ...doc.data(),
         }));
-        setOrders(ordersList);
+        setCars(ordersList);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching orders: ", error);
       }
     }
    
+    console.log(cars);
 
   useEffect(() => {
     if (!userId) {
@@ -88,11 +90,11 @@ const MyOrders = () => {
  
   const {handleBook} = useContext(Context);
 
-
+console.log(cars)
 
   return (
     <>
-    <ToastContainer/>
+     <ToastContainer/>
     {loading ? <Loader />:
     <TableContainer component={Paper} sx={{ width: '80%', margin: 'auto', marginTop: '100px', marginBottom: '100px' ,backgroundColor: 'rgba(255, 255, 255, 0.7)', boxShadow: '10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1)'}} data-aos="fade-up">
         <Typography 
@@ -103,7 +105,7 @@ const MyOrders = () => {
           {t('My Reservations')}
         </Typography>
         
-        {orders.length === 0 ? (
+        {cars.length === 0 ? (
           <Typography variant="h6" gutterBottom sx={{ textAlign: 'center', margin: 'auto', marginBottom: '40px', fontFamily: 'serif', letterSpacing: '2px' }}>
             {t('No reservations found.')}
           </Typography>
@@ -121,7 +123,8 @@ const MyOrders = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((car) => (
+             <>
+            {cars.map((car) => (
               <TableRow
                 key={car.id}
               >
@@ -145,7 +148,6 @@ const MyOrders = () => {
                     onClick={() => handleClickOpen(car.id)} 
                   />
                 </TableCell>
-{/* Confirmation Modal */}
 <React.Fragment>
         <Modal open={open} onClose={() => setOpen(false)}>
           <ModalDialog variant="outlined" role="alertdialog">
@@ -165,10 +167,11 @@ const MyOrders = () => {
 
               </TableRow>
             ))}
+            </> 
           </TableBody>
         </Table>}
       </TableContainer>
-      }
+      } 
     </>
   );
 };

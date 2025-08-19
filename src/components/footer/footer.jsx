@@ -7,7 +7,7 @@ const Footer = () => {
   const { t } = useTranslation();
   return (
     <div className='w-full bg-gradient-to-b from-gray-700 to-gray-900 flex justify-center mt-10' id='contact'>
-    <footer className="bg-gradient-to-b from-gray-700 to-gray-900 text-white py-10" style={{fontFamily:"arial"}}>
+    <footer className="bg-gradient-to-b from-gray-700 to-gray-900 text-white py-10">
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
 

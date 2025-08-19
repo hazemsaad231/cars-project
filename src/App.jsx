@@ -9,8 +9,8 @@ import Login from './components/login/login'
 import Register from './components/login/register'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
-import BuyDetails from './components/BookCar/buyDetails'  
-import Complete from './components/BookCar/complete'
+// import BuyDetails from './components/cars/carDetails'  
+import Complete from './components/cars/complete'
 import RentCar from './components/RentCar/offer'
 import RentDetails from './components/RentCar/rentDetails'
 import Bookings from './components/orders/bookings'
@@ -54,7 +54,7 @@ function App() {
     {path: "addCar/:id", element: <AddCar/>},
     {path: "addRent/:id", element: <AddRent/>},
     {path: "contact", element: <Footer/>},
-    {path: "buy/:id", element: <PrivateRoute><BuyDetails/></PrivateRoute>},
+    // {path: "buy/:id", element: <PrivateRoute><BuyDetails/></PrivateRoute>},
     {path: "complete", element: <Complete/>},
     {path: "offers", element: <RentCar/>},
     {path: "rent/:id", element:<PrivateRoute><RentDetails/></PrivateRoute>},
