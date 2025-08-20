@@ -13,11 +13,11 @@ import DialogActions from '@mui/joy/DialogActions';
 import Button from '@mui/joy/Button';
 import Divider from '@mui/joy/Divider';
 import { useTranslation } from 'react-i18next';
-import i18n from '../../i18n'; // أو المسار الصحيح حسب مكان ملف i18n.js
+
 
 const Navbar = () => {
 
- const [select, setSelect] = useState(true)
+
     // استرجاع بيانات المستخدم من localStorage
     const admin = localStorage.getItem('role');
     const id = localStorage.getItem('Id');
@@ -27,7 +27,7 @@ const Navbar = () => {
  const [open, setOpen] = useState(false);
 
     // استرجاع القيم من سياق (context)
-    const { isDarkMode, toggleMode } = useContext(Context);
+    const { isDarkMode, toggleMode, changeLanguage, select} = useContext(Context);
     
     // حالة للتحكم في ظهور القائمة الجانبية
     const [isNavbarVisible, setNavbarVisible] = useState(false);
@@ -48,14 +48,11 @@ const handleLogout = () => {
         setNavbarVisible(!isNavbarVisible);
     };
 
+    const { t } = useTranslation();
+
 
     
-    const { t } = useTranslation();
-    const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    setSelect(lng === 'en'); 
-    localStorage.setItem('language', lng);
-  };
+ 
     return (
         <div className="flex flex-row justify-between w-full px-10">
             <div className='flex flex-row mr-20 mt-5 gap-4'>
@@ -65,9 +62,10 @@ const handleLogout = () => {
                 {isDarkMode ? <MdOutlineLightMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} /> : <MdOutlineDarkMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} />}
                    <div className='mt-1'>  {
                     select ? (
-                        <button onClick={() => changeLanguage('ar')} className="text-blue-700" data-aos="fade-up">العربية</button>
-                    ) : (
                         <button onClick={() => changeLanguage('en')} className="text-blue-700" data-aos="fade-up">English</button>
+                        
+                    ) : (
+                       <button onClick={() => changeLanguage('ar')} className="text-blue-700" data-aos="fade-up">العربية</button>
                     )
                 }</div>
             </div>

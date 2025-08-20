@@ -1,6 +1,12 @@
 import { createContext, useEffect, useState, useCallback, useMemo } from "react";
 import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
+import i18n from '../../i18n'; 
+
+
+
+
+
 
 export const Context = createContext(null);
 
@@ -77,9 +83,17 @@ const ContextProvider = ({ children }) => {
     },
     [Cars]
   );
+   const [select, setSelect] = useState(false); // الحالة للتحكم في اللغة المختارة
+    const changeLanguage = (lng) => {
+    i18n.changeLanguage(lng);
+    setSelect(!select); // تحديث الحالة بناءً على اللغة المختارة
+  };
+
+
+
 
   return (
-    <Context.Provider value={{ orderList, isDarkMode, toggleMode, handleBook, Cars }}>
+    <Context.Provider value={{ orderList, isDarkMode, toggleMode, handleBook, Cars ,changeLanguage, select}}>
       {children}
     </Context.Provider>
   );
