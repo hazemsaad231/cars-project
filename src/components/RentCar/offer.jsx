@@ -87,7 +87,7 @@ const RentCar = () => {
         <div>
 
  <div>
-        <h1 className='font-bold text-2xl mt-16 mb-16 text-blue-700 tracking-[2px]'>{t('the most popular cars rental offers')}</h1>
+        <h1 className='font-bold text-2xl md:text-3xl  mt-16 mb-16 text-blue-700 tracking-[2px]'>{t('the most popular cars rental offers')}</h1>
 
         {
            role === "hazemsaad231@gmail.com"&&isLoggedIn ? (

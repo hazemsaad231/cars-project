@@ -123,7 +123,7 @@ const admin = 'hazemsaad231@gmail.com';
 
         <div>
         
-        <h2 className='text-2xl text-blue-700 font-bold p-8 tracking-[2px]'>{t('The popular cars booking offers')}</h2>
+        <h2 className='text-2xl md:text-3xl text-blue-700 font-bold p-8 tracking-[2px]'>{t('The popular cars booking offers')}</h2>
         <div className='border-2 border-blue-600 w-full md:w-2/3 m-auto h-10 flex justify-center items-center rounded-lg text-blue-700 font-semibold hover:bg-blue-700 hover:text-white cursor-pointer mb-4'>
               {/* حقل البحث */}
               <input
