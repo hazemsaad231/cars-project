@@ -49,12 +49,12 @@ const handleLogout = () => {
     };
 
 
-    // استخدام الترجمة
+    
     const { t } = useTranslation();
     const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    setSelect(lng === 'en'); // تحديث حالة select بناءً على اللغة المختارة
-    localStorage.setItem('language', lng); // حفظ اللغة في localStorage
+    setSelect(lng === 'en'); 
+    localStorage.setItem('language', lng);
   };
     return (
         <div className="flex flex-row justify-between w-full px-10">
