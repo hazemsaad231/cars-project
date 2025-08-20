@@ -11,11 +11,12 @@ import Wait from './paymentLoad';
 import { useTranslation } from 'react-i18next';
 import { db } from "../firebase/firebase";
 import { useForm } from 'react-hook-form';
+import { LuDelete } from "react-icons/lu";
 
 
 
 
-const Payment = ({carDetails, carId}) =>{
+const Payment = ({carDetails, carId,toggleDetails}) =>{
 
 const stripe = useStripe();
   const elements = useElements();
@@ -42,7 +43,7 @@ console.log(carId);
       city: '',
       address: '',
       ReceiptTime: '',
-      PartialPayment: 'Full Payment',
+      PartialPayment: '5,000',
     },
   });
   const onSubmit = async (data) => {
@@ -71,6 +72,9 @@ console.log(carId);
           return;
         }
 
+const orderId = Math.floor(Math.random() * 100000);
+
+
         const Data = {
           token: 'tok_visa',
           delivery_address: {
@@ -91,6 +95,8 @@ console.log(carId);
             },
           },
           carDetails,
+          orderId
+         
         };
 
         try {
@@ -102,7 +108,8 @@ console.log(carId);
             delivery_address: Data.delivery_address,
             carDetails: Data.carDetails,
             timestamp: new Date(),
-            carId:carId
+            carId:carId,
+            orderId: Data.orderId,
           });
 
           console.log("Order placed successfully!", Data);
@@ -113,7 +120,7 @@ console.log(carId);
           }, 2000)
           
           setTimeout(() => {
-            navigate("/complete",{state:{carDetails}})
+            navigate("/complete",{state:{carDetails , orderId}})
           }, 4000)
 
         } catch (error) {
@@ -123,19 +130,19 @@ console.log(carId);
       }
     }
 
-console.log(carDetails);
 
   return (
 <div>
              <div>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ px: 2 }}>
-
+        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ px: 2 , position: 'relative' }}>
+<h2 className="text-2xl font-bold cursor-pointer absolute top-0 right-0"
+onClick={toggleDetails}><LuDelete/></h2>
              <Grid container spacing={1}>
  <h1 className="text-xl md:text-2xl lg:text-3xl font-bold m-auto text-gray-800">
                     {t('Payment Details')}
                   </h1>
 
-             <Grid item xs={12} className="grid grid-cols-1 md:grid-cols-2 gap-y-3 gap-x-4 pb-6">
+             <Grid item xs={12} className="grid grid-cols-1 md:grid-cols-2 gap-x-4 pb-6">
            <TextField
               name="fullName"
                label={t('Full Name')}
@@ -217,11 +224,11 @@ console.log(carDetails);
                     {...register('PartialPayment', { required: true })}
                     error={!!errors.PartialPayment}
                     helperText={errors.PartialPayment ? t('Partial Payment is required') : ''}
-                    defaultValue="Full Payment"
+                    defaultValue="5,000"
                     >
-                    <MenuItem value="Full Payment">5,000</MenuItem>
-                    <MenuItem value="Partial Payment">10,000</MenuItem>
-                    <MenuItem value="Partial Payment">15,000</MenuItem>
+                    <MenuItem value="5,000">5,000</MenuItem>
+                    <MenuItem value="10,000">10,000</MenuItem>
+                    <MenuItem value="15,000">15,000</MenuItem>
 
                  </Select>
                </FormControl>

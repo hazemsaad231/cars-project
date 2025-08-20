@@ -2,8 +2,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import Loader from "../load/Load";
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -40,16 +38,6 @@ const Details = () => {
     fetchCarDetails();
   }, [id]);
 
-  // const settings = {
-  //   dots: true,
-  //   dotsClass: "slick-dots slick-thumb",
-  //   infinite: true,
-  //   speed: 500,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  //   arrows: false
-  // };
-
   return (
     <>
       <ToastContainer limit={1} />
@@ -64,7 +52,7 @@ const Details = () => {
                 alt="Main Car"
                 className="h-96 w-full object-center rounded-xl shadow-lg mb-4"
               />
-              <div className="flex overflow-x-auto">
+              <div className="flex overflow-x-auto custom-scroll">
                 {Array.isArray(carDetails.img) && carDetails.img.map((img, idx) => (
                   <img
                     key={idx}
@@ -85,7 +73,7 @@ const Details = () => {
                     {t('Elevate Your Ride with Our Premium Cars')}
                   </h1>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-8 text-gray-700 md:text-lg">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-5 md:gap-y-10 pt-8 text-gray-700 md:text-lg">
                     <p><strong>{t('Car Name')}:</strong> {t(carDetails.car)}</p>
                     <p><strong>{t('Car Type')}:</strong> {t(carDetails.carType)}</p>
                     <p><strong>{t('Car Color')}:</strong> {t(carDetails.car_color)}</p>
@@ -119,7 +107,7 @@ const Details = () => {
                   )}
                 </>
               ) : (
-                <Payment carDetails={carDetails} carId={carId} />
+                <Payment carDetails={carDetails} carId={carId} toggleDetails={toggleDetails} />
               ) 
               }
             </div>

@@ -116,10 +116,10 @@ console.log(cars)
             <TableCell align="center">{t('Image')}</TableCell>
               <TableCell align="center">{t('Type of Car')}</TableCell>
               <TableCell align="center">{t('Price')}</TableCell>
+              <TableCell align="center">{t('payment')}</TableCell>
               <TableCell align="center">{t('Model Year')} </TableCell>
               <TableCell align="center">{t('ID')}</TableCell>
               <TableCell align="center">{t('Date')}</TableCell>
-              
             </TableRow>
           </TableHead>
           <TableBody>
@@ -135,8 +135,9 @@ console.log(cars)
                 </TableCell>
                 <TableCell align="center">{car.carDetails.car}</TableCell>
                 <TableCell align="center">{car.carDetails.price}</TableCell>
+                <TableCell align="center">{car.delivery_address.PartialPayment}</TableCell>
                 <TableCell align="center">{car.carDetails.car_model_year}</TableCell>
-                <TableCell component="th" scope="row" align="center">{car.carDetails.id}</TableCell>
+                <TableCell component="th" scope="row" align="center">{car.orderId}</TableCell>
                 <TableCell align="center">
                   {new Date(car.delivery_address.ReceiptTime).toLocaleDateString()}
                 </TableCell>

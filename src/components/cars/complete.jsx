@@ -1,6 +1,6 @@
 import { GrCompliance } from "react-icons/gr";
 import { useContext } from 'react';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Context } from "../context/Context";
 import { useTranslation } from 'react-i18next';
 
@@ -10,7 +10,9 @@ const Complete = () => {
 
   const { t } = useTranslation();
 
- 
+const location = useLocation();
+
+const { carDetails, orderId } = location.state || {};
 
 
   return (
@@ -20,7 +22,7 @@ const Complete = () => {
       <div className="success-message">
         <h1 className="text-xl font-semibold mb-4">{t('Reservation Completed')}</h1>
         <GrCompliance color="green" size={100} className="m-auto my-6"/>
-        <div><strong>{t('Reservation Number')} : </strong>{Math.floor(Math.random() * 100000)}</div>
+        <div><strong>{t('Reservation Number')} : </strong> {orderId}</div>
         <p className="text-gray-500 text-sm sm:text-sm md:text-md lg:text-md">{t('Your reservation has been successfully completed.')}</p>
       </div>
       <button className="back-button"> <Link to="/home">{t('Back to Home')}</Link></button>

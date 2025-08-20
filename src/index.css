@@ -36,3 +36,15 @@
   color: blue !important;
 }
 
+.custom-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #2563eb;
+  border-radius: 4px;
+}

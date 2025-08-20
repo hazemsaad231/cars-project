@@ -102,6 +102,7 @@ import { useTranslation } from 'react-i18next';
               <TableCell align="center">{t('Email')}</TableCell>
               <TableCell align="center">{t('City')}</TableCell>
               <TableCell align="center">{t('Receipt Time')}</TableCell>
+                <TableCell align="center">{t('payment')}</TableCell>
               <TableCell align="center">{t('Car')}</TableCell>
               <TableCell align="center">{t('Car Type')}</TableCell>
               <TableCell align="center">{t('Status')}</TableCell>
@@ -117,13 +118,14 @@ import { useTranslation } from 'react-i18next';
                   color: car.status === 'completed' ? 'blue' : 'inherit', // 
                 }}
               >
-                <TableCell component="th" scope="row" align="center">{car.carDetails.id}</TableCell>
+                <TableCell component="th" scope="row" align="center">{car.orderId}</TableCell>
                 <TableCell align="center">{car.delivery_address.fullName}</TableCell>
                 <TableCell align="center">{car.delivery_address.email}</TableCell>
                 <TableCell align="center">{car.delivery_address.city}</TableCell>
                 <TableCell align="center">
                   {new Date(car.delivery_address.ReceiptTime).toLocaleDateString()}
                 </TableCell>
+                <TableCell align="center">{car.delivery_address.PartialPayment}</TableCell>
                 <TableCell align="center"><img src={car?.carDetails?.img[0]} alt="Car" style={{ width: '60px', height: '50px' , objectFit: 'cover'  , margin: 'auto' }} />
                 </TableCell>
                 <TableCell align="center">{car.carDetails.car}</TableCell>

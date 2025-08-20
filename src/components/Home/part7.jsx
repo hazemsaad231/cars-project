@@ -5,6 +5,9 @@ import Slider from "react-slick";
 import { Context } from "../context/Context";
 import React from "react";
 import { useTranslation } from 'react-i18next';
+import "slick-carousel/slick/slick.css"; import "slick-carousel/slick/slick-theme.css";
+
+
 
 const Seven = () => {
   const { isDarkMode } = useContext(Context);
