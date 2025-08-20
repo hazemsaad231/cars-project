@@ -135,7 +135,7 @@ const orderId = Math.floor(Math.random() * 100000);
 <div>
              <div>
         <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ px: 2 , position: 'relative' }}>
-<h2 className="text-2xl font-bold cursor-pointer absolute top-0 right-0"
+<h2 className="text-2xl font-bold cursor-pointer text-blue-600 absolute top-0 right-0"
 onClick={toggleDetails}><LuDelete/></h2>
              <Grid container spacing={1}>
  <h1 className="text-xl md:text-2xl lg:text-3xl font-bold m-auto text-gray-800">

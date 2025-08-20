@@ -27,7 +27,7 @@ const Six = () => {
   <div className='flex flex-col m-auto gap-3'>
   <div className='flex gap-4 mx-2'><img src={yser} alt="user" loading='lazy'/> <div><h1 className='text-lg font-semibold text-start'>{t('best price guaranteed')}</h1>   <p className='font-serif text-gray-500 text-start'>{t('find lower price')}</p></div> </div>
   <div className='flex gap-4 mx-2'> <img src={message} alt="doors" loading='lazy'/> <div><h1 className='text-lg font-semibold text-start'>{t('24 hour car delivery')}</h1>  <p className='font-serif text-gray-500 text-start'>{t('book your car anytime')}</p></div>   </div>
-  <div className='flex gap-4 mx-2'> <img src={chat} alt="frame" loading='lazy'/> <div><h1 className='text-lg font-semibold text-start'>{t('24 7 technical support')}</h1>  <p className='font-serif text-gray-500 text-start '>{t('have a question')}</p></div>  </div>
+  <div className='flex gap-4 mx-2'> <img src={chat} alt="frame" loading='lazy'/> <div><h1 className='text-lg font-semibold text-start'>{t('24/7 technical support')}</h1>  <p className='font-serif text-gray-500 text-start '>{t('have a question')}</p></div>  </div>
   </div>
   </div> 
   <div className='mt-4 sm:mt-4 md:mt-32 lg:mt-28 xl:mt-20'>
