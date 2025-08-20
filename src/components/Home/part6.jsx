@@ -32,7 +32,7 @@ const Six = () => {
   </div>
   </div> 
   <div className=''>
-   <video src={newImage} autoPlay loop muted playsInline disablePictureInPicture className='rounded-full w-[45rem]'  data-aos ="zoom-in" ></video>
+   <video src={newImage} autoPlay loop muted playsInline disablePictureInPicture className='rounded-full w-[40rem]'  data-aos ="zoom-in" ></video>
 </div>
 
 

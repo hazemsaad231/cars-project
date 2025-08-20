@@ -60,14 +60,16 @@ const handleLogout = () => {
                 <img src={logo} alt="logo" className='w-10 h-10' id='logo' loading='lazy'/> 
                 <GiHamburgerMenu className="text-3xl absolute right-2 text-blue-700 cursor-pointer block sm:block md:block lg:hidden" onClick={toggleNavbar} />
                 {isDarkMode ? <MdOutlineLightMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} /> : <MdOutlineDarkMode className='text-2xl mt-1 cursor-pointer' onClick={toggleMode} />}
-                   <div className='mt-1'>  {
+                   <div className='mt-1'>
+                {
                     select ? (
                         <button onClick={() => changeLanguage('en')} className="text-blue-700" data-aos="fade-up">English</button>
                         
                     ) : (
                        <button onClick={() => changeLanguage('ar')} className="text-blue-700" data-aos="fade-up">العربية</button>
                     )
-                }</div>
+                }
+                </div>
             </div>
 
   {/* قائمة الروابط في الشاشات الكبيرة */}

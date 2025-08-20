@@ -6,12 +6,13 @@ import { useNavigate } from 'react-router-dom';
 import { collection, addDoc} from "firebase/firestore";
 import {Context} from "../context/Context";
 import{useContext} from "react";
-import { useState } from 'react';
+import { useState} from 'react';
 import Wait from './paymentLoad';
 import { useTranslation } from 'react-i18next';
 import { db } from "../firebase/firebase";
 import { useForm } from 'react-hook-form';
 import { LuDelete } from "react-icons/lu";
+import React from 'react';
 
 
 
@@ -120,7 +121,7 @@ const orderId = Math.floor(Math.random() * 100000);
           }, 2000)
           
           setTimeout(() => {
-            navigate("/complete",{state:{carDetails , orderId}})
+            navigate("/complete",{state:{orderId}})
           }, 4000)
 
         } catch (error) {
@@ -270,5 +271,5 @@ onClick={toggleDetails}><LuDelete/></h2>
 
 }
 
-export default Payment;
+export default React.memo(Payment);
 

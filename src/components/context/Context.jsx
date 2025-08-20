@@ -83,10 +83,10 @@ const ContextProvider = ({ children }) => {
     },
     [Cars]
   );
-   const [select, setSelect] = useState(false); // الحالة للتحكم في اللغة المختارة
+   const [select, setSelect] = useState(false); 
     const changeLanguage = (lng) => {
     i18n.changeLanguage(lng);
-    setSelect(!select); // تحديث الحالة بناءً على اللغة المختارة
+    setSelect(!select);
   };
 
 

@@ -12,7 +12,7 @@ const Complete = () => {
 
 const location = useLocation();
 
-const { carDetails, orderId } = location.state || {};
+const { orderId } = location.state || {};
 
 
   return (

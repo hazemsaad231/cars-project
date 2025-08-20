@@ -118,23 +118,24 @@ const admin = 'hazemsaad231@gmail.com';
   return (
   <>
       <ToastContainer limit={1} />
-<div>
+<div className="p-2">
 {loading ? <Loader />:
 
         <div>
         
-        <h2 className='text-2xl text-blue-700 font-bold p-8 tracking-[2px]'>{t('The popular cars booking offers')}</h2><div className='mt-10'>
+        <h2 className='text-2xl text-blue-700 font-bold p-8 tracking-[2px]'>{t('The popular cars booking offers')}</h2>
+        <div className='border-2 border-blue-600 w-full md:w-2/3 m-auto h-10 flex justify-center items-center rounded-lg text-blue-700 font-semibold hover:bg-blue-700 hover:text-white cursor-pointer mb-4'>
               {/* حقل البحث */}
               <input
                 type="text"
-                placeholder={t('Search by') + ' ' + t(mood)}
-                className='w-[60%] p-1 mt-4 shadow-2xl border  rounded-l-lg outline-blue-700 text-gray-400'
+                placeholder={t('') + ' ' + t(mood)}
+                className='w-3/4 h-full shadow-2xl rounded-l-lg outline-blue-700 text-gray-400'
                 value={value}
                 onChange={(e) => setValue(e.target.value)} />
 
               {/* قائمة التبديل */}
               <select
-                className='w-[15%] p-1.5 mt-4 shadow-2xl border-transparent text-center rounded-r-lg bg-blue-600 text-white '
+                className='w-1/4 h-full shadow-2xl border-transparent text-center  bg-blue-600 text-white '
                 value={mood}
                 onChange={(e) => setMood(e.target.value)}
               >
@@ -147,7 +148,7 @@ const admin = 'hazemsaad231@gmail.com';
 
 
             {isLoggedIn && role === admin && (
-              <div className="flex flex-col justify-center items-center" style={{ fontFamily: 'arial' }}>
+              <div className="flex flex-col justify-center items-center">
                 <button className="text-white w-52 text-xl h-10 mt-6 bg-blue-600 text-center rounded-lg hover:bg-blue-700"><Link to={"/addCar"}>{t('add new car')}</Link></button>
                 <h1 className="text-xl font-semibold text-blue-700 tracking-tighter">{t('count or cars :')} {cars.length} </h1>
 
