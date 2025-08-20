@@ -8,10 +8,25 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Wait from './paymentLoad';
 import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
 
 
 
 function Payment() {
+
+
+const { register, handleSubmit, formState: { errors } } =  useForm({
+  defaultValues: {
+    fullName: "",
+    email: "",
+    phone: "",
+    city: "",
+    address: "",
+    PickupDate: "",
+    ReturnDate: "",
+    PartialPayment: "20",
+  },
+});
 
   const stripe = useStripe();
   const elements = useElements();
@@ -23,8 +38,8 @@ const Id = localStorage.getItem("Id");
 const carDetails = JSON.parse(localStorage.getItem("RentDetails"));
 
 console.log(carDetails);
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const onSubmit = async (data) => {
+
 
     if (!stripe || !elements) {
       toast.error("not loaded stripe");
@@ -54,19 +69,19 @@ console.log(carDetails);
           toast.error("Please log in to place an order.");
           return;
         }
-
+const orderId = Math.floor(Math.random() * 100000);
         const id = Id;
-        const data = {
+        const Data = {
           token: 'tok_visa',
           delivery_address: {
-           fullName: event.target.fullName.value,
-            email: event.target.email.value,
-            phone: event.target.phone.value,
-            city: event.target.city.value,
-            address: event.target.address.value,
-            PickupDate : event.target.PickupDate.value,
-            ReturnDate : event.target.ReturnDate.value,
-            PartialPayment: event.target.PartialPayment.value,
+           fullName: data.fullName,
+            email: data.email,
+            phone: data.phone,
+            city: data.city,
+            address: data.address,
+            PickupDate : data.PickupDate,
+            ReturnDate : data.ReturnDate,
+            PartialPayment: data.PartialPayment,
             building: 1,
             floor: 1,
             apartment: 1,
@@ -77,6 +92,7 @@ console.log(carDetails);
             },
           },
           carDetails,
+          orderId
         };
 
         try {
@@ -85,8 +101,8 @@ console.log(carDetails);
           await addDoc(orders, {
             userId: id,
             token: token?.id,
-            delivery_address: data.delivery_address,
-            carDetails: data.carDetails,
+            delivery_address: Data.delivery_address,
+            carDetails: Data.carDetails,
             timestamp: new Date(),
           });
 
@@ -97,7 +113,7 @@ console.log(carDetails);
           },2000)
 
           setTimeout(() => {
-            navigate("/complete", { state: {carDetails }});
+            navigate("/complete", { state: { orderId } });
           }, 4500);
 
         } catch (error) {
@@ -115,12 +131,12 @@ console.log(carDetails);
       <ToastContainer />
   
         <div className='mx-4'>
-          <Box component="form" onSubmit={handleSubmit} sx={{ maxWidth: 400 }}>
+          <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ maxWidth: 400 }}>
 
           <div className="text-center rounded-lg shadow-2xl bg-gradient-to-r from-gray-50 to-transparent">
 
 <div className="bg-transparent p-8 text-center rounded-lg shadow-xl border-2">
-  <Typography variant="h5" gutterBottom sx={{ color: 'black',fontFamily: 'cursive' }}>
+  <Typography variant="h5" gutterBottom>
     {t('Payment Details')}
   </Typography>
   <Grid item xs={8}>
@@ -131,6 +147,9 @@ console.log(carDetails);
         fullWidth
         margin="normal"
         variant='standard'
+        {...register('fullName', { required: t('Full Name is required') })}
+        error={!!errors.fullName}
+        helperText={errors.fullName ? errors.fullName.message : ''}
       />
 
       <TextField
@@ -139,6 +158,9 @@ console.log(carDetails);
         fullWidth
         variant="standard"
         margin="normal"
+        {...register('email', { required: t('Email is required') })}
+        error={!!errors.email}
+        helperText={errors.email ? errors.email.message : ''}
       />
 
       <TextField
@@ -147,6 +169,9 @@ console.log(carDetails);
         fullWidth
         margin="normal"
         variant='standard'
+        {...register('phone', { required: t('Phone is required') })}
+        error={!!errors.phone}
+        helperText={errors.phone ? errors.phone.message : ''}
       />
 
       <TextField
@@ -155,6 +180,9 @@ console.log(carDetails);
         fullWidth
         variant="standard"
         margin="normal"
+        {...register('city', { required: t('City is required') })}
+        error={!!errors.city}
+        helperText={errors.city ? errors.city.message : ''}
       />
 
 <FormControl fullWidth margin="normal" variant='standard'>
@@ -165,10 +193,11 @@ console.log(carDetails);
                     name="PartialPayment"
                     label="Payment Type"
                     style={{ textAlign: "left" }}
+                    defaultValue={"20"}
                   >
-                    <MenuItem value="Full Payment">20</MenuItem>
-                    <MenuItem value="Partial Payment">30</MenuItem>
-                    <MenuItem value="Partial Payment">40</MenuItem>
+                    <MenuItem value="20">20</MenuItem>
+                    <MenuItem value="30">30</MenuItem>
+                    <MenuItem value="40">40</MenuItem>
 
                   </Select>
                 </FormControl>
@@ -179,6 +208,9 @@ console.log(carDetails);
         fullWidth
         variant="standard"
         margin="normal"
+        {...register('address', { required: t('Address is required') })}
+        error={!!errors.address}
+        helperText={errors.address ? errors.address.message : ''}
       />  
 
   
@@ -191,6 +223,13 @@ console.log(carDetails);
         fullWidth
         margin="normal"
         variant='standard'
+        {...register('PickupDate', { required: t('Pickup Date is required') })}
+        error={!!errors.PickupDate}
+        helperText={errors.PickupDate ? errors.PickupDate.message : ''}
+        inputProps={{
+          min: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0], // 👈 يمنع الأيام اللي قبل النهاردة
+        }}
+        
       />
 
       <TextField
@@ -200,6 +239,12 @@ console.log(carDetails);
         fullWidth
         variant="standard"
         margin="normal"
+        {...register('ReturnDate', { required: t('Return Date is required') })}
+        error={!!errors.ReturnDate}
+        helperText={errors.ReturnDate ? errors.ReturnDate.message : ''}
+        inputProps={{
+          min: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0], // 👈 يمنع الأيام اللي قبل النهاردة
+        }}
       />
 
     

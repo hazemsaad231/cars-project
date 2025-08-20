@@ -41,7 +41,6 @@ const RentDetails = () => {
         {loading && <Loader />}
 
 <div className={`m-auto my-16 mb-4 p-8`}>
-  <h1 className="font-serif text-2xl text-blue-700 tracking-[8px] mb-8">{t('Rent Details')}</h1>
   <div className="flex flex-col sm:flex-col md:flex-row lg:flex-row xl:flex-row items-center justify-center gap-20 ">
                 <div className="flex flex-col">
                     <img src={Rent.img} alt="image" className='w-96 h-72 m-auto rounded-l-lg hover:scale-110 mb-8'  />
