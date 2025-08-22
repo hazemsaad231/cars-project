@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 const Brand = () => {
   const { t } = useTranslation();
   return (
-    <div data-aos="fade-up" className="my-20">
+    <div data-aos="fade-up" className="my-24">
       <h1 className="font-bold text-2xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-3xl mb-16 mt-8 text-blue-700 tracking-[5px]">
         {t('popular Brands')}
       </h1>
