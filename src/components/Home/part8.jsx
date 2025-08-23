@@ -1,7 +1,6 @@
 import ios from '../../../src/assets/img/ios.png'
 import iphone from '../../../src/assets/img/iPhone.png'
 import andriod from '../../../src/assets/img/andriod.png'
-import React from 'react'
 import { useTranslation } from 'react-i18next';
 
 const Eight = () => {
@@ -42,4 +41,4 @@ const Eight = () => {
     )
 }
 
-export default React.memo(Eight);
+export default Eight ;

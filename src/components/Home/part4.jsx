@@ -1,7 +1,6 @@
 import { Rent } from "./data"
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import React from 'react';
 
 
 const Four = () => {
@@ -50,4 +49,4 @@ const Four = () => {
     )
 }
 
-export default React.memo(Four);
+export default Four

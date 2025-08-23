@@ -3,7 +3,6 @@ import star from "../../../src/assets/img/star.png";
 import { useContext, useMemo } from "react";
 import Slider from "react-slick";
 import { Context } from "../context/Context";
-import React from "react";
 import { useTranslation } from 'react-i18next';
 import "slick-carousel/slick/slick.css"; import "slick-carousel/slick/slick-theme.css";
 
@@ -95,4 +94,4 @@ const Seven = () => {
   );
 };
 
-export default React.memo(Seven);
+export default Seven;

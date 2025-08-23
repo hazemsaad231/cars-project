@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { collection, query, where, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -177,4 +176,5 @@ console.log(cars)
   );
 };
 
-export default React.memo(MyOrders); 
+export default MyOrders ;
+ 

@@ -2,7 +2,6 @@ import yser from '../../../src/assets/img/yser.png'
 import message from '../../../src/assets/img/message.png'
 import chat from '../../../src/assets/img/chat.png'
 import newImage from '../../../src/assets/img/new.mp4'
-import React from 'react'
 import { useTranslation } from 'react-i18next';
 import { useContext} from 'react';
 import { Context } from '../context/Context';
@@ -44,4 +43,4 @@ const Six = () => {
     )
 }        
 
-export default React.memo(Six);
+export default Six ;

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -181,4 +180,4 @@ import { useTranslation } from 'react-i18next';
 }
 
 
-export default React.memo(Bookings); // استخدام React.memo للحفظ من التكرار الذاتي للعنصر Bookings
+export default Bookings ;

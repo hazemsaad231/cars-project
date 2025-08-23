@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import React from "react";
 import { useTranslation } from 'react-i18next';
 
 const Offer = () => {
@@ -71,4 +70,4 @@ const Offer = () => {
   );
 };
 
-export default React.memo(Offer);
+export default Offer ;
