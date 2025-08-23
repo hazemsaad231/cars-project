@@ -17,13 +17,13 @@ const Brand = () => {
   );
 };
 
-const BrandItem = memo(({ Icon }) => (
+const BrandItem = ({ Icon }) => (
   <div>
     <Icon
       className="text-blue-700 m-auto text-7xl sm:text-7xl md:text-8xl lg:text-8xl  transition-transform duration-300 hover:scale-110"
       style={{ willChange: "transform" }}
     />
   </div>
-));
+)
 
 export default Brand ;
