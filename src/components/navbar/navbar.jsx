@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import logo from '../../../src/assets/img/RENT_MUSICAL_BLUE-logo-4631FB248C-seeklogo.com.png';
 import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
 import { useContext, useState} from 'react';
@@ -14,11 +14,9 @@ import Button from '@mui/joy/Button';
 import Divider from '@mui/joy/Divider';
 import { useTranslation } from 'react-i18next';
 
-
 const Navbar = () => {
 
 
-    // استرجاع بيانات المستخدم من localStorage
     const admin = localStorage.getItem('role');
     const id = localStorage.getItem('Id');
     const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("token") !== null );
@@ -31,10 +29,9 @@ const Navbar = () => {
     
     // حالة للتحكم في ظهور القائمة الجانبية
     const [isNavbarVisible, setNavbarVisible] = useState(false);
-    // حالة لتحديث عدد الطلبات
     
-    // البريد الإلكتروني للمشرف
     const Admin = 'hazemsaad231@gmail.com';
+
 
 const handleLogout = () => {
     localStorage.removeItem('token');
@@ -92,9 +89,9 @@ const handleLogout = () => {
 
                     {isLoggedIn ? 
 
-                 <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800' onClick={()=>setOpen(true)}><IoIosLogOut size={25}/></button></li>
+                 <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800' onClick={()=>setOpen(true)}><IoIosLogOut size={27}/></button></li>
                      : 
-                        <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800'><Link to="login"><IoIosLogIn size={25}/></Link></button></li>
+                        <li><button className='border-b-2 border-l-2 px-2 rounded-xl border-blue-800'><Link to="login"><IoIosLogIn size={27}/></Link></button></li>
                     
                     }
 
@@ -142,8 +139,10 @@ const handleLogout = () => {
             <Divider />
             <DialogContent>{t('Are you sure you want to log out?')}</DialogContent>
             <DialogActions>
-              <Button variant="solid" color="danger" onClick={() => handleLogout()}>
-            {t('Logout')}
+              <Button variant="solid" color="danger" onClick={() => handleLogout()}
+              >
+                <Link to="login">{t('Logout')}</Link>
+            
               </Button>
               <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>{t('Cancel')}</Button>
             </DialogActions>
