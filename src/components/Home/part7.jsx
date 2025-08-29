@@ -12,10 +12,9 @@ const Seven = () => {
   const { isDarkMode } = useContext(Context);
   const { t } = useTranslation();
 
-  const settings = () => ({
+  const settings = useMemo( () => ({
     dots: true,
     infinite: true, 
-    speed: 300,
     slidesToShow: 3,
     pauseOnHover: true,
     slidesToScroll: 1,
@@ -25,7 +24,7 @@ const Seven = () => {
       { breakpoint: 768, settings: { slidesToShow: 2 } },
       { breakpoint: 480, settings: { slidesToShow: 1 } },
     ],
-  });
+  }), []);
 
   return (
     <>
