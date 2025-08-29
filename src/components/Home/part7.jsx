@@ -12,14 +12,11 @@ const Seven = () => {
   const { isDarkMode } = useContext(Context);
   const { t } = useTranslation();
 
-  // تحسين السلايدر لأداء أفضل
-  const settings = useMemo(() => ({
+  const settings = () => ({
     dots: true,
-    infinite: false, // تقليل الحمل على الأداء
+    infinite: true, 
     speed: 300,
     slidesToShow: 3,
-    autoplay: true,
-    autoplaySpeed: 6000, // تقليل عدد مرات التشغيل
     pauseOnHover: true,
     slidesToScroll: 1,
     arrows: false,
@@ -28,7 +25,7 @@ const Seven = () => {
       { breakpoint: 768, settings: { slidesToShow: 2 } },
       { breakpoint: 480, settings: { slidesToShow: 1 } },
     ],
-  }), []);
+  });
 
   return (
     <>

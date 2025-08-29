@@ -1,7 +1,3 @@
-import boy from '../../assets/img/boy.webp'
-import boy2 from '../../assets/img/boy2.webp'
-import boy3 from '../../assets/img/boy3.webp'
-import boy4 from '../../assets/img/boy4.webp'
 import star from '../../../src/assets/img/star.png'
 import bmw from '../../../src/assets/img/Bmw.webp'
 import audi from '../../../src/assets/img/audi.webp'
@@ -26,7 +22,7 @@ const Names = [
         name: "Hazem Mahisin",
         discription: "A versatile SUV that combines comfort with rugged capability! Great for road trips, off-road adventures, and family outings, with premium .",
         date: "Last updated 10 mins ago",
-        image:boy4,
+        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457701/boy_fxbrdw.webp',
         num:5,
         star:[star,star,star,star,star]
     },
@@ -36,7 +32,7 @@ const Names = [
         name: "Ahmed Sherif",
         discription: "An exhilarating driving experience! Outstanding performance, sleek design, and quick acceleration make this car a true thrill to drive.",
         date: "Last updated 3 mins ago", 
-        image:boy,
+        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457740/boy3_ez8kl9.webp',
         num:4,
         star:[star,star,star,star]
     },
@@ -45,7 +41,7 @@ const Names = [
         name: "Diaa Helmy",
         discription: "The perfect choice for families! Spacious interior, comfortable seating, and advanced safety features make it ideal for long trips with loved ones.",
         date: "Last updated 6 mins ago",
-        image:boy2,
+        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457752/boy4_mzwnum.webp',
         num:5,
         star:[star,star,star,star,star]
     },
@@ -54,7 +50,7 @@ const Names = [
         name: "Ahmed Mohraum",
         discription: "The experience was great, but I wish there were more options for luxury cars. The overall service is excellent!",
         date: "Last updated 20 mins ago",
-        image:boy3,
+        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457721/boy2_sblnpr.webp',
         num:4,
         star:[star,star,star,star]
     },
