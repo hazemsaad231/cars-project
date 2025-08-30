@@ -22,7 +22,7 @@ const Names = [
         name: "Hazem Mahisin",
         discription: "A versatile SUV that combines comfort with rugged capability! Great for road trips, off-road adventures, and family outings, with premium .",
         date: "Last updated 10 mins ago",
-        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457701/boy_fxbrdw.webp',
+        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457740/boy3_ez8kl9.webp',
         num:5,
         star:[star,star,star,star,star]
     },
@@ -32,7 +32,7 @@ const Names = [
         name: "Ahmed Sherif",
         discription: "An exhilarating driving experience! Outstanding performance, sleek design, and quick acceleration make this car a true thrill to drive.",
         date: "Last updated 3 mins ago", 
-        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457740/boy3_ez8kl9.webp',
+        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457701/boy_fxbrdw.webp',
         num:4,
         star:[star,star,star,star]
     },

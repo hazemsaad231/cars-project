@@ -23,6 +23,7 @@ import { useContext } from "react";
 import Rentings from './rentings';
 import { Context } from '../context/Context';
 import { useTranslation } from 'react-i18next';
+import React from 'react';
 
 
  const Bookings = () => {
