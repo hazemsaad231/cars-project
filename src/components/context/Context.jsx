@@ -13,7 +13,10 @@ export const Context = createContext(null);
 const ContextProvider = ({ children }) => {
   const [orderList, setOrderList] = useState([]);
   const [Cars, setCars] = useState([]);
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(() => {
+    const stored = localStorage.getItem("isDarkMode");
+    return stored !== null ? JSON.parse(stored) : true; // default to dark mode
+  });
 
   // ✅ تحميل البيانات مرة واحدة فقط
   useEffect(() => {
@@ -56,12 +59,17 @@ const ContextProvider = ({ children }) => {
   }, []);
 
   // ✅ تحسين toggleMode باستخدام useCallback
-  const toggleMode = useCallback(() => {
+  // Apply body styles and persist preference whenever `isDarkMode` changes
+  useEffect(() => {
     document.body.style.transition = "background-color 0.7s ease, color 0.7s ease";
-    document.body.style.backgroundColor = isDarkMode ? "white" : "black";
-    document.body.style.color = isDarkMode ? "black" : "white";
-    setIsDarkMode((prev) => !prev);
+    document.body.style.backgroundColor = isDarkMode ? "black" : "white";
+    document.body.style.color = isDarkMode ? "white" : "black";
+    localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
   }, [isDarkMode]);
+
+  const toggleMode = useCallback(() => {
+    setIsDarkMode((prev) => !prev);
+  }, []);
 
   // ✅ تحسين handleBook لمنع fetch غير ضروري
   const handleBook = useCallback(
