@@ -18,6 +18,7 @@ import Loader from "../load/Load";
 import BookingForm from "./payment";
 import NotFound from "../common/NotFound";
 import CarImage from "../common/CarImage";
+import { formatPrice } from "../../utils/price";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -145,12 +146,18 @@ const CarDetails = () => {
 
           <div className="mt-6 flex items-end gap-2">
             <span className="text-4xl font-bold text-brand-700 dark:text-brand-400">
-              ${car.price}
+              ${formatPrice(car.price)}
             </span>
             <span className="pb-1.5 text-slate-500 dark:text-slate-400">
               per day
             </span>
           </div>
+
+          {car.description && (
+            <p className="mt-6 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+              {car.description}
+            </p>
+          )}
 
           <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5">
             {specs.map(({ Icon, label, value }) => (

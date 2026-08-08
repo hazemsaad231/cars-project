@@ -22,6 +22,7 @@ import { RENTALS_COLLECTION } from "../../config";
 import useApp from "../context/useApp";
 import Loader from "../load/Load";
 import CarImage from "../common/CarImage";
+import { formatPrice } from "../../utils/price";
 
 const statusClass = {
   confirmed: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400",
@@ -150,7 +151,7 @@ const MyRentals = () => {
                         Total
                       </dt>
                       <dd className="font-bold text-brand-700 dark:text-brand-400">
-                        ${rental.total}
+                        ${formatPrice(rental.total)}
                       </dd>
                     </div>
                   </dl>

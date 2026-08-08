@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { FaUserAlt, FaStar } from "react-icons/fa";
 import { TbAirConditioning, TbCalendar, TbManualGearbox } from "react-icons/tb";
 import CarImage from "../common/CarImage";
+import { formatPrice } from "../../utils/price";
 
 /**
  * One car in the fleet grid.
@@ -42,29 +43,28 @@ const CarCard = ({ car, actions }) => {
           )}
         </div>
 
+        {/* Cars migrated from the old offers list have no year/gearbox, so
+            only render the rows that actually have a value. */}
         <dl className="mt-4 grid grid-cols-2 gap-y-2.5 text-sm text-slate-500 dark:text-slate-400">
-          <div className="flex items-center gap-2">
-            <FaUserAlt className="shrink-0" />
-            <dd>4 seats</dd>
-          </div>
-          <div className="flex items-center gap-2">
-            <TbAirConditioning className="shrink-0 text-base" />
-            <dd>A/C</dd>
-          </div>
-          <div className="flex items-center gap-2">
-            <TbManualGearbox className="shrink-0 text-base" />
-            <dd className="truncate">{car.Transmission || car.carType}</dd>
-          </div>
-          <div className="flex items-center gap-2">
-            <TbCalendar className="shrink-0 text-base" />
-            <dd>{car.car_model_year}</dd>
-          </div>
+          {[
+            { Icon: FaUserAlt, value: "4 seats" },
+            { Icon: TbAirConditioning, value: "A/C" },
+            { Icon: TbManualGearbox, value: car.Transmission || car.carType },
+            { Icon: TbCalendar, value: car.car_model_year },
+          ]
+            .filter((spec) => spec.value)
+            .map(({ Icon, value }) => (
+              <div key={value} className="flex items-center gap-2">
+                <Icon className="shrink-0 text-base" />
+                <dd className="truncate">{value}</dd>
+              </div>
+            ))}
         </dl>
 
         <div className="mt-5 flex items-end justify-between border-t border-slate-200 pt-4 dark:border-slate-800">
           <div>
             <span className="text-2xl font-bold text-brand-700 dark:text-brand-400">
-              ${car.price}
+              ${formatPrice(car.price)}
             </span>
             <span className="text-sm text-slate-500 dark:text-slate-400">
               {" "}

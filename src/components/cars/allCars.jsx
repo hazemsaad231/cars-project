@@ -17,6 +17,7 @@ import { CARS_COLLECTION } from "../../config";
 import useApp from "../context/useApp";
 import Loader from "../load/Load";
 import CarCard from "./CarCard";
+import { parsePrice } from "../../utils/price";
 
 const SEARCH_FIELDS = [
   { value: "car", label: "Car name" },
@@ -43,7 +44,7 @@ const Fleet = () => {
 
     return cars.filter((car) => {
       if (availableOnly && car.isBooked === true) return false;
-      if (!Number.isNaN(cap) && parseFloat(car.price) > cap) return false;
+      if (!Number.isNaN(cap) && parsePrice(car.price) > cap) return false;
       if (!needle) return true;
       return String(car[field] ?? "")
         .toUpperCase()

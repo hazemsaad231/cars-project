@@ -14,6 +14,7 @@ import { db } from "../firebase/firebase";
 import { CARS_COLLECTION, RENTALS_COLLECTION } from "../../config";
 import useApp from "../context/useApp";
 import Wait from "./paymentLoad";
+import { formatPrice, parsePrice } from "../../utils/price";
 
 /** Tomorrow, as a yyyy-mm-dd string — the earliest pickup we allow. */
 const tomorrow = () =>
@@ -49,7 +50,7 @@ const BookingForm = ({ car, carId, onCancel }) => {
     },
   });
 
-  const pricePerDay = Number(car.price) || 0;
+  const pricePerDay = parsePrice(car.price);
   const days = countDays(watch("pickupDate"), watch("returnDate"));
   const total = days * pricePerDay;
 
@@ -139,7 +140,7 @@ const BookingForm = ({ car, carId, onCancel }) => {
         <div>
           <h2 className="text-xl font-bold">Complete your booking</h2>
           <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
-            {car.car} · ${pricePerDay}/day
+            {car.car} · ${formatPrice(pricePerDay)}/day
           </p>
         </div>
         {onCancel && (
@@ -297,7 +298,7 @@ const BookingForm = ({ car, carId, onCancel }) => {
           <dl className="space-y-2 rounded-xl bg-slate-50 p-4 text-sm dark:bg-slate-800/60">
             <div className="flex justify-between">
               <dt className="text-slate-500 dark:text-slate-400">Daily rate</dt>
-              <dd className="font-medium">${pricePerDay}</dd>
+              <dd className="font-medium">${formatPrice(pricePerDay)}</dd>
             </div>
             <div className="flex justify-between">
               <dt className="text-slate-500 dark:text-slate-400">
@@ -308,7 +309,7 @@ const BookingForm = ({ car, carId, onCancel }) => {
             <div className="flex justify-between border-t border-slate-200 pt-2 text-base dark:border-slate-700">
               <dt className="font-semibold">Total</dt>
               <dd className="font-bold text-brand-700 dark:text-brand-400">
-                ${total}
+                ${formatPrice(total)}
               </dd>
             </div>
           </dl>
@@ -318,7 +319,7 @@ const BookingForm = ({ car, carId, onCancel }) => {
             className="btn-primary w-full"
             disabled={!stripe || submitting}
           >
-            {submitting ? <Wait /> : `Pay $${total}`}
+            {submitting ? <Wait /> : `Pay $${formatPrice(total)}`}
           </button>
         </div>
       </div>

@@ -9,6 +9,7 @@ import { CARS_COLLECTION } from "../../config";
 import useApp from "../context/useApp";
 import Loader from "../load/Load";
 import Wait from "../cars/paymentLoad";
+import { parsePrice } from "../../utils/price";
 
 const TEXT_FIELDS = [
   { name: "car", label: "Car name", placeholder: "BMW X5", required: true },
@@ -49,7 +50,14 @@ const CarForm = () => {
       }
       const data = snapshot.data();
       Object.entries(data).forEach(([key, value]) => {
-        setValue(key, Array.isArray(value) ? value.join(", ") : value);
+        if (key === "img") {
+          setValue(key, Array.isArray(value) ? value.join(", ") : value);
+        } else if (key === "price") {
+          // Stored as "37,584"; a number input renders that as blank.
+          setValue(key, parsePrice(value));
+        } else {
+          setValue(key, value);
+        }
       });
     } catch (error) {
       console.error("Error loading car:", error);
@@ -70,7 +78,7 @@ const CarForm = () => {
         .split(",")
         .map((url) => url.trim())
         .filter(Boolean),
-      price: Number(data.price),
+      price: parsePrice(data.price),
       isBooked: Boolean(data.isBooked),
     };
 

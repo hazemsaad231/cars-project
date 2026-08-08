@@ -1,6 +1,8 @@
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { GrCompliance } from "react-icons/gr";
 
+import { formatPrice } from "../../utils/price";
+
 const Complete = () => {
   const { state } = useLocation();
 
@@ -35,7 +37,7 @@ const Complete = () => {
             <div className="flex justify-between">
               <dt className="text-slate-500 dark:text-slate-400">Total paid</dt>
               <dd className="font-bold text-brand-700 dark:text-brand-400">
-                ${total}
+                ${formatPrice(total)}
               </dd>
             </div>
           )}

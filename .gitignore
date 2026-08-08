@@ -25,3 +25,9 @@ dist-ssr
 
 # Backup written by scripts/update-car-images.mjs
 img-backup.json
+
+# Backup written by scripts/migrate-database.mjs
+db-backup.json
+
+# Backup written by scripts/fill-car-details.mjs
+cars-backup.json

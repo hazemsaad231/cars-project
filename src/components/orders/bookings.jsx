@@ -23,6 +23,7 @@ import { RENTALS_COLLECTION } from "../../config";
 import useApp from "../context/useApp";
 import Loader from "../load/Load";
 import CarImage from "../common/CarImage";
+import { formatPrice, parsePrice } from "../../utils/price";
 
 const STATUSES = ["confirmed", "active", "completed"];
 
@@ -64,7 +65,9 @@ const AdminDashboard = () => {
       { label: "Total bookings", value: rentals.length },
       {
         label: "Revenue",
-        value: `$${rentals.reduce((sum, r) => sum + (Number(r.total) || 0), 0)}`,
+        value: `$${formatPrice(
+          rentals.reduce((sum, r) => sum + parsePrice(r.total), 0)
+        )}`,
       },
     ],
     [cars, rentals]
@@ -190,7 +193,7 @@ const AdminDashboard = () => {
                   </td>
                   <td className="px-4 py-3">{rental.days}</td>
                   <td className="whitespace-nowrap px-4 py-3 font-semibold">
-                    ${rental.total}
+                    ${formatPrice(rental.total)}
                   </td>
                   <td className="px-4 py-3">
                     <select
