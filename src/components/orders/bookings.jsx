@@ -1,184 +1,258 @@
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Typography, MenuItem, Select } from '@mui/material';
-import { collection, getDocs, deleteDoc, doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+} from "firebase/firestore";
+import { toast } from "react-toastify";
 import { MdDelete } from "react-icons/md";
-import {  toast } from 'react-toastify';
-import Button from '@mui/joy/Button';
-import Divider from '@mui/joy/Divider';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import DialogActions from '@mui/joy/DialogActions';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import DialogTitle from "@mui/joy/DialogTitle";
+import DialogContent from "@mui/joy/DialogContent";
+import DialogActions from "@mui/joy/DialogActions";
+import Button from "@mui/joy/Button";
+import Divider from "@mui/joy/Divider";
+
+import { db } from "../firebase/firebase";
+import { RENTALS_COLLECTION } from "../../config";
+import useApp from "../context/useApp";
 import Loader from "../load/Load";
-import { useContext } from "react";
-import Rentings from './rentings';
-import { Context } from '../context/Context';
-import { useTranslation } from 'react-i18next';
-import React from 'react';
 
+const STATUSES = ["confirmed", "active", "completed"];
 
- const Bookings = () => {
+const statusClass = {
+  confirmed: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400",
+  active: "bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400",
+  completed:
+    "bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400",
+};
 
-  const [cars, setCars] = useState([]);
+const AdminDashboard = () => {
+  const { cars, setCarAvailability } = useApp();
+  const [rentals, setRentals] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { t } = useTranslation();
+  const [pendingDelete, setPendingDelete] = useState(null);
 
-   const [open, setOpen] = useState(false);
-   const [selectedDelete, setSelectedDelete] = useState(null);
-   
-  const {handleBook} = useContext(Context);
-  const isBooked = localStorage.getItem("isBooked");
-
-
-  const fetchCars = async () => {
-    const Allcars = await getDocs(collection(db, "orders"));
-    const carsList = Allcars.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-   
-    setCars(carsList);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchCars();
+  const fetchRentals = useCallback(async () => {
+    try {
+      const snapshot = await getDocs(
+        query(collection(db, RENTALS_COLLECTION), orderBy("createdAt", "desc"))
+      );
+      setRentals(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+    } catch (error) {
+      console.error("Error fetching rentals:", error);
+      toast.error("Could not load rentals.");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  // Handle Delete
-   const handleDelete = async () => {
-     try {
-       await deleteDoc(doc(db, "orders", selectedDelete));
-       setOpen(false);
-       fetchCars();
-       toast.success(t("Car deleted successfully!"), { autoClose: 2000 });
-     } catch (error) {
-       console.error("Error deleting car: ", error);
-     }
-   };
+  useEffect(() => {
+    fetchRentals();
+  }, [fetchRentals]);
 
-   const handleClickOpen = (id) => {
-     setOpen(true);
-     setSelectedDelete(id);
-   };
- 
+  const stats = useMemo(
+    () => [
+      { label: "Cars in fleet", value: cars.length },
+      { label: "Currently rented", value: cars.filter((c) => c.isBooked).length },
+      { label: "Total bookings", value: rentals.length },
+      {
+        label: "Revenue",
+        value: `$${rentals.reduce((sum, r) => sum + (Number(r.total) || 0), 0)}`,
+      },
+    ],
+    [cars, rentals]
+  );
 
-  // Handle Status Change
-  const handleStatusChange = async (id, newStatus) => {
+  const handleStatusChange = async (rentalId, status) => {
     try {
-      const carDoc = doc(db, "orders", id);
-      await updateDoc(carDoc, { status: newStatus });
-      setCars(cars.map(car => car.id === id ? { ...car, status: newStatus } : car));
+      await updateDoc(doc(db, RENTALS_COLLECTION, rentalId), { status });
+      setRentals((prev) =>
+        prev.map((r) => (r.id === rentalId ? { ...r, status } : r))
+      );
+
+      // Finishing a rental puts the car back on the market.
+      const rental = rentals.find((r) => r.id === rentalId);
+      if (status === "completed" && rental?.carId) {
+        await setCarAvailability(rental.carId, false);
+      }
     } catch (error) {
-      console.error("Error updating status: ", error);
+      console.error("Error updating status:", error);
+      toast.error("Could not update the status.");
     }
   };
 
+  const handleDelete = async () => {
+    const rental = pendingDelete;
+    try {
+      await deleteDoc(doc(db, RENTALS_COLLECTION, rental.id));
+      if (rental.carId) await setCarAvailability(rental.carId, false);
+      setRentals((prev) => prev.filter((r) => r.id !== rental.id));
+      setPendingDelete(null);
+      toast.success("Booking deleted and the car is available again.");
+    } catch (error) {
+      console.error("Error deleting rental:", error);
+      toast.error("Could not delete this booking.");
+    }
+  };
+
+  if (loading) return <Loader />;
+
   return (
-    <div className='py-20'>
-            {loading ? <Loader />:
-      <TableContainer component={Paper} sx={{ width: '80%', margin: 'auto', marginTop: '20px' ,backgroundColor: 'rgba(255, 255, 255, 0.7)', boxShadow: '10px 10px 10px 10px rgba(0.1, 0.1, 0.1, 0.1)'}} data-aos="fade-up">
-        <Typography 
-          variant="h5" 
-          gutterBottom 
-          sx={{ textAlign: 'center', margin: 'auto', marginBottom: '40px', fontFamily: 'serif', letterSpacing: '2px' }}
-        >
-          {t('List of Booked cars')}
-        </Typography>
-        <Table sx={{ minWidth: 650 ,width: '100%',border:'collapse' }} aria-label="simple table">
-          <TableHead>
-            <TableRow >
-              <TableCell align="center">{t('Booking ID')}</TableCell>
-              <TableCell align="center">{t('Full Name')}</TableCell>
-              <TableCell align="center">{t('Email')}</TableCell>
-              <TableCell align="center">{t('City')}</TableCell>
-              <TableCell align="center">{t('Receipt Time')}</TableCell>
-                <TableCell align="center">{t('payment')}</TableCell>
-              <TableCell align="center">{t('Car')}</TableCell>
-              <TableCell align="center">{t('Car Type')}</TableCell>
-              <TableCell align="center">{t('Status')}</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {cars.map((car) => (
-              <TableRow
-                key={car.id}
-                sx={{
-                  '&:last-child td, &:last-child th': { border: 0 },
-                  textDecoration: car.status === 'completed' ? 'line-through' : 'none', // إضافة خط عند اكتمال الحالة
-                  color: car.status === 'completed' ? 'blue' : 'inherit', // 
-                }}
-              >
-                <TableCell component="th" scope="row" align="center">{car.orderId}</TableCell>
-                <TableCell align="center">{car.delivery_address.fullName}</TableCell>
-                <TableCell align="center">{car.delivery_address.email}</TableCell>
-                <TableCell align="center">{car.delivery_address.city}</TableCell>
-                <TableCell align="center">
-                  {new Date(car.delivery_address.ReceiptTime).toLocaleDateString()}
-                </TableCell>
-                <TableCell align="center">{car.delivery_address.PartialPayment}</TableCell>
-                <TableCell align="center"><img src={car?.carDetails?.img[0]} alt="Car" style={{ width: '60px', height: '50px' , objectFit: 'cover'  , margin: 'auto' }} />
-                </TableCell>
-                <TableCell align="center">{car.carDetails.car}</TableCell>
-                <TableCell align="center">
-                  <Select
-                    value={car.status}
-                    defaultValue={car.status}
-                    onChange={(e) => handleStatusChange(car.id, e.target.value)}
-                    displayEmpty
-                    size="small"
-                  >
-                    <MenuItem value="confirmed">{t('Confirmed')}</MenuItem>
-                    <MenuItem value="completed">{t('Completed')}</MenuItem>
-                  </Select>
-                </TableCell>
-                <TableCell align="center">
-                  <MdDelete 
-                    style={{ cursor: 'pointer', margin: 'auto' }} 
-                    size={25} 
-                    onClick={() => handleClickOpen(car.id)} 
-                  />
-                </TableCell>
-{/* Confirmation Modal */}
-<React.Fragment>
-        <Modal open={open} onClose={() => setOpen(false)}>
-          <ModalDialog variant="outlined" role="alertdialog">
-            <DialogTitle>{t('Confirmation')}</DialogTitle>
-            <Divider />
-            <DialogContent>{t('Are you sure you want to delete?')}</DialogContent>
-            <DialogActions>
-              <Button variant="solid" color="danger" onClick={() =>{
-               handleDelete() 
-               handleBook(car.carId,isBooked)
-              }}>{t('Delete')}</Button>
-              <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>{t('Cancel')}</Button>
-            </DialogActions>
-          </ModalDialog>
-        </Modal>
-      </React.Fragment>
+    <div className="container-page section">
+      <header>
+        <h1 className="section-title">Rental dashboard</h1>
+        <p className="section-subtitle">
+          Every booking placed through the site.
+        </p>
+      </header>
 
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>}
+      <dl className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {stats.map((stat) => (
+          <div key={stat.label} className="panel p-5">
+            <dt className="text-sm text-slate-500 dark:text-slate-400">
+              {stat.label}
+            </dt>
+            <dd className="mt-2 text-3xl font-bold text-brand-700 dark:text-brand-400">
+              {stat.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
 
+      {rentals.length === 0 ? (
+        <p className="mt-16 text-center text-slate-500 dark:text-slate-400">
+          No bookings yet.
+        </p>
+      ) : (
+        <div className="mt-10 overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
+          <table className="w-full min-w-[64rem] text-left text-sm">
+            <thead className="bg-slate-50 text-xs uppercase tracking-wider text-slate-500 dark:bg-slate-900 dark:text-slate-400">
+              <tr>
+                <th className="px-4 py-3 font-semibold">Ref</th>
+                <th className="px-4 py-3 font-semibold">Car</th>
+                <th className="px-4 py-3 font-semibold">Customer</th>
+                <th className="px-4 py-3 font-semibold">Pickup</th>
+                <th className="px-4 py-3 font-semibold">Return</th>
+                <th className="px-4 py-3 font-semibold">Days</th>
+                <th className="px-4 py-3 font-semibold">Total</th>
+                <th className="px-4 py-3 font-semibold">Status</th>
+                <th className="px-4 py-3" />
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
+              {rentals.map((rental) => (
+                <tr
+                  key={rental.id}
+                  className="bg-white transition hover:bg-slate-50 dark:bg-slate-900 dark:hover:bg-slate-800/60"
+                >
+                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs">
+                    {rental.orderId}
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="flex items-center gap-3">
+                      {rental.car?.img && (
+                        <img
+                          src={rental.car.img}
+                          alt=""
+                          loading="lazy"
+                          className="h-11 w-16 shrink-0 rounded object-cover"
+                        />
+                      )}
+                      <div>
+                        <div className="font-semibold">{rental.car?.car}</div>
+                        <div className="text-xs text-slate-500 dark:text-slate-400">
+                          {rental.car?.carType}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td className="px-4 py-3">
+                    <div className="font-medium">
+                      {rental.customer?.fullName}
+                    </div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                      {rental.customer?.email}
+                    </div>
+                    <div className="text-xs text-slate-500 dark:text-slate-400">
+                      {rental.customer?.city}
+                    </div>
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3">
+                    {rental.pickupDate}
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3">
+                    {rental.returnDate}
+                  </td>
+                  <td className="px-4 py-3">{rental.days}</td>
+                  <td className="whitespace-nowrap px-4 py-3 font-semibold">
+                    ${rental.total}
+                  </td>
+                  <td className="px-4 py-3">
+                    <select
+                      value={rental.status ?? "confirmed"}
+                      onChange={(e) =>
+                        handleStatusChange(rental.id, e.target.value)
+                      }
+                      aria-label={`Status for booking ${rental.orderId}`}
+                      className={`rounded-full border-0 px-3 py-1.5 text-xs font-semibold capitalize outline-none ${
+                        statusClass[rental.status] ?? statusClass.confirmed
+                      }`}
+                    >
+                      {STATUSES.map((status) => (
+                        <option key={status} value={status}>
+                          {status}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td className="px-4 py-3">
+                    <button
+                      type="button"
+                      onClick={() => setPendingDelete(rental)}
+                      aria-label={`Delete booking ${rental.orderId}`}
+                      className="rounded-lg p-2 text-slate-400 transition hover:bg-red-50 hover:text-red-600 dark:hover:bg-red-500/10"
+                    >
+                      <MdDelete size={20} />
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
 
-
-
-<Rentings/>
+      {/* One dialog for the table, not one per row. */}
+      <Modal open={Boolean(pendingDelete)} onClose={() => setPendingDelete(null)}>
+        <ModalDialog variant="outlined" role="alertdialog">
+          <DialogTitle>Confirmation</DialogTitle>
+          <Divider />
+          <DialogContent>
+            Delete booking {pendingDelete?.orderId}? The car will be marked
+            available again.
+          </DialogContent>
+          <DialogActions>
+            <Button variant="solid" color="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+            <Button
+              variant="plain"
+              color="neutral"
+              onClick={() => setPendingDelete(null)}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </ModalDialog>
+      </Modal>
     </div>
   );
-}
+};
 
-
-export default Bookings ;
+export default AdminDashboard;

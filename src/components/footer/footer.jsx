@@ -1,115 +1,109 @@
-import { FaFacebookF, FaTwitter, FaInstagram,FaLocationArrow,FaPhoneAlt,FaVoicemail } from 'react-icons/fa';
+import { Link } from "react-router-dom";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaLocationArrow,
+  FaPhoneAlt,
+  FaTwitter,
+} from "react-icons/fa";
+import { MdOutlineEmail } from "react-icons/md";
 import { IoCarSport } from "react-icons/io5";
-import { useTranslation } from 'react-i18next';
 
+const columns = [
+  {
+    title: "Company",
+    items: ["About us", "Careers", "Press centre", "Investor relations"],
+  },
+  {
+    title: "Rentals",
+    items: ["Our fleet", "Long-term rental", "Corporate plans", "Packages"],
+  },
+  {
+    title: "Support",
+    items: ["Help centre", "Rental guides", "Partner network", "Contact us"],
+  },
+];
 
-const Footer = () => {
-  const { t } = useTranslation();
-  return (
-    <div className='w-full bg-gradient-to-b from-gray-700 to-gray-900 flex justify-center mt-10' id='contact'>
-    <footer className="bg-gradient-to-b from-gray-700 to-gray-900 text-white py-10">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
+const socials = [
+  { Icon: FaFacebookF, label: "Facebook", hover: "hover:text-blue-500" },
+  { Icon: FaTwitter, label: "Twitter", hover: "hover:text-sky-400" },
+  { Icon: FaInstagram, label: "Instagram", hover: "hover:text-pink-500" },
+];
 
-          <div>
+const Footer = () => (
+  <footer
+    id="contact"
+    className="mt-auto bg-slate-900 text-slate-300 dark:bg-slate-900"
+  >
+    <div className="container-page py-14">
+      <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-5">
+        {/* Brand + contact details */}
+        <div className="lg:col-span-2">
+          <Link to="/home" className="flex items-center gap-3">
+            <IoCarSport className="text-4xl text-brand-400" />
+            <span className="text-xl font-bold text-white">RENTCARS</span>
+          </Link>
+          <p className="mt-4 max-w-sm text-sm leading-relaxed text-slate-400">
+            Book a car in minutes. Transparent daily pricing, free cancellation
+            and delivery to your door.
+          </p>
 
-            <div className='flex gap-6'>
-            <IoCarSport className='text-8xl relative bottom-8'/>
-            <h3 className="font-bold text-sm sm:text-lg md:text-lg lg:text-lg xl:text-lg">RENTCARS</h3>
-            </div>
-          
-
-            <ul>
-
-          <li>
-          <div className='flex gap-2 mb-2 relative bottom-4'>
-                <FaLocationArrow className='text-2xl '/>
-                <h2 className='text-sm font-thin'> {t('address')}</h2>
-                </div>
-            </li>  
-<li>
-
-<div className='flex gap-2 mb-2'>
-          <FaPhoneAlt className='text-2xl '/>
-                <h2 className='text-sm font-thin'>{t('phone')}</h2>
-                </div>
-</li>
-
-<li>
-
-<div className='flex gap-2'>
-        <FaVoicemail className='text-2xl '/>
-                <h2 className='text-sm font-thin'>{t('email')}</h2>
-                </div>
-</li>
-
-            </ul>
-
-          </div>
-
-
-          <div>
-            <h3 className="font-bold text-md mb-4">{t('products')}</h3>
-            <ul>
-            <li className='text-sm font-thin'>{t('career')}</li>
-              <li className='text-sm font-thin'>{t('car')}</li>
-              <li className='text-sm font-thin'>{t('packages')}</li>
-              <li className='text-sm font-thin'>{t('features')}</li>
-              <li className='text-sm font-thin'>{t('priceline')}</li>  
-              </ul>
-           
-          </div>
-
-   
-          <div>
-            <h3 className="font-bold text-md mb-4">{t('resources')}</h3>
-            <ul>
-            <li className='text-sm font-thin'>{t('whyChooseUs')}</li>
-              <li className='text-sm font-thin'>{t('ourStory')}</li>
-              <li className='text-sm font-thin'>{t('investorRelations')}</li>
-              <li className='text-sm font-thin'>{t('pressCenter')}</li>
-              <li className='text-sm font-thin'>{t('cruises')}</li> 
-              <li className='text-sm font-thin'>{t('developer')}</li> 
-              </ul>
-            </div>
-          
-
-          <div>
-            <h3 className="font-bold text-md mb-4">{t('aboutRentcars')}</h3>
-            <ul>
-              <li className='text-sm font-thin'>{t('download')}</li>
-              <li className='text-sm font-thin'>{t('helpCentre')}</li>
-              <li className='text-sm font-thin'>{t('guides')}</li>
-              <li className='text-sm font-thin'>{t('partnerNetwork')}</li>
-              <li className='text-sm font-thin'> {t('advertise')}</li>
-                        
-                        
-
-            </ul>
-          </div>
-
-   
-          <div>
-            <h3 className="font-bold text-md mb-4">{t('followUs')}</h3>
-           
-           <div className='flex gap-4 justify-center'>
-           <FaFacebookF className="text-xl hover:text-blue-500"/>
-           <FaTwitter className="text-xl hover:text-blue-400"/>
-           <FaInstagram className="text-xl hover:text-pink-500"/>
-           </div>
-          </div>
-
-
+          <ul className="mt-6 space-y-3 text-sm">
+            <li className="flex items-center gap-3">
+              <FaLocationArrow className="shrink-0 text-brand-400" />
+              <span>25 Talaat Harb St, Downtown, Cairo</span>
+            </li>
+            <li className="flex items-center gap-3">
+              <FaPhoneAlt className="shrink-0 text-brand-400" />
+              <a href="tel:+201000000000" className="hover:text-white">
+                +20 100 000 0000
+              </a>
+            </li>
+            <li className="flex items-center gap-3">
+              <MdOutlineEmail className="shrink-0 text-lg text-brand-400" />
+              <a href="mailto:hello@rentcars.com" className="hover:text-white">
+                hello@rentcars.com
+              </a>
+            </li>
+          </ul>
         </div>
 
-        <div className="text-center mt-10">
-          <p>{t('© 2025 My Website. All rights reserved.')}</p>
+        {/* Link columns */}
+        {columns.map((column) => (
+          <div key={column.title}>
+            <h3 className="mb-4 text-sm font-bold uppercase tracking-wider text-white">
+              {column.title}
+            </h3>
+            <ul className="space-y-2.5 text-sm text-slate-400">
+              {column.items.map((item) => (
+                <li key={item} className="cursor-pointer hover:text-white">
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-12 flex flex-col items-center gap-6 border-t border-slate-800 pt-8 sm:flex-row sm:justify-between">
+        <p className="text-sm text-slate-400">
+          © {new Date().getFullYear()} RentCars. All rights reserved.
+        </p>
+        <div className="flex gap-5">
+          {socials.map(({ Icon, label, hover }) => (
+            <a
+              key={label}
+              href="#contact"
+              aria-label={label}
+              className={`text-lg text-slate-400 transition ${hover}`}
+            >
+              <Icon />
+            </a>
+          ))}
         </div>
       </div>
-    </footer>
     </div>
-  );
-};
+  </footer>
+);
 
 export default Footer;
-

@@ -1,19 +1,16 @@
-import { Rings } from 'react-loader-spinner'
-const Loader = () => {
-    return (
-        <div className="flex items-center justify-center h-screen">
-            <Rings
-                visible={true}
-                height="80"
-                width="80"
-                color="#4fa94d"
-                ariaLabel="rings-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-                />
-        </div>
-    )
-}
+import { Rings } from "react-loader-spinner";
 
+/** Full-height page loader. */
+const Loader = () => (
+  <div className="flex min-h-[60vh] items-center justify-center">
+    <Rings
+      visible
+      height="80"
+      width="80"
+      color="#1d4ed8"
+      ariaLabel="loading"
+    />
+  </div>
+);
 
-export default Loader
+export default Loader;

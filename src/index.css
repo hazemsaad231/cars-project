@@ -2,49 +2,161 @@
 @tailwind components;
 @tailwind utilities;
 
-
-.app{
-  overflow-x: hidden;
-  background-image: url('./assets/img/color.png');
-  font-family:serif;
-}
-
-#bg {
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
-    animation-name: stretch;
-    animation-duration: 5s; 
-    animation-timing-function: ease-out; 
-    animation-iteration-count:initial;
-}
-  
-  @keyframes stretch {
-    0% {
-      transform: scale(.4);
-     
-    }
-    100% {
-      transform: scale(1);
-     
-    }
+@layer base {
+  html {
+    scroll-behavior: smooth;
   }
-  
 
+  body {
+    @apply bg-white text-slate-800 antialiased;
+    @apply dark:bg-slate-950 dark:text-slate-100;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
 
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight;
+  }
+}
+
+@layer components {
+  /* ---- Layout primitives ---------------------------------------------- */
+
+  /* Horizontal gutters + max width. Every page/section uses this. */
+  .container-page {
+    @apply mx-auto w-full max-w-page px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Consistent vertical rhythm between page sections. */
+  .section {
+    @apply py-16 sm:py-20 lg:py-24;
+  }
+
+  /* ---- Typography ------------------------------------------------------ */
+
+  .section-title {
+    @apply text-3xl font-bold text-brand-700 sm:text-4xl dark:text-brand-400;
+  }
+
+  .section-subtitle {
+    @apply mt-3 max-w-2xl text-base text-slate-500 dark:text-slate-400;
+  }
+
+  .eyebrow {
+    @apply inline-block rounded-full border border-brand-600 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-brand-700 dark:border-brand-400 dark:text-brand-400;
+  }
+
+  /* ---- Surfaces -------------------------------------------------------- */
+
+  .card {
+    @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition duration-300;
+    @apply hover:-translate-y-1 hover:shadow-xl;
+    @apply dark:border-slate-800 dark:bg-slate-900;
+  }
+
+  .panel {
+    @apply rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8;
+    @apply dark:border-slate-800 dark:bg-slate-900;
+  }
+
+  /* ---- Buttons --------------------------------------------------------- */
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-semibold transition;
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-500 focus-visible:ring-offset-2;
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+    @apply dark:focus-visible:ring-offset-slate-950;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-700 text-white hover:bg-brand-800;
+  }
+
+  .btn-outline {
+    @apply btn border-2 border-brand-700 text-brand-700 hover:bg-brand-700 hover:text-white;
+    @apply dark:border-brand-400 dark:text-brand-400 dark:hover:bg-brand-600 dark:hover:text-white;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700;
+  }
+
+  .btn-ghost {
+    @apply btn text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800;
+  }
+
+  /* ---- Forms ----------------------------------------------------------- */
+
+  .field-label {
+    @apply mb-1.5 block text-sm font-medium text-slate-700 dark:text-slate-300;
+  }
+
+  .field-input {
+    @apply w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 transition;
+    @apply placeholder:text-slate-400;
+    @apply focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30;
+    @apply dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500;
+  }
+
+  .field-error {
+    @apply mt-1 text-xs text-red-500;
+  }
+
+  /* ---- Badges ---------------------------------------------------------- */
+
+  .badge {
+    @apply inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold;
+  }
+
+  .badge-available {
+    @apply badge bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400;
+  }
+
+  .badge-rented {
+    @apply badge bg-red-100 text-red-700 dark:bg-red-500/15 dark:text-red-400;
+  }
+}
+
+@layer utilities {
+  /* Thin scrollbar for the thumbnail strip on the car details page. */
+  .custom-scroll::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  .custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .custom-scroll::-webkit-scrollbar-thumb {
+    @apply rounded bg-brand-600;
+  }
+}
+
+/* Hero image entrance animation: the car grows slowly into place on load. */
+#hero-car {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  animation: hero-zoom 5s ease-out both;
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(0.4);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+/* react-slick dots */
 .slick-dots li button:before {
-  color: blue !important;
+  @apply text-brand-600;
+  opacity: 0.35;
 }
 
-.custom-scroll::-webkit-scrollbar {
-  height: 6px;
-}
-
-.custom-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scroll::-webkit-scrollbar-thumb {
-  background: #2563eb;
-  border-radius: 4px;
+.slick-dots li.slick-active button:before {
+  @apply text-brand-600;
+  opacity: 1;
 }

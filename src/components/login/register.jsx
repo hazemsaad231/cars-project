@@ -1,217 +1,191 @@
-import Box from "@mui/material/Box";
-import TextField from "@mui/material/TextField";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 import { IoCarSport } from "react-icons/io5";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useEffect } from "react";
-import { auth } from "../firebase/firebase";
-import { doc, setDoc, getFirestore } from "firebase/firestore";
-import { Tooltip } from '@mui/material';
-import Aos from "aos";
-import "aos/dist/aos.css";
-import { useTranslation } from 'react-i18next';
 
+import { auth, db } from "../firebase/firebase";
+import Wait from "../cars/paymentLoad";
 
-
-export default function Register() {
+const Register = () => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
 
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitting },
+  } = useForm({
     defaultValues: {
       first_name: "",
       last_name: "",
       email: "",
       password: "",
-      role: "admin",
+      confirm_password: "",
     },
   });
- 
- useEffect(() => {
-      Aos.init({ duration: 1500, once: true });
-    }, []);
-  {/* خاص بconfirm password */}
-  const password = watch('password');
+
+  const password = watch("password");
 
   const onSubmit = async (data) => {
     try {
-      const response = await createUserWithEmailAndPassword(
+      const { user } = await createUserWithEmailAndPassword(
         auth,
         data.email,
         data.password
       );
-      console.log("User registered successfully:", response);
 
-      const db = getFirestore();
-      await setDoc(doc(db, "users", response.user.uid), {
+      const displayName = `${data.first_name} ${data.last_name}`.trim();
+      await updateProfile(user, { displayName });
+
+      // Profile document. `role` is set here, never taken from the form —
+      // otherwise anyone could register themselves as an admin.
+      await setDoc(doc(db, "users", user.uid), {
         firstName: data.first_name,
         lastName: data.last_name,
-        role: data.role,
         email: data.email,
+        role: "customer",
+        createdAt: new Date(),
       });
 
-
-
-      toast("Register successfully");
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 2000);
+      toast.success("Account created.");
+      navigate("/home", { state: { message: "Welcome to RentCars!" } });
     } catch (error) {
-      console.error("Error:", error.message);
-      toast.error(`${error.message}`);
+      console.error("Registration failed:", error.code);
+      toast.error(
+        error.code === "auth/email-already-in-use"
+          ? "That email is already registered."
+          : "Could not create your account."
+      );
     }
   };
 
-
-  
   return (
-    <>
-    <ToastContainer />
-      <div className="flex flex-col justify-center text-blue-700" data-aos="fade-right">
+    <div className="panel" data-aos="fade-up">
+      <div className="text-center">
+        <IoCarSport className="mx-auto text-5xl text-brand-700 dark:text-brand-400" />
+        <h1 className="mt-4 text-2xl font-bold">Create your account</h1>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          It takes less than a minute.
+        </p>
+      </div>
 
-      <div className='w-[100%] m-auto sm:w-[100%] md:w-max lg:w-max xl:w-max pb-4 px-8 sm:px-10 md:px-10 lg:px-16 xl:px-16 rounded-3xl shadow-2xl bg-white'>
-          <div className="flex flex-col relative z-20 text-white">
-            <IoCarSport className="w-20 h-20 m-auto " />
-
-            <h3 className="text-lg text-center text-white mb-2">
-
-              {t('Create new account')}
-            </h3>
-            <h1 className="font-bold text-2xl mb-3 text-center text-white">{t('Register')}</h1>
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4" noValidate>
+        <div className="grid gap-4 sm:grid-cols-2">
+          <div>
+            <label htmlFor="first_name" className="field-label">
+              First name
+            </label>
+            <input
+              id="first_name"
+              className="field-input"
+              {...register("first_name", { required: "First name is required" })}
+            />
+            {errors.first_name && (
+              <p className="field-error">{errors.first_name.message}</p>
+            )}
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)}>
-<div class="absolute inset-0 pointer-events-none">
-  <svg width="100%" height="100%" viewBox="3 0 20 120" preserveAspectRatio="none" className="rounded-xl">
-    <circle cx="50" cy="0" r="50" fill="blue" />
-  </svg>
-</div>
-
-
-            <Box
-              sx={{
-                "& > :not(style)": { my : 1, width: "27ch"  },
-              }}
-              noValidate
-              autoComplete="off"
-              className="flex flex-col"
-            >
-              <div className="flex gap-5 relative z-30">
-
-                <Tooltip title={errors.first_name?.message} open={!!errors.first_name} arrow>
-                  <TextField
-                    id="outlined-basic"
-                    label={t('firstName')}
-                    variant="outlined"
-                    {...register("first_name", { required: t ('First name is required') })}
-                    error={!!errors.first_name}
-                    className="bg-transparent shadow-xl"
-                  />
-               </Tooltip>
-                
-
-                <Tooltip title={errors.last_name?.message} open={!!errors.last_name} arrow>
-                  <TextField
-                    id="outlined-basic"
-                    label={t('lastName')}
-                    variant="outlined"
-                    {...register("last_name", { required: t('Last name is required') })}
-                    className="bg-transparent shadow-xl"
-                    error={!!errors.last_name}
-                  />
-                 </Tooltip>
-
-                </div>
-            
-
-        <Tooltip title={errors.email?.message} open={!!errors.email} arrow>
-                <TextField
-                  id="outlined-basic"
-                  label={t('Email')}
-                  variant="outlined"
-                  {...register("email", {
-                    required: t("Email is required"),
-                    pattern: {
-                      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                      message: t("Please enter a valid email"),
-                    },
-                  })}
-                  error={!!errors.email}
-                  fullWidth
-
-                  className="bg-transparent shadow-xl"
-                />
-               
-              </Tooltip>
-
-                <Tooltip title={errors.password?.message} open={!!errors.password} arrow>
-                  <TextField
-                    id="outlined-basic"
-                    label={t('Password')}
-                    type="password"
-                    variant="outlined"
-                    {...register("password", { required: t("Password is required"),
-                    minLength: {
-                      value: 7,
-                      message: t("Password must be at least 7 characters"),
-                    }
-                     })}
-                    error={!!errors.password}
-                    className="bg-transparent shadow-xl"
-                  />
-              </Tooltip>
-
-
-                <Tooltip title={errors.confirm_password?.message} open={!!errors.confirm_password} arrow>
-                  <TextField
-                    id="outlined-basic"
-                    label={t('Confirm Password')}
-                    type="password"
-                    variant="outlined"
-                    {...register("confirm_password", { required: t("confirm password is required"),
-                      validate: (value) => value === password || t("Passwords do not match"),
-                     })}
-                    error={!!errors.confirm_password}
-                    className="bg-transparent shadow-xl"
-                  />
-                
-              </Tooltip>
-
-
-              
-            </Box>
-
-            <div className="flex flex-col justify-center gap-2">
-              <button
-                type="submit"
-                className="bg-blue-700 text-white p-2 rounded-lg mt-4"
-              >
-                {t('Register')}
-              </button>
-              <button
-                className="border border-blue-700 p-2 rounded-lg mt-4"
-                onClick={() => navigate("/login")}
-              >
-                {t('Login')}
-              </button>
-            </div>
-          </form>
+          <div>
+            <label htmlFor="last_name" className="field-label">
+              Last name
+            </label>
+            <input
+              id="last_name"
+              className="field-input"
+              {...register("last_name", { required: "Last name is required" })}
+            />
+            {errors.last_name && (
+              <p className="field-error">{errors.last_name.message}</p>
+            )}
+          </div>
         </div>
-      </div>
-    </>
+
+        <div>
+          <label htmlFor="email" className="field-label">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            autoComplete="email"
+            className="field-input"
+            placeholder="you@example.com"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+                message: "Please enter a valid email",
+              },
+            })}
+          />
+          {errors.email && <p className="field-error">{errors.email.message}</p>}
+        </div>
+
+        <div>
+          <label htmlFor="password" className="field-label">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            autoComplete="new-password"
+            className="field-input"
+            placeholder="••••••••"
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 7,
+                message: "Password must be at least 7 characters",
+              },
+            })}
+          />
+          {errors.password && (
+            <p className="field-error">{errors.password.message}</p>
+          )}
+        </div>
+
+        <div>
+          <label htmlFor="confirm_password" className="field-label">
+            Confirm password
+          </label>
+          <input
+            id="confirm_password"
+            type="password"
+            autoComplete="new-password"
+            className="field-input"
+            placeholder="••••••••"
+            {...register("confirm_password", {
+              required: "Please confirm your password",
+              validate: (value) =>
+                value === password || "Passwords do not match",
+            })}
+          />
+          {errors.confirm_password && (
+            <p className="field-error">{errors.confirm_password.message}</p>
+          )}
+        </div>
+
+        <button type="submit" className="btn-primary w-full" disabled={isSubmitting}>
+          {isSubmitting ? <Wait /> : "Create account"}
+        </button>
+      </form>
+
+      <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+        Already have an account?{" "}
+        <Link
+          to="/login"
+          className="font-semibold text-brand-700 hover:underline dark:text-brand-400"
+        >
+          Sign in
+        </Link>
+      </p>
+    </div>
   );
-}
+};
 
-
-
-
-
-
-
-
-
-
+export default Register;

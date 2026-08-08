@@ -1,110 +1,113 @@
-import { createContext, useEffect, useState, useCallback, useMemo } from "react";
-import { collection, getDocs, doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
-import i18n from '../../i18n'; 
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { collection, doc, getDocs, updateDoc } from "firebase/firestore";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+import { auth, db } from "../firebase/firebase";
+import { ADMIN_EMAIL, CARS_COLLECTION } from "../../config";
+import { Context } from "./AppContext";
 
-
-
-
-
-
-export const Context = createContext(null);
+/** Light is the default; only an explicit previous choice turns dark on. */
+const readStoredTheme = () => {
+  try {
+    return localStorage.getItem("theme") === "dark";
+  } catch {
+    return false;
+  }
+};
 
 const ContextProvider = ({ children }) => {
-  const [orderList, setOrderList] = useState([]);
-  const [Cars, setCars] = useState([]);
-  const [isDarkMode, setIsDarkMode] = useState(() => {
-    const stored = localStorage.getItem("isDarkMode");
-    return stored !== null ? JSON.parse(stored) : true; // default to dark mode
-  });
+  /* ------------------------------------------------------------------ theme */
+  const [isDarkMode, setIsDarkMode] = useState(readStoredTheme);
 
-  // ✅ تحميل البيانات مرة واحدة فقط
   useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await getDocs(collection(db, "orders"));
-        const orders = response.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setOrderList(orders);
-      } catch (error) {
-        console.error("Error fetching orders:", error);
-      }
-    };
-    getData();
-  }, []);
-
-  // ✅ جلب بيانات السيارات - وتحزينها محليًا لتقليل الفتش المتكرر
-  useEffect(() => {
-    const fetchCars = async () => {
-      const storedCars = localStorage.getItem("cars");
-      if (storedCars) {
-        setCars(JSON.parse(storedCars));
-      } else {
-        try {
-          const allCars = await getDocs(collection(db, "cars"));
-          const carsList = allCars.docs.map((doc) => ({
-            id: doc.id, // تعديل هنا
-            ...doc.data(),
-          }));
-          setCars(carsList);
-          localStorage.setItem("cars", JSON.stringify(carsList));
-        } catch (error) {
-          console.error("Error fetching cars:", error);
-        }
-      }
-    };
-    fetchCars();
-  }, []);
-
-  // ✅ تحسين toggleMode باستخدام useCallback
-  // Apply body styles and persist preference whenever `isDarkMode` changes
-  useEffect(() => {
-    document.body.style.transition = "background-color 0.7s ease, color 0.7s ease";
-    document.body.style.backgroundColor = isDarkMode ? "black" : "white";
-    document.body.style.color = isDarkMode ? "white" : "black";
-    localStorage.setItem("isDarkMode", JSON.stringify(isDarkMode));
+    document.documentElement.classList.toggle("dark", isDarkMode);
+    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
-  const toggleMode = useCallback(() => {
-    setIsDarkMode((prev) => !prev);
+  const toggleMode = useCallback(() => setIsDarkMode((prev) => !prev), []);
+
+  /* ------------------------------------------------------------------- auth */
+  const [user, setUser] = useState(null);
+  const [authReady, setAuthReady] = useState(false);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (firebaseUser) => {
+      setUser(firebaseUser);
+      setAuthReady(true);
+    });
+    return unsubscribe;
   }, []);
 
-  // ✅ تحسين handleBook لمنع fetch غير ضروري
-  const handleBook = useCallback(
-    async (id, isBooked) => {
-      try {
-        const carRef = doc(db, "cars", id);
-        await updateDoc(carRef, { isBooked: !isBooked });
+  const logout = useCallback(() => signOut(auth), []);
 
-        // تحديث الـ state يدويًا بدلاً من جلب البيانات من جديد
-        setCars((prevCars) =>
-          prevCars.map((car) =>
-            car.id === id ? { ...car, isBooked: !isBooked } : car
-          )
-        );
-        localStorage.setItem("cars", JSON.stringify(Cars));
-      } catch (error) {
-        console.error("Error booking car:", error);
-      }
-    },
-    [Cars]
+  /* ------------------------------------------------------------------- cars */
+  const [cars, setCars] = useState([]);
+  const [carsLoading, setCarsLoading] = useState(true);
+
+  const refreshCars = useCallback(async () => {
+    setCarsLoading(true);
+    try {
+      const snapshot = await getDocs(collection(db, CARS_COLLECTION));
+      setCars(snapshot.docs.map((d) => ({ id: d.id, ...d.data() })));
+    } catch (error) {
+      console.error("Error fetching cars:", error);
+    } finally {
+      setCarsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    refreshCars();
+  }, [refreshCars]);
+
+  /**
+   * Flip a car between rented and available.
+   * Writes to Firestore first, then patches local state — no refetch needed.
+   */
+  const setCarAvailability = useCallback(async (carId, isRented) => {
+    if (!carId) return;
+    try {
+      await updateDoc(doc(db, CARS_COLLECTION, carId), { isBooked: isRented });
+      setCars((prev) =>
+        prev.map((car) =>
+          car.id === carId ? { ...car, isBooked: isRented } : car
+        )
+      );
+    } catch (error) {
+      console.error("Error updating car availability:", error);
+    }
+  }, []);
+
+  const value = useMemo(
+    () => ({
+      // theme
+      isDarkMode,
+      toggleMode,
+      // auth
+      user,
+      authReady,
+      isLoggedIn: Boolean(user),
+      isAdmin: user?.email === ADMIN_EMAIL,
+      logout,
+      // cars
+      cars,
+      carsLoading,
+      refreshCars,
+      setCarAvailability,
+    }),
+    [
+      isDarkMode,
+      toggleMode,
+      user,
+      authReady,
+      logout,
+      cars,
+      carsLoading,
+      refreshCars,
+      setCarAvailability,
+    ]
   );
-   const [select, setSelect] = useState(false); 
-    const changeLanguage = (lng) => {
-    i18n.changeLanguage(lng);
-    setSelect(!select);
-  };
 
-
-
-
-  return (
-    <Context.Provider value={{ orderList, isDarkMode, toggleMode, handleBook, Cars ,changeLanguage, select}}>
-      {children}
-    </Context.Provider>
-  );
+  return <Context.Provider value={value}>{children}</Context.Provider>;
 };
 
 export default ContextProvider;

@@ -1,187 +1,133 @@
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import { useForm } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import 'react-toastify/dist/ReactToastify.css';
+import { useForm } from "react-hook-form";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {
+  GoogleAuthProvider,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+} from "firebase/auth";
+import { toast } from "react-toastify";
 import { IoCarSport } from "react-icons/io5";
-import { signInWithEmailAndPassword , signInWithPopup, GoogleAuthProvider} from 'firebase/auth';
-import { auth } from "../firebase/firebase";
 import { FaGoogle } from "react-icons/fa6";
-import { toast, ToastContainer } from 'react-toastify';
-import { Tooltip } from '@mui/material';
-import Aos from "aos";
-import "aos/dist/aos.css";
-import { useTranslation } from 'react-i18next';
 
+import { auth } from "../firebase/firebase";
+import Wait from "../cars/paymentLoad";
 
+const Login = () => {
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const redirectTo = state?.from ?? "/home";
 
-const Login = ()=>{
- 
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const { t } = useTranslation();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({ defaultValues: { email: "", password: "" } });
 
-   let navigate = useNavigate();
-   const isLoginIn = true
+  // onAuthStateChanged in the context picks the session up automatically.
+  const finish = () =>
+    navigate(redirectTo, { state: { message: "Signed in successfully." } });
 
-   useEffect(() => {
-      Aos.init({ duration: 1500, once: true });
-    }, []);
- 
-
-  {/* ارسال البيانات */}
-   const onSubmit = async (data) => {
-     try {
-       const response = await signInWithEmailAndPassword(auth, data.email, data.password);
-       if(isLoginIn){
-        localStorage.setItem('token',response._tokenResponse.idToken);
-        setTimeout(() => {
-          navigate("/home", {state:{message:t("Login successfully!")} });
-        }, 1000);
-       }
-       console.log(response._tokenResponse.idToken)
-       localStorage.setItem('token',response._tokenResponse.idToken);
-       localStorage.setItem('role',response.user.email);
-       localStorage.setItem('Id',response.user.uid);
-       localStorage.setItem('user',response);
-       console.log(response.user.uid);
-     } catch (error) {
-       console.error("Error:", error.message);
-         toast.error(t('Email or password is incorrect') , {autoClose: 2000}, );
-          setToastShown(true);
-     } finally {
-      console.log("Login attempt completed.");
-     }
-   };
-
-
-   const handleGoogleLogin = async () => {
-    const provider = new GoogleAuthProvider();
-
+  const onSubmit = async (data) => {
     try {
-      // تسجيل الدخول باستخدام حساب جوجل
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      console.log("Logged in via Google: ", user);
-
+      await signInWithEmailAndPassword(auth, data.email, data.password);
+      finish();
     } catch (error) {
-      console.error("Error logging in via Google:", error);
+      console.error("Sign-in failed:", error.code);
+      toast.error("Email or password is incorrect.");
     }
   };
 
-
-
-
-
+  const handleGoogleLogin = async () => {
+    try {
+      await signInWithPopup(auth, new GoogleAuthProvider());
+      finish();
+    } catch (error) {
+      if (error.code === "auth/popup-closed-by-user") return;
+      console.error("Google sign-in failed:", error);
+      toast.error("Could not sign in with Google.");
+    }
+  };
 
   return (
-    <>
-    <ToastContainer limit={1}/>
-      <div className=' flex flex-col justify-center items-center my-8 text-blue-700' data-aos="fade-left">
- <div className='w-[100%] sm:w-[100%] md:w-max lg:w-max xl:w-max px-8 sm:px-8 md:px-12 lg:px-16 xl:px-16 py-10 rounded-3xl shadow-2xl bg-white'>
-          <div className="flex flex-col z-20 relative text-white">
-            <IoCarSport className="w-20 h-20 m-auto " />  
-          
+    <div className="panel" data-aos="fade-up">
+      <div className="text-center">
+        <IoCarSport className="mx-auto text-5xl text-brand-700 dark:text-brand-400" />
+        <h1 className="mt-4 text-2xl font-bold">Welcome back</h1>
+        <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+          Sign in to book your next car.
+        </p>
+      </div>
 
-          <h3 className="text-lg text-center">{t('Welcome back!')}</h3>
-          <h1 className="font-bold text-2xl mb-4">{t('Login to your account')}</h1>
-</div>
-        <form onSubmit={handleSubmit(onSubmit)}>
-           
-<div class="absolute inset-0 pointer-events-none">
-  <svg width="100%" height="100%" viewBox="12 4 4 150" preserveAspectRatio="none" className="rounded-xl">
-    <circle cx="50" cy="20" r="50" fill="blue" />
-  </svg>
-</div>
-
-
-
-            <Box
-              component="form"
-              sx={{
-                '& > :not(style)': { m: 1, width: 'fit-content', margin: 'auto'},
-              }}
-              noValidate
-              autoComplete="off"
-            >
-              <div className='flex flex-col gap-3'> 
-
-                <Tooltip title={errors.email?.message} open={!!errors.email} arrow>
-                <TextField
-                  id="outlined-basic"
-                  label={t('Email')}
-                  variant="outlined"
-                  {...register("email", {
-                    required: t('Email is required'),
-                    pattern: {
-                      value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                      message: t('Please enter a valid email')
-                    }
-                  })}
-                  error={errors.email}
-                  className='bg-transparent shadow-2xl'
-                />
-             </Tooltip>
-
-             <Tooltip title={errors.password?.message} open={!!errors.password} arrow>
-                  <TextField
-                    id="outlined-basic"
-                    label={t('Password')}
-                    type="password"
-                    variant="outlined"
-                    {...register("password", {
-                      required: t('Password is required'),
-                    })}
-                    className='bg-transparent shadow-2xl'
-                    error={errors.password}
-                  />
-                  </Tooltip>
-              </div>
-            </Box>
-
-            <div className='flex flex-col gap-2'>
-              <button
-                type="submit"
-                className='bg-blue-700 border text-white p-2 rounded-lg mt-4 '
-              >
-                {t('Login')}
-              </button>
-              <button
-                className='border border-blue-700 p-2 rounded-lg mt-4 text-blue-700'
-                onClick={() => navigate("register")}
-              >
-                {t('Register')}
-              </button>
-            </div>
-
-            <div>
-            <button onClick={handleGoogleLogin} className='border bg-blue-700 w-full p-3  px-16 rounded-lg mt-4 text-white text-center flex'><span className='m-auto'><FaGoogle size={25}></FaGoogle></span></button>
-            </div>
-          </form>
+      <form onSubmit={handleSubmit(onSubmit)} className="mt-8 space-y-4" noValidate>
+        <div>
+          <label htmlFor="email" className="field-label">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            autoComplete="email"
+            className="field-input"
+            placeholder="you@example.com"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+                message: "Please enter a valid email",
+              },
+            })}
+          />
+          {errors.email && <p className="field-error">{errors.email.message}</p>}
         </div>
 
+        <div>
+          <label htmlFor="password" className="field-label">
+            Password
+          </label>
+          <input
+            id="password"
+            type="password"
+            autoComplete="current-password"
+            className="field-input"
+            placeholder="••••••••"
+            {...register("password", { required: "Password is required" })}
+          />
+          {errors.password && (
+            <p className="field-error">{errors.password.message}</p>
+          )}
+        </div>
+
+        <button type="submit" className="btn-primary w-full" disabled={isSubmitting}>
+          {isSubmitting ? <Wait /> : "Sign in"}
+        </button>
+      </form>
+
+      <div className="my-6 flex items-center gap-4">
+        <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
+        <span className="text-xs uppercase tracking-wider text-slate-400">or</span>
+        <span className="h-px flex-1 bg-slate-200 dark:bg-slate-700" />
       </div>
-      </>
+
+      <button
+        type="button"
+        onClick={handleGoogleLogin}
+        className="btn w-full border border-slate-300 text-slate-700 hover:bg-slate-50 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800"
+      >
+        <FaGoogle />
+        Continue with Google
+      </button>
+
+      <p className="mt-6 text-center text-sm text-slate-500 dark:text-slate-400">
+        No account yet?{" "}
+        <Link
+          to="/login/register"
+          className="font-semibold text-brand-700 hover:underline dark:text-brand-400"
+        >
+          Create one
+        </Link>
+      </p>
+    </div>
   );
-}
+};
 
 export default Login;
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-

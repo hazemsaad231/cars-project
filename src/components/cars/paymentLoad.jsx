@@ -1,19 +1,14 @@
-import { ColorRing } from 'react-loader-spinner'
-const Wait = () => {
-    return (
-    <div className="flex items-center justify-center">
-<ColorRing
-  visible={true}
-  height="32"
-  width="32"
-  ariaLabel="color-ring-loading"
-  wrapperStyle={{}}
-  wrapperClass="color-ring-wrapper"
-  colors={['#e15b64', '#f47e60', '#f8b26a', '#abbd81', '#849b87']}
+import { ColorRing } from "react-loader-spinner";
+
+/** Small inline spinner used inside buttons while a request is in flight. */
+const Wait = () => (
+  <ColorRing
+    visible
+    height="24"
+    width="24"
+    ariaLabel="submitting"
+    colors={["#ffffff", "#e2e8f0", "#ffffff", "#e2e8f0", "#ffffff"]}
   />
-        </div>
-    )
-}
+);
 
-
-export default Wait
+export default Wait;

@@ -1,275 +1,311 @@
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { Box, Button, Grid, TextField , FormControl, InputLabel, MenuItem, Select} from '@mui/material';
-import { toast} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useNavigate } from 'react-router-dom';
-import { collection, addDoc} from "firebase/firestore";
-import {Context} from "../context/Context";
-import{useContext} from "react";
-import { useState} from 'react';
-import Wait from './paymentLoad';
-import { useTranslation } from 'react-i18next';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
+import { CardElement, useElements, useStripe } from "@stripe/react-stripe-js";
+import {
+  collection,
+  doc,
+  runTransaction,
+  serverTimestamp,
+} from "firebase/firestore";
+import { toast } from "react-toastify";
+
 import { db } from "../firebase/firebase";
-import { useForm } from 'react-hook-form';
-import { LuDelete } from "react-icons/lu";
-import React from 'react';
+import { CARS_COLLECTION, RENTALS_COLLECTION } from "../../config";
+import useApp from "../context/useApp";
+import Wait from "./paymentLoad";
 
+/** Tomorrow, as a yyyy-mm-dd string — the earliest pickup we allow. */
+const tomorrow = () =>
+  new Date(Date.now() + 86_400_000).toISOString().split("T")[0];
 
+const countDays = (pickup, returnDate) => {
+  if (!pickup || !returnDate) return 0;
+  const diff = new Date(returnDate) - new Date(pickup);
+  return diff > 0 ? Math.ceil(diff / 86_400_000) : 0;
+};
 
-
-const Payment = ({carDetails, carId,toggleDetails}) =>{
-
-const stripe = useStripe();
+const BookingForm = ({ car, carId, onCancel }) => {
+  const stripe = useStripe();
   const elements = useElements();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+  const { user, setCarAvailability } = useApp();
+  const [submitting, setSubmitting] = useState(false);
 
-const { t } = useTranslation();
- localStorage.setItem("isBooked", carDetails.isBooked);
-
- const{handleBook} = useContext(Context);
-
-const Id = localStorage.getItem("Id");
-
-console.log(carId);
-
-  const [loaded, setLoaded] = useState(false);
-  const isBooked = localStorage.getItem("isBooked");
-
-
-  const { register, handleSubmit, formState: { errors } } = useForm({
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
-      fullName: '',
-      email: '',
-      phone: '',
-      city: '',
-      address: '',
-      ReceiptTime: '',
-      PartialPayment: '5,000',
+      fullName: user?.displayName ?? "",
+      email: user?.email ?? "",
+      phone: "",
+      city: "",
+      address: "",
+      pickupDate: "",
+      returnDate: "",
     },
   });
-  const onSubmit = async (data) => {
 
+  const pricePerDay = Number(car.price) || 0;
+  const days = countDays(watch("pickupDate"), watch("returnDate"));
+  const total = days * pricePerDay;
+
+  const onSubmit = async (data) => {
     if (!stripe || !elements) {
+      toast.error("Payment is still loading, please try again.");
+      return;
+    }
+    if (!user) {
+      toast.error("Please sign in to book a car.");
       return;
     }
 
     const cardElement = elements.getElement(CardElement);
+    if (!cardElement) return;
 
-    console.log(cardElement);
-
-
-    if (cardElement) {
+    setSubmitting(true);
+    try {
       const { error, token } = await stripe.createToken(cardElement);
       if (error) {
-        toast.error(error.message, { autoClose: 2000 });
-      }else{
-        setLoaded(true)
-        handleBook(carId, isBooked==="true"?true:false);
-
+        toast.error(error.message);
+        return;
       }
 
-        if (!Id) {
-          toast.error("Please log in to place an order.");
-          return;
-        }
+      const rentalRef = doc(collection(db, RENTALS_COLLECTION));
+      const carRef = doc(db, CARS_COLLECTION, carId);
+      const orderId = rentalRef.id.slice(0, 8).toUpperCase();
 
-const orderId = Math.floor(Math.random() * 100000);
+      /*
+       * Availability is re-checked inside the transaction, so two people
+       * submitting at the same time can't both rent the same car.
+       */
+      await runTransaction(db, async (tx) => {
+        const snapshot = await tx.get(carRef);
+        if (!snapshot.exists()) throw new Error("CAR_MISSING");
+        if (snapshot.data().isBooked === true) throw new Error("CAR_RENTED");
 
-
-        const Data = {
-          token: 'tok_visa',
-          delivery_address: {
-           fullName: data.fullName,
+        tx.update(carRef, { isBooked: true });
+        tx.set(rentalRef, {
+          orderId,
+          userId: user.uid,
+          carId,
+          token: token.id,
+          customer: {
+            fullName: data.fullName,
             email: data.email,
             phone: data.phone,
             city: data.city,
             address: data.address,
-            ReceiptTime: data.ReceiptTime,
-            PartialPayment: data.PartialPayment,
-            building: 1,
-            floor: 1,
-            apartment: 1,
-            additional_info: 'test info',
-            location: {
-              type: "Point",
-              coordinates: [30.0444, 31.2357],
-            },
           },
-          carDetails,
-          orderId
-         
-        };
+          pickupDate: data.pickupDate,
+          returnDate: data.returnDate,
+          days,
+          pricePerDay,
+          total,
+          car: {
+            car: car.car,
+            img: Array.isArray(car.img) ? car.img[0] : car.img,
+            carType: car.carType ?? "",
+            car_model_year: car.car_model_year ?? "",
+          },
+          status: "confirmed",
+          createdAt: serverTimestamp(),
+        });
+      });
 
-        try {
-          // إضافة بيانات الطلب إلى Firestore
-          const orders = collection(db, "orders");
-          await addDoc(orders, {
-            userId: Id,
-            token: token?.id,
-            delivery_address: Data.delivery_address,
-            carDetails: Data.carDetails,
-            timestamp: new Date(),
-            carId:carId,
-            orderId: Data.orderId,
-          });
-
-          console.log("Order placed successfully!", Data);
-
-
-          setTimeout(() => {
-            toast.success(t('Order placed successfully!'), { autoClose: 2500 });
-          }, 2000)
-          
-          setTimeout(() => {
-            navigate("/complete",{state:{orderId}})
-          }, 4000)
-
-        } catch (error) {
-          console.error("error", error);
-          setLoaded(false)
-        } 
+      setCarAvailability(carId, true);
+      toast.success("Booking confirmed!");
+      navigate("/complete", { state: { orderId, total, days } });
+    } catch (error) {
+      if (error.message === "CAR_RENTED") {
+        toast.error("Sorry, this car was just rented by someone else.");
+      } else if (error.message === "CAR_MISSING") {
+        toast.error("This car is no longer available.");
+      } else {
+        console.error("Booking failed:", error);
+        toast.error("Something went wrong. Your card was not charged.");
       }
+    } finally {
+      setSubmitting(false);
     }
-
+  };
 
   return (
-<div>
-             <div>
-        <Box component="form" onSubmit={handleSubmit(onSubmit)} sx={{ px: 2 , position: 'relative' }}>
-<h2 className="text-2xl font-bold cursor-pointer text-blue-600 absolute top-0 right-0"
-onClick={toggleDetails}><LuDelete/></h2>
-             <Grid container spacing={1}>
- <h1 className="text-xl md:text-2xl lg:text-3xl font-bold m-auto text-gray-800">
-                    {t('Payment Details')}
-                  </h1>
+    <form onSubmit={handleSubmit(onSubmit)} className="panel" noValidate>
+      <div className="flex items-start justify-between gap-4">
+        <div>
+          <h2 className="text-xl font-bold">Complete your booking</h2>
+          <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            {car.car} · ${pricePerDay}/day
+          </p>
+        </div>
+        {onCancel && (
+          <button
+            type="button"
+            onClick={onCancel}
+            className="btn-ghost px-3 py-1.5 text-xs"
+          >
+            Cancel
+          </button>
+        )}
+      </div>
 
-             <Grid item xs={12} className="grid grid-cols-1 md:grid-cols-2 gap-x-4 pb-6">
-           <TextField
-              name="fullName"
-               label={t('Full Name')}
-                fullWidth
-                   variant='standard'
-                 margin="normal"
-                {...register('fullName', { required: true })}
-                error={!!errors.fullName}
-                helperText={errors.fullName ? t('Full Name is required') : ''}
-           />
+      {/* Rental period */}
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="pickupDate" className="field-label">
+            Pickup date
+          </label>
+          <input
+            id="pickupDate"
+            type="date"
+            min={tomorrow()}
+            className="field-input"
+            {...register("pickupDate", { required: "Pickup date is required" })}
+          />
+          {errors.pickupDate && (
+            <p className="field-error">{errors.pickupDate.message}</p>
+          )}
+        </div>
 
-               <TextField
-                name='email'
-                label={t('Email')}   
-                variant='standard'  
-                fullWidth                 
-                margin="normal" 
-                {...register('email', { required: true })}
-                error={!!errors.email}
-                helperText={errors.email ? t('Email is required') : ''}
-                />
-               <TextField    
-               name='phone'           
-                label={t('Phone')}
-                fullWidth
-                variant='standard'               
-                margin="normal"      
-                {...register('phone', { required: true })}
-                error={!!errors.phone}
-                helperText={errors.phone ? t('Phone is required') : ''}      
-                   />
+        <div>
+          <label htmlFor="returnDate" className="field-label">
+            Return date
+          </label>
+          <input
+            id="returnDate"
+            type="date"
+            min={watch("pickupDate") || tomorrow()}
+            className="field-input"
+            {...register("returnDate", {
+              required: "Return date is required",
+              validate: (value, form) =>
+                countDays(form.pickupDate, value) > 0 ||
+                "Return date must be after the pickup date",
+            })}
+          />
+          {errors.returnDate && (
+            <p className="field-error">{errors.returnDate.message}</p>
+          )}
+        </div>
+      </div>
 
-         <TextField
-                  name='city'
-                  label= {t('City')}
-                  variant='standard'
-                  fullWidth
-                  margin="normal"
-                  {...register('city', { required: true })}
-                  error={!!errors.city}
-                  helperText={errors.city ? t('City is required') : ''}
-                />
+      {/* Driver details */}
+      <div className="mt-6 grid gap-4 sm:grid-cols-2">
+        <div>
+          <label htmlFor="fullName" className="field-label">
+            Full name
+          </label>
+          <input
+            id="fullName"
+            className="field-input"
+            {...register("fullName", { required: "Full name is required" })}
+          />
+          {errors.fullName && (
+            <p className="field-error">{errors.fullName.message}</p>
+          )}
+        </div>
 
-                <TextField
-                  name='address'
-                  label= {t('Address')}
-                  fullWidth
-                  margin="normal"
-                  variant='standard'
-                  {...register('address', { required: true })}
-                  error={!!errors.address}
-                  helperText={errors.address ? t('Address is required') : ''}
-                />  
+        <div>
+          <label htmlFor="email" className="field-label">
+            Email
+          </label>
+          <input
+            id="email"
+            type="email"
+            className="field-input"
+            {...register("email", {
+              required: "Email is required",
+              pattern: {
+                value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+                message: "Please enter a valid email",
+              },
+            })}
+          />
+          {errors.email && <p className="field-error">{errors.email.message}</p>}
+        </div>
 
-                <TextField
-                  name='ReceiptTime'
-                  label= {t('Receipt Time')}
-                  type="date"
-                  variant='standard'
-                  fullWidth
-                  margin="normal"
-                  InputLabelProps={{ shrink: true }}
-                  {...register('ReceiptTime', { required: true  })}
-                  error={!!errors.ReceiptTime}
-                  helperText={errors.ReceiptTime ? t('Receipt Time is required') : ''}
-                  inputProps={{
-    min: new Date(Date.now()+ 24 * 60 * 60 * 1000).toISOString().split("T")[0], // 👈 يمنع الأيام اللي قبل النهاردة
-  }}
-             />
+        <div>
+          <label htmlFor="phone" className="field-label">
+            Phone
+          </label>
+          <input
+            id="phone"
+            type="tel"
+            className="field-input"
+            {...register("phone", { required: "Phone is required" })}
+          />
+          {errors.phone && <p className="field-error">{errors.phone.message}</p>}
+        </div>
 
-<FormControl fullWidth margin="normal" variant='standard'>
-                  <InputLabel id="demo-simple-select-label">{t('partial payment')}</InputLabel>
-                  <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    name="PartialPayment"
-                    label="Payment Type"
-                    style={{ textAlign: "left" }}
-                    {...register('PartialPayment', { required: true })}
-                    error={!!errors.PartialPayment}
-                    helperText={errors.PartialPayment ? t('Partial Payment is required') : ''}
-                    defaultValue="5,000"
-                    >
-                    <MenuItem value="5,000">5,000</MenuItem>
-                    <MenuItem value="10,000">10,000</MenuItem>
-                    <MenuItem value="15,000">15,000</MenuItem>
+        <div>
+          <label htmlFor="city" className="field-label">
+            City
+          </label>
+          <input
+            id="city"
+            className="field-input"
+            {...register("city", { required: "City is required" })}
+          />
+          {errors.city && <p className="field-error">{errors.city.message}</p>}
+        </div>
 
-                 </Select>
-               </FormControl>
+        <div className="sm:col-span-2">
+          <label htmlFor="address" className="field-label">
+            Delivery address
+          </label>
+          <input
+            id="address"
+            className="field-input"
+            {...register("address", { required: "Address is required" })}
+          />
+          {errors.address && (
+            <p className="field-error">{errors.address.message}</p>
+          )}
+        </div>
+      </div>
 
+      {/* Card */}
+      <div className="mt-6">
+        <span className="field-label">Card details</span>
+        <div className="rounded-lg border border-slate-300 bg-white p-3.5 dark:border-slate-700">
+          <CardElement options={{ hidePostalCode: true }} />
+        </div>
+        <p className="mt-2 text-xs text-slate-400">
+          Test mode — use card 4242 4242 4242 4242.
+        </p>
+      </div>
 
- <Grid container spacing={2} sx={{ mt: 1 }}>
-                <Grid item xs={12}>
-                  <Box sx={{ border: '1px solid #ccc', borderRadius: 1, padding: 2}}>
-                   <CardElement options={{ hidePostalCode: true }} />
-                </Box>
-              </Grid>
-             </Grid>
-            </Grid>
-            
-            <Button
-             type="submit"
-             variant="contained"      
-              color="primary"
-           fullWidth
-           sx={{ marginTop: 4, width: 200 , margin: "auto"}}
-          disabled={!stripe}
-              >
-              {loaded ? <Wait /> : t('Pay Now')}
+      {/* Total */}
+      <dl className="mt-6 space-y-2 rounded-xl bg-slate-50 p-4 text-sm dark:bg-slate-800/60">
+        <div className="flex justify-between">
+          <dt className="text-slate-500 dark:text-slate-400">Daily rate</dt>
+          <dd className="font-medium">${pricePerDay}</dd>
+        </div>
+        <div className="flex justify-between">
+          <dt className="text-slate-500 dark:text-slate-400">Rental days</dt>
+          <dd className="font-medium">{days || "—"}</dd>
+        </div>
+        <div className="flex justify-between border-t border-slate-200 pt-2 text-base dark:border-slate-700">
+          <dt className="font-semibold">Total</dt>
+          <dd className="font-bold text-brand-700 dark:text-brand-400">
+            ${total}
+          </dd>
+        </div>
+      </dl>
 
-             </Button>
+      <button
+        type="submit"
+        className="btn-primary mt-6 w-full"
+        disabled={!stripe || submitting}
+      >
+        {submitting ? <Wait /> : `Pay $${total}`}
+      </button>
+    </form>
+  );
+};
 
-
-               </Grid>
-   
-           </Box>
-     </div>
-
-
-
-</div>
-  )
-
-
-
-}
-
-export default React.memo(Payment);
-
+export default BookingForm;

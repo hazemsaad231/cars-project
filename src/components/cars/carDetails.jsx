@@ -1,121 +1,219 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
-import Loader from "../load/Load";
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { useTranslation } from 'react-i18next';
-import Payment from "./payment";
+import { FaStar, FaUserAlt } from "react-icons/fa";
+import {
+  TbAirConditioning,
+  TbCalendar,
+  TbGauge,
+  TbHorseshoe,
+  TbManualGearbox,
+  TbPaint,
+} from "react-icons/tb";
 
-const Details = () => {
+import { db } from "../firebase/firebase";
+import { CARS_COLLECTION } from "../../config";
+import useApp from "../context/useApp";
+import Loader from "../load/Load";
+import BookingForm from "./payment";
+import NotFound from "../common/NotFound";
+
+const CarDetails = () => {
   const { id } = useParams();
-  const [carDetails, setCarDetails] = useState({});
-  const [Details, setDetails] = useState(true);
-  const toggleDetails = () => setDetails(!Details);
-  const [mainImage, setMainImage] = useState(""); // للصورة الكبيرة
-  const isLoggedIn = localStorage.getItem("token") !== null;
-  const role = localStorage.getItem("role");
-  const carId = id;
-  const admin = 'hazemsaad231@gmail.com';
+  const navigate = useNavigate();
+  const { isLoggedIn, isAdmin } = useApp();
+
+  const [car, setCar] = useState(null);
   const [loading, setLoading] = useState(true);
-  localStorage.setItem("id", id);
-  const { t } = useTranslation();
+  const [mainImage, setMainImage] = useState("");
+  const [booking, setBooking] = useState(false);
 
   useEffect(() => {
-    const fetchCarDetails = async () => {
-      const docRef = doc(db, "cars", id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setCarDetails(data);
-        setMainImage(data.img[0]); // الصورة الافتراضية الكبيرة
-      } else {
-        console.log("No such document!");
+    let active = true;
+
+    (async () => {
+      try {
+        const snapshot = await getDoc(doc(db, CARS_COLLECTION, id));
+        if (!active) return;
+        if (snapshot.exists()) {
+          const data = snapshot.data();
+          setCar(data);
+          setMainImage(Array.isArray(data.img) ? data.img[0] : data.img);
+        }
+      } catch (error) {
+        console.error("Error fetching car:", error);
+      } finally {
+        if (active) setLoading(false);
       }
-      setLoading(false);
+    })();
+
+    return () => {
+      active = false;
     };
-    fetchCarDetails();
   }, [id]);
 
+  if (loading) return <Loader />;
+  if (!car) return <NotFound />;
+
+  const images = Array.isArray(car.img) ? car.img : [car.img].filter(Boolean);
+  const isRented = car.isBooked === true || car.isBooked === "true";
+
+  const specs = [
+    { Icon: TbCalendar, label: "Model year", value: car.car_model_year },
+    { Icon: TbManualGearbox, label: "Transmission", value: car.Transmission },
+    { Icon: TbHorseshoe, label: "Horsepower", value: car.Horsepower },
+    { Icon: TbGauge, label: "Mileage", value: car.mileage },
+    { Icon: TbPaint, label: "Colour", value: car.car_color },
+    { Icon: FaUserAlt, label: "Seats", value: "4" },
+    { Icon: TbAirConditioning, label: "Air conditioning", value: "Yes" },
+  ].filter((spec) => spec.value);
+
+  const handleRentClick = () => {
+    if (!isLoggedIn) {
+      navigate("/login", { state: { from: `/fleet/${id}` } });
+      return;
+    }
+    setBooking(true);
+  };
+
   return (
-    <>
-      <ToastContainer limit={1} />
-      {loading ? <Loader /> : (
-        <div className="p-4 py-12 md:py-20 md:p-20">
-          <div className="grid md:grid-cols-2 gap-4">
+    <div className="container-page section">
+      <nav className="mb-8 text-sm text-slate-500 dark:text-slate-400">
+        <Link to="/fleet" className="hover:text-brand-700 dark:hover:text-brand-400">
+          Our fleet
+        </Link>
+        <span className="mx-2">/</span>
+        <span className="text-slate-700 dark:text-slate-200">{car.car}</span>
+      </nav>
 
-            {/* Slider + thumbnails */}
-            <div>
-              <img
-                src={mainImage}
-                alt="Main Car"
-                className="h-96 w-full object-center rounded-xl shadow-lg mb-4"
-              />
-              <div className="flex overflow-x-auto custom-scroll">
-                {Array.isArray(carDetails.img) && carDetails.img.map((img, idx) => (
-                  <img
-                    key={idx}
-                    src={img}
-                    alt={`Thumbnail ${idx + 1}`}
-                    className={`h-20 w-28 object-cover rounded-lg m-auto cursor-pointer border-2 ${mainImage === img ? 'border-blue-600' : 'border-transparent'}`}
-                    onClick={() => setMainImage(img)}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* Car details */}
-            <div className="bg-white p-6 rounded-xl shadow-xl">
-              {Details ? (
-                <>
-                  <h1 className="text-xl md:text-2xl lg:text-[1.7rem] font-bold text-gray-800 mb-4">
-                    {t('Elevate Your Ride with Our Premium Cars')}
-                  </h1>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-y-5 md:gap-y-10 pt-8 text-gray-700 md:text-lg">
-                    <p><strong>{t('Car Name')}:</strong> {t(carDetails.car)}</p>
-                    <p><strong>{t('Car Type')}:</strong> {t(carDetails.carType)}</p>
-                    <p><strong>{t('Car Color')}:</strong> {t(carDetails.car_color)}</p>
-                    <p><strong>{t('Car Model')}:</strong> {t(carDetails.car_model_year)}</p>
-                    <p><strong>{t('Car Price')}:</strong> ${t(carDetails.price)}</p>
-                    <p><strong>{t('Mileage')}:</strong> {t(carDetails.mileage)}</p>
-                    <p><strong>{t('Transmission')}:</strong> {t(carDetails.Transmission)}</p>
-                    <p><strong>{t('Horsepower')}:</strong> {t(carDetails.Horsepower)}</p>
-                  </div>
-
-                  {/* Buy button */}
-                  {role !== admin && (
-                    <div className="text-center mt-8">
-                      <button
-                        className="bg-blue-600 text-white px-16 py-3 rounded-lg shadow-lg hover:bg-blue-700 transition-all"
-                        onClick={() => {
-                          if (!isLoggedIn) {
-                            toast.warn(t('You must sign in first!'), {
-                              position: "top-right",
-                              autoClose: 3000,
-                              theme: "dark",
-                            });
-                          } else {
-                            toggleDetails();
-                          }
-                        }}
-                      >
-                        {t('Buy')}
-                      </button>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <Payment carDetails={carDetails} carId={carId} toggleDetails={toggleDetails} />
-              ) 
-              }
-            </div>
+      <div className="grid gap-10 lg:grid-cols-2">
+        {/* Gallery */}
+        <div>
+          <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800">
+            <img
+              src={mainImage}
+              alt={car.car}
+              className="h-full w-full object-cover"
+            />
           </div>
+
+          {images.length > 1 && (
+            <div className="custom-scroll mt-4 flex gap-3 overflow-x-auto pb-2">
+              {images.map((img, index) => (
+                <button
+                  key={index}
+                  type="button"
+                  onClick={() => setMainImage(img)}
+                  aria-label={`View image ${index + 1}`}
+                  className={`h-20 w-28 shrink-0 overflow-hidden rounded-lg border-2 transition ${
+                    mainImage === img
+                      ? "border-brand-600"
+                      : "border-transparent opacity-70 hover:opacity-100"
+                  }`}
+                >
+                  <img
+                    src={img}
+                    alt=""
+                    loading="lazy"
+                    className="h-full w-full object-cover"
+                  />
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Summary */}
+        <div>
+          <span className={isRented ? "badge-rented" : "badge-available"}>
+            {isRented ? "Currently rented" : "Available now"}
+          </span>
+
+          <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{car.car}</h1>
+
+          <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+            {car.carType && <span>{car.carType}</span>}
+            {car.evaluation && (
+              <span className="flex items-center gap-1 font-semibold text-amber-500">
+                <FaStar />
+                {car.evaluation}
+                {car.reviews && (
+                  <span className="font-normal text-slate-500 dark:text-slate-400">
+                    ({car.reviews} reviews)
+                  </span>
+                )}
+              </span>
+            )}
+          </div>
+
+          <div className="mt-6 flex items-end gap-2">
+            <span className="text-4xl font-bold text-brand-700 dark:text-brand-400">
+              ${car.price}
+            </span>
+            <span className="pb-1.5 text-slate-500 dark:text-slate-400">
+              per day
+            </span>
+          </div>
+
+          <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5">
+            {specs.map(({ Icon, label, value }) => (
+              <div key={label} className="flex items-center gap-3">
+                <Icon className="shrink-0 text-xl text-brand-700 dark:text-brand-400" />
+                <div>
+                  <dt className="text-xs text-slate-500 dark:text-slate-400">
+                    {label}
+                  </dt>
+                  <dd className="text-sm font-semibold">{value}</dd>
+                </div>
+              </div>
+            ))}
+          </dl>
+
+          <div className="mt-10 flex flex-wrap gap-3">
+            {isAdmin ? (
+              <Link to={`/admin/cars/${id}`} className="btn-primary">
+                Edit this car
+              </Link>
+            ) : isRented ? (
+              <button type="button" className="btn-primary" disabled>
+                Currently rented
+              </button>
+            ) : (
+              !booking && (
+                <button
+                  type="button"
+                  onClick={handleRentClick}
+                  className="btn-primary"
+                >
+                  Rent this car
+                </button>
+              )
+            )}
+            <Link to="/fleet" className="btn-outline">
+              Back to fleet
+            </Link>
+          </div>
+
+          {!isLoggedIn && !isRented && !isAdmin && (
+            <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">
+              You will be asked to sign in first.
+            </p>
+          )}
+        </div>
+      </div>
+
+      {/* Booking form */}
+      {booking && !isRented && (
+        <div className="mx-auto mt-14 max-w-3xl" data-aos="fade-up">
+          <BookingForm
+            car={car}
+            carId={id}
+            onCancel={() => setBooking(false)}
+          />
         </div>
       )}
-    </>
+    </div>
   );
 };
 
-export default Details;
+export default CarDetails;

@@ -1,65 +1,38 @@
-import { useEffect} from "react";
+import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
-import React from "react";
-import Aos from "aos";
-import "aos/dist/aos.css";
-import One from "./part1";
-import Two from "./part2";
-import Offer from "./part3";
-import Four from "./part4";
-import Brand from "./part5";
-import Six from "./part6";
-import Seven from "./part7";
-import Eight from "./part8";
+import { toast } from "react-toastify";
 
-
-
-
-
-
-
-
-
+import Hero from "./Hero";
+import PopularCars from "./PopularCars";
+import OfferCountdown from "./OfferCountdown";
+import WeeklyDeals from "./WeeklyDeals";
+import Brands from "./Brands";
+import WhyChooseUs from "./WhyChooseUs";
+import Testimonials from "./Testimonials";
+import AppDownload from "./AppDownload";
 
 const Home = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-
-
-    useEffect(() => {
-        Aos.init({ duration: 1000, once: true });
-
-        const handleScroll = () => {
-            Aos.refresh();
-          };
-      
-          window.addEventListener("scroll", handleScroll);
-          return () => window.removeEventListener("scroll", handleScroll);
-
-      }, []);
-
+  // Flash message handed over by another route (e.g. after signing in).
   useEffect(() => {
     if (location.state?.message) {
-      toast.success(location.state.message, { autoClose: 2000 });
+      toast.success(location.state.message);
       navigate(location.pathname, { replace: true });
     }
-  }, [location.state, navigate]);
+  }, [location.state, location.pathname, navigate]);
 
   return (
     <>
-      <ToastContainer limit={1} />
-      <div>
-        <One />
-        <Two />
-        <Offer />
-          <Four />
-          <Brand />
-          <Six />
-          <Seven />
-          <Eight />
-      </div>
+      <Hero />
+      <PopularCars />
+      <OfferCountdown />
+      <WeeklyDeals />
+      <Brands />
+      <WhyChooseUs />
+      <Testimonials />
+      <AppDownload />
     </>
   );
 };

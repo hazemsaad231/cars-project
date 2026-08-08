@@ -1,141 +1,96 @@
-import star from '../../../src/assets/img/star.png'
-import bmw from '../../../src/assets/img/Bmw.webp'
-import audi from '../../../src/assets/img/audi.webp'
-import mercedes from '../../../src/assets/img/Mercedes.webp'
-import { SiToyota } from "react-icons/si";
-import { SiFord } from "react-icons/si";
-import { SiJeep } from "react-icons/si";
-import { SiHyundai } from "react-icons/si";
-import { SiKia } from "react-icons/si";
-import { SiMercedes } from "react-icons/si";
-import { SiBmw } from "react-icons/si";
-import { SiMaserati } from "react-icons/si";
+import {
+  SiBmw,
+  SiFord,
+  SiHyundai,
+  SiJeep,
+  SiKia,
+  SiMaserati,
+  SiMercedes,
+  SiToyota,
+} from "react-icons/si";
 
+import audi from "../../assets/img/audi.webp";
+import bmw from "../../assets/img/Bmw.webp";
+import mercedes from "../../assets/img/Mercedes.webp";
 
-
-
-
-const Names = [
-    
-    {
-        id: 0,
-        name: "Hazem Mahisin",
-        discription: "A versatile SUV that combines comfort with rugged capability! Great for road trips, off-road adventures, and family outings, with premium .",
-        date: "Last updated 10 mins ago",
-        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457740/boy3_ez8kl9.webp',
-        num:5,
-        star:[star,star,star,star,star]
-    },
-    
-    
-    {   id: 1,
-        name: "Ahmed Sherif",
-        discription: "An exhilarating driving experience! Outstanding performance, sleek design, and quick acceleration make this car a true thrill to drive.",
-        date: "Last updated 3 mins ago", 
-        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457701/boy_fxbrdw.webp',
-        num:4,
-        star:[star,star,star,star]
-    },
-    {
-        id: 2,
-        name: "Diaa Helmy",
-        discription: "The perfect choice for families! Spacious interior, comfortable seating, and advanced safety features make it ideal for long trips with loved ones.",
-        date: "Last updated 6 mins ago",
-        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457752/boy4_mzwnum.webp',
-        num:5,
-        star:[star,star,star,star,star]
-    },
-    {
-        id: 3,
-        name: "Ahmed Mohraum",
-        discription: "The experience was great, but I wish there were more options for luxury cars. The overall service is excellent!",
-        date: "Last updated 20 mins ago",
-        image:'https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457721/boy2_sblnpr.webp',
-        num:4,
-        star:[star,star,star,star]
-    },
-
-
-    
-
-   
+/** Hand-picked promo rates shown on the home page. */
+export const weeklyDeals = [
+  {
+    id: 1,
+    img: bmw,
+    title: "BMW XM",
+    text: "A high-performance SUV that pairs a sporty drive with the latest cabin technology. Ideal for long weekends.",
+    price: 100,
+    newPrice: 70,
+  },
+  {
+    id: 2,
+    img: mercedes,
+    title: "Mercedes-Benz",
+    text: "Renowned for luxury, comfort and innovation — the easy choice for business trips and airport runs.",
+    price: 100,
+    newPrice: 60,
+  },
+  {
+    id: 3,
+    img: audi,
+    title: "Audi R8",
+    text: "A mid-engine sports car with sleek styling and exceptional performance. Rent it for the day and enjoy.",
+    price: 200,
+    newPrice: 120,
+  },
 ];
 
+export const brands = [
+  { id: 1, icon: SiToyota, title: "Toyota" },
+  { id: 2, icon: SiFord, title: "Ford" },
+  { id: 3, icon: SiJeep, title: "Jeep" },
+  { id: 4, icon: SiHyundai, title: "Hyundai" },
+  { id: 5, icon: SiKia, title: "Kia" },
+  { id: 6, icon: SiMercedes, title: "Mercedes" },
+  { id: 7, icon: SiBmw, title: "BMW" },
+  { id: 8, icon: SiMaserati, title: "Maserati" },
+];
 
-export const Rent = [
-    {
-        id: 1,
-        img:bmw,
-        title:'Bmw Xm',
-        text:'The BMW XM is one of the latest and most respected SUVs in the world. It is a high-performance SUV, known for combining sporty driving experience with advanced technology.',
-        price:'100',
-        newPrice:'70',
-    },
-    {
-        id: 2,
-        img:mercedes,
-        title:'Mercedes Benz',
-        text:'Mercedes-Benz is renowned for its luxury, performance, and innovation, offering a diverse range of vehicles to suit various preferences and needs.',
-        price:'100',
-        newPrice:'60',
-    },
-    {
-        id: 3,
-        img:audi,
-        title:'Audi R8',
-        text:'The Audi R8 is a luxury mid-engine sports car first introduced in 2006. Renowned for its sleek design and exceptional performance, it has become an icon in the world of sports cars.',
-        price:'200 ',
-        newPrice:'120 ',
-    }
-
-
-]
-
-export const Brands = [
-    {
-        id: 1,
-        icon:SiToyota,
-        title:'Toyota',
-    },
-    {
-        id: 2,
-        icon:SiFord,
-        title:'Ford',
-    },
-    {
-        id: 3,
-        icon:SiJeep,
-        title:'Jeep',
-    },
-    {
-        id: 4,
-        icon:SiHyundai,
-        title:'Hyundai',
-    },
-    {
-        id: 5,
-        icon:SiKia,
-        title:'Kia',
-    },
-    {
-        id: 6,
-        icon:SiMercedes,
-        title:'Mercedes',
-    },
-    {
-        id: 7,
-        icon:SiBmw,
-        title:'Bmw',
-    },
-    {
-        id: 8,
-        icon:SiMaserati,
-        title:'Maserati',
-    },
-    
-]
-
-
-export default Names
-
-
+export const testimonials = [
+  {
+    id: 0,
+    name: "Hazem Mahisin",
+    role: "Rented a Jeep Cherokee",
+    quote:
+      "A versatile SUV that combines comfort with rugged capability. Great for road trips and family outings — pickup took five minutes.",
+    image:
+      "https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457740/boy3_ez8kl9.webp",
+    stars: 5,
+  },
+  {
+    id: 1,
+    name: "Ahmed Sherif",
+    role: "Rented an Audi R8",
+    quote:
+      "An exhilarating driving experience. Outstanding performance, sleek design and quick acceleration — worth every pound.",
+    image:
+      "https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457701/boy_fxbrdw.webp",
+    stars: 4,
+  },
+  {
+    id: 2,
+    name: "Diaa Helmy",
+    role: "Rented a Tesla Model Y",
+    quote:
+      "The perfect choice for families. Spacious interior, comfortable seating and advanced safety features for long trips.",
+    image:
+      "https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457752/boy4_mzwnum.webp",
+    stars: 5,
+  },
+  {
+    id: 3,
+    name: "Ahmed Mohraum",
+    role: "Rented a BMW Sedan",
+    quote:
+      "The experience was great, though I wish there were more luxury options. The overall service is excellent.",
+    image:
+      "https://res.cloudinary.com/dpqfbrbxj/image/upload/v1756457721/boy2_sblnpr.webp",
+    stars: 4,
+  },
+];

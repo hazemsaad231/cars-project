@@ -1,246 +1,199 @@
-import React, { useContext, useEffect, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from 'react-router-dom';
-import { db, collection, addDoc } from "../firebase/firebase";
-import {useParams } from "react-router-dom";
-import { doc, updateDoc } from "firebase/firestore";
-import { getDoc } from "firebase/firestore";
-import { Context}  from "../context/Context";
-import Aos from "aos";
-import 'aos/dist/aos.css';
-import { useTranslation } from 'react-i18next';
+import { useNavigate, useParams } from "react-router-dom";
+import { addDoc, collection, doc, getDoc, updateDoc } from "firebase/firestore";
+import { toast } from "react-toastify";
 
-const AddCar = () => {
+import { db } from "../firebase/firebase";
+import { CARS_COLLECTION } from "../../config";
+import useApp from "../context/useApp";
+import Loader from "../load/Load";
+import Wait from "../cars/paymentLoad";
 
+const TEXT_FIELDS = [
+  { name: "car", label: "Car name", placeholder: "BMW X5", required: true },
+  { name: "carType", label: "Body type", placeholder: "SUV", required: true },
+  { name: "car_color", label: "Colour", placeholder: "Black", required: true },
+  { name: "car_model_year", label: "Model year", placeholder: "2024", required: true },
+  { name: "Transmission", label: "Transmission", placeholder: "Automatic", required: true },
+  { name: "Horsepower", label: "Horsepower", placeholder: "375 hp", required: true },
+  { name: "mileage", label: "Mileage", placeholder: "12,000 km", required: true },
+  { name: "evaluation", label: "Rating (0–5)", placeholder: "4.8", required: false },
+  { name: "reviews", label: "Number of reviews", placeholder: "126", required: false },
+];
+
+const CarForm = () => {
   const { id } = useParams();
-  const { register, handleSubmit,setValue, formState: { errors } } = useForm();
- const navigate = useNavigate()
- const{isDarkMode} = useContext(Context);
- const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { refreshCars } = useApp();
+  const isEditing = Boolean(id);
 
+  const [loading, setLoading] = useState(isEditing);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    defaultValues: { car: "", img: "", price: "", isBooked: false },
+  });
 
- const fetchCarData = useCallback(async () => {
-  if (id) {
+  const loadCar = useCallback(async () => {
+    if (!isEditing) return;
     try {
-      const docRef = doc(db, "cars", id);
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const carData = docSnap.data();
-
-        // تحويل المصفوفة إلى نص مفصول بفواصل
-        if (Array.isArray(carData.img)) {
-          carData.img = carData.img.join(", ");
-        }
-
-        Object.keys(carData).forEach((key) => {
-          setValue(key, carData[key]);
-        });
-      } else {
-        console.log("No such document!");
+      const snapshot = await getDoc(doc(db, CARS_COLLECTION, id));
+      if (!snapshot.exists()) {
+        toast.error("That car no longer exists.");
+        navigate("/fleet", { replace: true });
+        return;
       }
+      const data = snapshot.data();
+      Object.entries(data).forEach(([key, value]) => {
+        setValue(key, Array.isArray(value) ? value.join(", ") : value);
+      });
     } catch (error) {
-      console.error("Error fetching car data: ", error);
+      console.error("Error loading car:", error);
+      toast.error("Could not load this car.");
+    } finally {
+      setLoading(false);
     }
-  }
-}, [id, setValue]);
-
+  }, [id, isEditing, navigate, setValue]);
 
   useEffect(() => {
-    fetchCarData();
-  }, [id, setValue]);
+    loadCar();
+  }, [loadCar]);
 
   const onSubmit = async (data) => {
+    const payload = {
+      ...data,
+      img: data.img
+        .split(",")
+        .map((url) => url.trim())
+        .filter(Boolean),
+      price: Number(data.price),
+      isBooked: Boolean(data.isBooked),
+    };
+
     try {
-
-      const imagesArray = data.img.split(",").map((url) => url.trim());
-
-      
-      const formattedData = { ...data, img: imagesArray };
-
-      if (id) {
-        const docRef = doc(db, "cars", id);
-        await updateDoc(docRef, formattedData);
-          navigate("/allcars",{state:{message:t("Car data updated successfully!")}});
-      
+      if (isEditing) {
+        await updateDoc(doc(db, CARS_COLLECTION, id), payload);
       } else {
-        await addDoc(collection(db, "cars"), formattedData);
-        console.log("Car data added successfully!");
-          navigate("/allcars",{state:{message:t("Car data added successfully!")}});
-      
+        await addDoc(collection(db, CARS_COLLECTION), payload);
       }
+      await refreshCars();
+      toast.success(isEditing ? "Car updated." : "Car added.");
+      navigate("/fleet");
     } catch (error) {
-      console.error("Error saving car data: ", error);
+      console.error("Error saving car:", error);
+      toast.error("Could not save this car.");
     }
   };
 
-
- useEffect(() => {
-      Aos.init({
-        duration: 1000,  // مدة التأثير
-        once: true,  // التأثير يتم مرة واحدة فقط عند التمرير
-      });
-    }, []);
-
+  if (loading) return <Loader />;
 
   return (
-    <>
-      <div data-aos="zoom-in" className="text-start">
-      <div className={`shadow-xl border ${isDarkMode ? 'border-gray-700' : 'border-gray-200'} p-5  w-[90%] sm:w-[90%] md:w-max lg:w-max m-auto mt-10 `} >
-        <h2 className="text-xl text-center font-serif tracking-[4px]">
-          {id ? t('Update Car') : t('Add a New Car')}
-        </h2>
-        <form onSubmit={handleSubmit(onSubmit)} className="w-max p-10 m-auto font-serif text-gray-500">
-          <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-5">
-            <div className="flex flex-col">
-              <label className="text-start">{t('Car Name')}</label>
+    <div className="container-page section">
+      <div className="mx-auto max-w-3xl">
+        <header className="mb-8 text-center">
+          <h1 className="section-title">
+            {isEditing ? "Update car" : "Add a new car"}
+          </h1>
+          <p className="section-subtitle mx-auto text-center">
+            Prices are the daily rental rate.
+          </p>
+        </header>
+
+        <form onSubmit={handleSubmit(onSubmit)} className="panel" noValidate>
+          <div className="grid gap-5 sm:grid-cols-2">
+            {TEXT_FIELDS.map((field) => (
+              <div key={field.name}>
+                <label htmlFor={field.name} className="field-label">
+                  {field.label}
+                  {field.required && <span className="text-red-500"> *</span>}
+                </label>
+                <input
+                  id={field.name}
+                  className="field-input"
+                  placeholder={field.placeholder}
+                  {...register(
+                    field.name,
+                    field.required
+                      ? { required: `${field.label} is required` }
+                      : {}
+                  )}
+                />
+                {errors[field.name] && (
+                  <p className="field-error">{errors[field.name].message}</p>
+                )}
+              </div>
+            ))}
+
+            <div>
+              <label htmlFor="price" className="field-label">
+                Price per day ($)<span className="text-red-500"> *</span>
+              </label>
               <input
-                type="text"
-                className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("car", { required: t("Car name is required") })}
+                id="price"
+                type="number"
+                min="0"
+                step="1"
+                className="field-input"
+                placeholder="120"
+                {...register("price", {
+                  required: "Price is required",
+                  min: { value: 0, message: "Price cannot be negative" },
+                })}
               />
-              {errors.car && <p className="text-red-400 text-sm">{errors.car.message}</p>}
+              {errors.price && <p className="field-error">{errors.price.message}</p>}
             </div>
 
-            {/* باقي الحقول */}
-            <div className="flex flex-col">
-              <label className="text-start">{t('Images')}</label>
-              <input
-                type="text"
-                className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("img", { required: t("At least one image URL is required"), validate: (value) => value.includes(",") || t("Separate URLs with commas") })}
+            <div className="sm:col-span-2">
+              <label htmlFor="img" className="field-label">
+                Image URLs<span className="text-red-500"> *</span>
+              </label>
+              <textarea
+                id="img"
+                rows="3"
+                className="field-input resize-y"
+                placeholder="https://…/front.jpg, https://…/side.jpg"
+                {...register("img", {
+                  required: "At least one image URL is required",
+                })}
               />
-              {errors.img && <p className="text-red-400 text-sm">{errors.img.message}</p>}
+              <p className="mt-1 text-xs text-slate-400">
+                Separate multiple URLs with commas. The first one is the cover.
+              </p>
+              {errors.img && <p className="field-error">{errors.img.message}</p>}
             </div>
 
-            {/* الحقول الأخرى كما هي */}
-            <div className="flex flex-col">
-              <label className="text-start">{t('Car Type')}</label>
+            <label className="flex cursor-pointer items-center gap-3 sm:col-span-2">
               <input
-                type="text"
-                className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("carType", { required: t("Car type is required") })}
+                type="checkbox"
+                className="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
+                {...register("isBooked")}
               />
-              {errors.carType && <p className="text-red-400 text-sm">{errors.carType.message}</p>}
-            </div>
-
-            <div className="flex flex-col">
-              <label className="text-start">{t('Car Color')}</label>
-              <input
-                type="text"
-                className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-                {...register("car_color", { required: t("Car color is required") })}
-              />
-              {errors.car_color && <p className="text-red-400 text-sm">{errors.car_color.message}</p>}
-            </div>
-
-
-            <div className = 'flex flex-col'>
-           <label className = 'text-start'>{t('Car Model Year')}</label>
-           <input
-            type="text"
-            className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("car_model_year", { required: t("Model year is required") })}
-          />
-          {errors.car_model_year && <p className = "text-red-400 text-sm">{errors.car_model_year.message}</p>}
-        </div>
-
-
-        <div className = 'flex flex-col'>
-          <label className = 'text-start'>{t('Price')}</label>
-          <input
-            type="text"
-            className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("price", { required: t("Price is required") })}
-          />
-          {errors.price && <p className = "text-red-400 text-sm">{errors.price.message}</p>}
-        
-        </div>
-
-
-
-            <div className = 'flex flex-col'>
-          <label className = 'text-start'>{t('Mileage')}</label>
-          <input
-            type="text"
-            className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("mileage", { required: t("Mileage is required") })}
-          />
-          {errors.mileage && <p className = "text-red-400 text-sm">{errors.mileage.message}</p>}
-        </div>
-
-        <div className = 'flex flex-col'>
-          <label className = 'text-start'>{t('Transmission')}</label>
-          <input
-            type="text"
-            className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("Transmission", { required: t("Transmission is required") })}
-          />
-          {errors.Transmission && <p className = "text-red-400 text-sm">{errors.Transmission.message}</p>}
-        </div>
-
-        <div className = 'flex flex-col'>
-          <label className = 'text-start'>{t('Horsepower')}</label>
-          <input
-            type="text"
-            className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("Horsepower", { required: t("Horsepower is required") })}
-          />
-          {errors.Horsepower && <p className = "text-red-400 text-sm">{errors.Horsepower.message}</p>}
-        </div>
-
-        <div className = 'flex flex-col'>
-          <label className = 'text-start'>{t('IsBooked')}</label>
-          <input
-            type="text"
-            className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("isBooked", { required: t("IsBooked is required") })}
-          />
-          {errors.isBooked && <p className = "text-red-400 text-sm">{errors.isBooked.message}</p>}
-        </div>
-
-
-        <div className = 'flex flex-col'>
-          <label className = 'text-start'>{t('evaluation')}</label>
-          <input
-            type="text"
-            className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("evaluation", { required: t("evaluation is required") })}
-          />
-          {errors.evaluation && <p className = "text-red-400 text-sm">{errors.evaluation.message}</p>}
-        </div>
-
-
-        <div className = 'flex flex-col'>
-          <label className = 'text-start'>{t('reviews')}</label>
-          <input
-            type="text"
-            className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("reviews", { required: t("reviews is required") })}
-          />
-          {errors.reviews && <p className = "text-red-400 text-sm">{errors.reviews.message}</p>}
-        </div>
-
-        <div className = 'flex flex-col'>
-          <label className = 'text-start'>{t('favourite')}</label>
-          <input
-            type="text"
-            className="w-60 h-11 m-auto border rounded outline-blue-500 font-sans"
-            {...register("favourite")}
-          />
-        </div>
-
-
+              <span className="text-sm font-medium">
+                Mark this car as currently rented
+              </span>
+            </label>
           </div>
-          <div className="flex justify-center">
-          <button type="submit" className="bg-blue-600 text-white p-2 rounded-lg mt-4">
-            {id ? t('Update Car') : t('Add Car')}
-          </button>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <button type="submit" className="btn-primary" disabled={isSubmitting}>
+              {isSubmitting ? <Wait /> : isEditing ? "Save changes" : "Add car"}
+            </button>
+            <button
+              type="button"
+              className="btn-outline"
+              onClick={() => navigate("/fleet")}
+            >
+              Cancel
+            </button>
           </div>
-         
         </form>
-      </div></div>
-    </>
+      </div>
+    </div>
   );
 };
 
-export default AddCar;
+export default CarForm;

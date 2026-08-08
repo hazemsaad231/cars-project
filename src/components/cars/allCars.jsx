@@ -1,294 +1,266 @@
-import React, { useEffect, useState } from "react";
-import { db, collection, getDocs} from "../firebase/firebase";
+import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import air from '../../../src/assets/img/air.png';
-import { FaUserAlt } from "react-icons/fa";
-import star from '../../../src/assets/img/star.png';
-import { doc, deleteDoc } from "firebase/firestore";
-import { toast, ToastContainer } from "react-toastify";
-import Button from '@mui/joy/Button';
-import Divider from '@mui/joy/Divider';
-import DialogTitle from '@mui/joy/DialogTitle';
-import DialogContent from '@mui/joy/DialogContent';
-import DialogActions from '@mui/joy/DialogActions';
-import Modal from '@mui/joy/Modal';
-import ModalDialog from '@mui/joy/ModalDialog';
+import { deleteDoc, doc } from "firebase/firestore";
+import { toast } from "react-toastify";
+import { FiSearch } from "react-icons/fi";
+import { MdAdd } from "react-icons/md";
+import Modal from "@mui/joy/Modal";
+import ModalDialog from "@mui/joy/ModalDialog";
+import DialogTitle from "@mui/joy/DialogTitle";
+import DialogContent from "@mui/joy/DialogContent";
+import DialogActions from "@mui/joy/DialogActions";
+import Button from "@mui/joy/Button";
+import Divider from "@mui/joy/Divider";
+
+import { db } from "../firebase/firebase";
+import { CARS_COLLECTION } from "../../config";
+import useApp from "../context/useApp";
 import Loader from "../load/Load";
-import { useContext} from 'react';
-import { Context } from '../context/Context';
-import { HiOutlineLockClosed } from "react-icons/hi";
-import { useLocation } from "react-router-dom";
-import frame from '../../../src/assets/img/Frame.png';
-import { useTranslation } from 'react-i18next';
+import CarCard from "./CarCard";
 
+const SEARCH_FIELDS = [
+  { value: "car", label: "Car name" },
+  { value: "carType", label: "Type" },
+  { value: "car_color", label: "Colour" },
+  { value: "car_model_year", label: "Model year" },
+];
 
-const AllCars = () => {
+const ITEMS_PER_PAGE = 9;
 
+const Fleet = () => {
+  const { cars, carsLoading, refreshCars, isAdmin } = useApp();
 
-  const [cars, setCars] = useState([]);
-  const [value, setValue] = useState('');
-  const [mood, setMood] = useState('car'); // الوضع الافتراضي
-  const [open, setOpen] = useState(false);
-  const [selectedDelete, setSelectedDelete] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const { isDarkMode} = useContext(Context);
-  const { t } = useTranslation();
+  const [term, setTerm] = useState("");
+  const [field, setField] = useState("car");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [availableOnly, setAvailableOnly] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pendingDelete, setPendingDelete] = useState(null);
 
-  const isLoggedIn = localStorage.getItem("token") !== null;
+  const filtered = useMemo(() => {
+    const needle = term.trim().toUpperCase();
+    const cap = parseFloat(maxPrice);
 
-   const location = useLocation();
-  
-      useEffect(() => {
-          if (location.state?.message) {
-              toast.success(location.state.message, { autoClose: 2000 }); // عرض الرسالة
-          }
-      }, [location.state]);
-  
-const admin = 'hazemsaad231@gmail.com';
+    return cars.filter((car) => {
+      if (availableOnly && car.isBooked === true) return false;
+      if (!Number.isNaN(cap) && parseFloat(car.price) > cap) return false;
+      if (!needle) return true;
+      return String(car[field] ?? "")
+        .toUpperCase()
+        .includes(needle);
+    });
+  }, [cars, term, field, maxPrice, availableOnly]);
 
-      {/* جلب السيارات من قاعدة البيانات */}
-  const fetchCars = async () => {
-    const Allcars = await getDocs(collection(db, "cars"));
-    const carsList = Allcars.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data()
-    }));
-    setCars(carsList);
-    localStorage.setItem("cars", JSON.stringify(carsList));
-    setLoading(false);
+  const totalPages = Math.max(1, Math.ceil(filtered.length / ITEMS_PER_PAGE));
+  const safePage = Math.min(page, totalPages);
+  const visible = filtered.slice(
+    (safePage - 1) * ITEMS_PER_PAGE,
+    safePage * ITEMS_PER_PAGE
+  );
+
+  // Any filter change should send the user back to page one.
+  const resetPage = (setter) => (value) => {
+    setter(value);
+    setPage(1);
   };
 
-  useEffect(() => {
-    fetchCars();
-  }, []);
-
-
-
-  const role = localStorage.getItem("role");
-
-
-  {/* البحث */}
-  const search = () => {
-    if (mood === 'price') {
-      return cars.filter((item) => {
-        const price = parseFloat(item.price);  // تحويل السعر إلى رقم
-        const enteredValue = parseFloat(value); 
-        if(value === '') {
-          return true;
-        }
-        return price <= enteredValue; // تحقق من أن السعر أقل من أو يساوي القيمة المدخلة
-      });
-    }
-  
-    return cars.filter((item) =>
-      item[mood]?.toString().toUpperCase().startsWith(value?.toString().toUpperCase()) // الشرط للنصوص
-    );
-  };
-  
-
-  {/* pagnation */}
-  const filterData = search()
-  const [current, setCurrent] = useState(1);
-  const itemsPerPage = 12;
-  const lastIndex = current * itemsPerPage;
-  const startIndex = lastIndex - itemsPerPage;
-  const totalPages = Math.ceil(filterData.length / itemsPerPage);
-  const currentData = filterData.slice(startIndex, lastIndex);
-
- {/* حذف السيارة */}
   const handleDelete = async () => {
     try {
-      await deleteDoc(doc(db, "cars", selectedDelete));
-      setOpen(false);
-      fetchCars();
-      toast.success(t('Car deleted successfully!'), { autoClose: 2000 });
+      await deleteDoc(doc(db, CARS_COLLECTION, pendingDelete));
+      setPendingDelete(null);
+      await refreshCars();
+      toast.success("Car deleted successfully.");
     } catch (error) {
-      console.error("Error deleting car: ", error);
+      console.error("Error deleting car:", error);
+      toast.error("Could not delete the car.");
     }
   };
 
-  const handleClickOpen = (id) => {
-    setOpen(true);
-    setSelectedDelete(id);
-  };
-
-
-
+  if (carsLoading) return <Loader />;
 
   return (
-  <>
-      <ToastContainer limit={1} />
-<div className="p-2">
-{loading ? <Loader />:
+    <div className="container-page section">
+      <header className="text-center">
+        <h1 className="section-title">Our rental fleet</h1>
+        <p className="section-subtitle mx-auto text-center">
+          {filtered.length} {filtered.length === 1 ? "car" : "cars"} available to
+          rent. Pick your dates at checkout.
+        </p>
+      </header>
 
-        <div>
-        
-        <h2 className='text-2xl md:text-3xl text-blue-700 font-bold p-8 tracking-[2px]'>{t('The popular cars booking offers')}</h2>
-        <div className='border-2 border-blue-600 w-full md:w-2/3 m-auto h-10 flex justify-center items-center rounded-lg text-blue-700 font-semibold hover:bg-blue-700 hover:text-white cursor-pointer mb-4'>
-              {/* حقل البحث */}
-              <input
-                type="text"
-                placeholder={t('') + ' ' + t(mood)}
-                className='w-3/4 h-full shadow-2xl rounded-l-lg outline-blue-700 text-gray-400'
-                value={value}
-                onChange={(e) => setValue(e.target.value)} />
-
-              {/* قائمة التبديل */}
-              <select
-                className='w-1/4 h-full shadow-2xl border-transparent text-center  bg-blue-600 text-white '
-                value={mood}
-                onChange={(e) => setMood(e.target.value)}
-              >
-                <option value="car">{t('Search by car')}</option>
-                <option value="price">{t('Search by price')}</option>
-                <option value="car_color">{t('Search by color')}</option>
-                <option value="car_model_year">{t('Search by model')}</option>
-              </select>
-            </div>
-
-
-            {isLoggedIn && role === admin && (
-              <div className="flex flex-col justify-center items-center">
-                <button className="text-white w-52 text-xl h-10 mt-6 bg-blue-600 text-center rounded-lg hover:bg-blue-700"><Link to={"/addCar"}>{t('add new car')}</Link></button>
-                <h1 className="text-xl font-semibold text-blue-700 tracking-tighter">{t('count or cars :')} {cars.length} </h1>
-
-              </div>
-            )}
-
-
-            <div className="w-full sm:w-full md:w-full lg:w-full xl:w-[80%] m-auto">
-
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 p-2 gap-4 justify-items-center place-items-center' data-aos="fade-up">
-                {currentData.map((el, index) => (
-                  <div key={el.id || index} className={`flex flex-col text-center mb-2 shadow-xl hover:shadow-2xl transition duration-500 w-[95%] gap-2 justify-between opacity-90 hover:opacity-100 p-4  ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white'} `}>
-
-
-
-<div className="w-full h-60 overflow-hidden rounded-lg">
-  <img 
-    src={el.img[0]} 
-    alt="Zoom" 
-    className="w-full h-full object-center transform hover:scale-110 transition duration-500"
-  />
-</div>
-
-                    {el.isBooked === true ? (
-                      <p className='text-center text-lg font-semibold bg-red-600 text-white shadow-xl'>{t('Booked')}</p>
-                    ) : (
-                      <p className='text-center text-lg font-semibold bg-green-600 text-white'>{t('Available')}</p>
-                    )}
-                    <h2 className='text-center font-semibold text-xl mt-2 ml-3 mb-2'>{t(el.car)}</h2>
-                     <div className="flex items-center mb-2">
-                                      <img src={star} alt="" className="w-5 h-5 mr-2" />
-                                      <span>{el.evaluation}</span>
-                                    </div>
-                    <div className='flex justify-between'>
-                      <div className='flex gap-1'>
-                        <FaUserAlt className='text-xl' />
-                        <span className='text-sm font-thin'>{t('4 Passengers')}</span>
-                      </div>
-                      <div className='flex gap-1'>
-                        <img src={air} alt="" className='w-5 h-6' />
-                        <span className='text-sm font-thin'>{t('Air conditioning')}</span>
-                      </div>
-                    </div>
-                    <div className='flex font-thin justify-between'>
-                      <div className='flex mx-1'>
-                        <span className='font-thin text-sm'>{t(el.carType)}</span>
-                      </div>
-                      <div className='flex gap-1 justify-between'>
-                        <img src={frame} alt="" className='w-5 h-5' />
-                        <span className='text-sm'>{el.car_model_year}</span>
-                      </div>
-                    </div>
-                    <hr style={{ height: '2px', width: '100%', backgroundColor: 'gray', margin: 'auto' }} />
-                    <div className='flex justify-between'>
-                      <h5 className='font-serif'>{t('price')}</h5>
-                      <h5 className='font-bold'>{el.price}$</h5>
-                    </div>
-                    <br />
-                    {role !== 'hazemsaad231@gmail.com' ? (
-                  <button className='bg-blue-700 w-max m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
-                    {el.isBooked === true ? <HiOutlineLockClosed size={25} color="white" className="w-20 animate-bounce" /> :
-                
-                    <Link to={`/details/${el.id}`}>{t('Details')}</Link>}
-                  </button>):
-                  (
-                     <div className="grid grid-cols-3 gap-2 p-2 place-items-center">
-                        <button className='bg-blue-700 w-full m-auto rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
-                          <Link to={`/addCar/${el.id}`}>{t('Update')}</Link>
-                        </button>
-                        <button className='bg-red-500 w-full m-auto rounded-lg p-3 mb-3 hover:bg-red-800 text-white'
-                          onClick={() => handleClickOpen(el.id)}>{t('Delete')}</button>
-                        <button className='bg-blue-700 m-auto  w-full rounded-lg p-3 mb-3 hover:bg-blue-800 text-white'>
-                          <Link to={`/details/${el.id}`}>{t('Details')}</Link>
-                        </button>
-                      </div>
-                      )}
-
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="flex justify-center mt-4 mx-8 mb-8">
-              <button
-                onClick={() => setCurrent(current > 1 ? current - 1 : current)}
-                className="px-2 py-2 mx-1 text-white bg-blue-700 rounded hover:bg-blue-600"
-                disabled={current === 1}
-              >
-                {t('Prev')}
-              </button>
-
-              {Array.from({ length: totalPages }, (_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrent(index + 1)}
-                  className={`px-1 py-2 mx-1 rounded ${current === index + 1 ? 'bg-blue-700 hover:bg-blue-600 text-white' : 'bg-gray-300'}`}
-                >
-                  {index + 1}
-                </button>
+      {/* Filters */}
+      <div className="panel mt-10">
+        <div className="grid gap-4 md:grid-cols-[1fr_auto_auto]">
+          <div className="flex overflow-hidden rounded-lg border border-slate-300 focus-within:border-brand-500 focus-within:ring-2 focus-within:ring-brand-500/30 dark:border-slate-700">
+            <span className="flex items-center pl-3 text-slate-400">
+              <FiSearch />
+            </span>
+            <input
+              type="search"
+              value={term}
+              onChange={(e) => resetPage(setTerm)(e.target.value)}
+              placeholder={`Search by ${SEARCH_FIELDS.find((f) => f.value === field).label.toLowerCase()}`}
+              aria-label="Search the fleet"
+              className="w-full bg-transparent px-3 py-2.5 text-sm outline-none placeholder:text-slate-400"
+            />
+            <select
+              value={field}
+              onChange={(e) => resetPage(setField)(e.target.value)}
+              aria-label="Search field"
+              className="shrink-0 border-l border-slate-300 bg-slate-50 px-3 text-sm outline-none dark:border-slate-700 dark:bg-slate-800"
+            >
+              {SEARCH_FIELDS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
               ))}
+            </select>
+          </div>
 
-              <button
-                onClick={() => setCurrent(current < totalPages ? current + 1 : current)}
-                className="px-2 py-2 mx-1 text-white bg-blue-700 hover:bg-blue-600 rounded"
-                disabled={current === totalPages}
-              >
-                {t('Next')}
-              </button>
-            </div>
+          <input
+            type="number"
+            min="0"
+            value={maxPrice}
+            onChange={(e) => resetPage(setMaxPrice)(e.target.value)}
+            placeholder="Max $/day"
+            aria-label="Maximum price per day"
+            className="field-input md:w-40"
+          />
 
-  
-      
-          
+          <label className="flex cursor-pointer items-center gap-2 text-sm font-medium md:px-2">
+            <input
+              type="checkbox"
+              checked={availableOnly}
+              onChange={(e) => resetPage(setAvailableOnly)(e.target.checked)}
+              className="h-4 w-4 rounded border-slate-300 text-brand-600 focus:ring-brand-500"
+            />
+            Available only
+          </label>
+        </div>
+      </div>
 
+      {isAdmin && (
+        <div className="mt-6 flex items-center justify-between gap-4">
+          <p className="text-sm text-slate-500 dark:text-slate-400">
+            {cars.length} cars in the fleet
+          </p>
+          <Link to="/admin/cars/new" className="btn-primary">
+            <MdAdd size={18} />
+            Add a car
+          </Link>
+        </div>
+      )}
 
+      {/* Grid */}
+      {visible.length === 0 ? (
+        <p className="mt-16 text-center text-slate-500 dark:text-slate-400">
+          No cars match your filters.
+        </p>
+      ) : (
+        <div
+          className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+          data-aos="fade-up"
+        >
+          {visible.map((car) => (
+            <CarCard
+              key={car.id}
+              car={car}
+              actions={
+                isAdmin ? (
+                  <div className="grid grid-cols-3 gap-2">
+                    <Link
+                      to={`/admin/cars/${car.id}`}
+                      className="btn-outline px-2 text-xs"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      type="button"
+                      className="btn-danger px-2 text-xs"
+                      onClick={() => setPendingDelete(car.id)}
+                    >
+                      Delete
+                    </button>
+                    <Link
+                      to={`/fleet/${car.id}`}
+                      className="btn-primary px-2 text-xs"
+                    >
+                      View
+                    </Link>
+                  </div>
+                ) : undefined
+              }
+            />
+          ))}
+        </div>
+      )}
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <nav
+          className="mt-12 flex flex-wrap items-center justify-center gap-2"
+          aria-label="Pagination"
+        >
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.max(1, p - 1))}
+            disabled={safePage === 1}
+            className="btn-outline px-3 py-2 text-xs"
+          >
+            Prev
+          </button>
+
+          {Array.from({ length: totalPages }, (_, i) => (
+            <button
+              key={i}
+              type="button"
+              onClick={() => setPage(i + 1)}
+              aria-current={safePage === i + 1 ? "page" : undefined}
+              className={`h-9 w-9 rounded-lg text-sm font-semibold transition ${
+                safePage === i + 1
+                  ? "bg-brand-700 text-white"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:hover:bg-slate-700"
+              }`}
+            >
+              {i + 1}
+            </button>
+          ))}
+
+          <button
+            type="button"
+            onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+            disabled={safePage === totalPages}
+            className="btn-outline px-3 py-2 text-xs"
+          >
+            Next
+          </button>
+        </nav>
+      )}
+
+      {/* Delete confirmation — one dialog for the whole grid, not one per card. */}
+      <Modal open={Boolean(pendingDelete)} onClose={() => setPendingDelete(null)}>
+        <ModalDialog variant="outlined" role="alertdialog">
+          <DialogTitle>Confirmation</DialogTitle>
+          <Divider />
+          <DialogContent>
+            Are you sure you want to delete this car? This cannot be undone.
+          </DialogContent>
+          <DialogActions>
+            <Button variant="solid" color="danger" onClick={handleDelete}>
+              Delete
+            </Button>
+            <Button
+              variant="plain"
+              color="neutral"
+              onClick={() => setPendingDelete(null)}
+            >
+              Cancel
+            </Button>
+          </DialogActions>
+        </ModalDialog>
+      </Modal>
     </div>
-    
-  }
-    </div>
-
-{/* Confirmation Modal */}
-<React.Fragment>
-        <Modal open={open} onClose={() => setOpen(false)}>
-          <ModalDialog variant="outlined" role="alertdialog">
-            <DialogTitle>Confirmation</DialogTitle>
-            <Divider />
-            <DialogContent>Are you sure you want to delete?</DialogContent>
-            <DialogActions>
-              <Button variant="solid" color="danger" onClick={() => handleDelete()}>Delete</Button>
-              <Button variant="plain" color="neutral" onClick={() => setOpen(false)}>Cancel</Button>
-            </DialogActions>
-          </ModalDialog>
-        </Modal>
-      </React.Fragment>
-
-
-     
-    </>
   );
 };
 
-export default AllCars
-
+export default Fleet;
