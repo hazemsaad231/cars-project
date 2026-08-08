@@ -153,157 +153,175 @@ const BookingForm = ({ car, carId, onCancel }) => {
         )}
       </div>
 
-      {/* Rental period */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="pickupDate" className="field-label">
-            Pickup date
-          </label>
-          <input
-            id="pickupDate"
-            type="date"
-            min={tomorrow()}
-            className="field-input"
-            {...register("pickupDate", { required: "Pickup date is required" })}
-          />
-          {errors.pickupDate && (
-            <p className="field-error">{errors.pickupDate.message}</p>
-          )}
+      {/* Wide layout: details on the left, payment summary on the right. */}
+      <div className="mt-8 grid gap-8 lg:grid-cols-3">
+        <div className="space-y-6 lg:col-span-2">
+          {/* Rental period */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="pickupDate" className="field-label">
+                Pickup date
+              </label>
+              <input
+                id="pickupDate"
+                type="date"
+                min={tomorrow()}
+                className="field-input"
+                {...register("pickupDate", {
+                  required: "Pickup date is required",
+                })}
+              />
+              {errors.pickupDate && (
+                <p className="field-error">{errors.pickupDate.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="returnDate" className="field-label">
+                Return date
+              </label>
+              <input
+                id="returnDate"
+                type="date"
+                min={watch("pickupDate") || tomorrow()}
+                className="field-input"
+                {...register("returnDate", {
+                  required: "Return date is required",
+                  validate: (value, form) =>
+                    countDays(form.pickupDate, value) > 0 ||
+                    "Return date must be after the pickup date",
+                })}
+              />
+              {errors.returnDate && (
+                <p className="field-error">{errors.returnDate.message}</p>
+              )}
+            </div>
+          </div>
+
+          {/* Driver details */}
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div>
+              <label htmlFor="fullName" className="field-label">
+                Full name
+              </label>
+              <input
+                id="fullName"
+                className="field-input"
+                {...register("fullName", { required: "Full name is required" })}
+              />
+              {errors.fullName && (
+                <p className="field-error">{errors.fullName.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="email" className="field-label">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                className="field-input"
+                {...register("email", {
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+                    message: "Please enter a valid email",
+                  },
+                })}
+              />
+              {errors.email && (
+                <p className="field-error">{errors.email.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="phone" className="field-label">
+                Phone
+              </label>
+              <input
+                id="phone"
+                type="tel"
+                className="field-input"
+                {...register("phone", { required: "Phone is required" })}
+              />
+              {errors.phone && (
+                <p className="field-error">{errors.phone.message}</p>
+              )}
+            </div>
+
+            <div>
+              <label htmlFor="city" className="field-label">
+                City
+              </label>
+              <input
+                id="city"
+                className="field-input"
+                {...register("city", { required: "City is required" })}
+              />
+              {errors.city && (
+                <p className="field-error">{errors.city.message}</p>
+              )}
+            </div>
+
+            <div className="sm:col-span-2">
+              <label htmlFor="address" className="field-label">
+                Delivery address
+              </label>
+              <input
+                id="address"
+                className="field-input"
+                {...register("address", { required: "Address is required" })}
+              />
+              {errors.address && (
+                <p className="field-error">{errors.address.message}</p>
+              )}
+            </div>
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="returnDate" className="field-label">
-            Return date
-          </label>
-          <input
-            id="returnDate"
-            type="date"
-            min={watch("pickupDate") || tomorrow()}
-            className="field-input"
-            {...register("returnDate", {
-              required: "Return date is required",
-              validate: (value, form) =>
-                countDays(form.pickupDate, value) > 0 ||
-                "Return date must be after the pickup date",
-            })}
-          />
-          {errors.returnDate && (
-            <p className="field-error">{errors.returnDate.message}</p>
-          )}
+        {/* Payment summary column */}
+        <div className="space-y-6">
+          {/* Card */}
+          <div>
+            <span className="field-label">Card details</span>
+            <div className="rounded-lg border border-slate-300 bg-white p-3.5 dark:border-slate-700">
+              <CardElement options={{ hidePostalCode: true }} />
+            </div>
+            <p className="mt-2 text-xs text-slate-400">
+              Test mode — use card 4242 4242 4242 4242.
+            </p>
+          </div>
+
+          {/* Total */}
+          <dl className="space-y-2 rounded-xl bg-slate-50 p-4 text-sm dark:bg-slate-800/60">
+            <div className="flex justify-between">
+              <dt className="text-slate-500 dark:text-slate-400">Daily rate</dt>
+              <dd className="font-medium">${pricePerDay}</dd>
+            </div>
+            <div className="flex justify-between">
+              <dt className="text-slate-500 dark:text-slate-400">
+                Rental days
+              </dt>
+              <dd className="font-medium">{days || "—"}</dd>
+            </div>
+            <div className="flex justify-between border-t border-slate-200 pt-2 text-base dark:border-slate-700">
+              <dt className="font-semibold">Total</dt>
+              <dd className="font-bold text-brand-700 dark:text-brand-400">
+                ${total}
+              </dd>
+            </div>
+          </dl>
+
+          <button
+            type="submit"
+            className="btn-primary w-full"
+            disabled={!stripe || submitting}
+          >
+            {submitting ? <Wait /> : `Pay $${total}`}
+          </button>
         </div>
       </div>
-
-      {/* Driver details */}
-      <div className="mt-6 grid gap-4 sm:grid-cols-2">
-        <div>
-          <label htmlFor="fullName" className="field-label">
-            Full name
-          </label>
-          <input
-            id="fullName"
-            className="field-input"
-            {...register("fullName", { required: "Full name is required" })}
-          />
-          {errors.fullName && (
-            <p className="field-error">{errors.fullName.message}</p>
-          )}
-        </div>
-
-        <div>
-          <label htmlFor="email" className="field-label">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            className="field-input"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
-                message: "Please enter a valid email",
-              },
-            })}
-          />
-          {errors.email && <p className="field-error">{errors.email.message}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="phone" className="field-label">
-            Phone
-          </label>
-          <input
-            id="phone"
-            type="tel"
-            className="field-input"
-            {...register("phone", { required: "Phone is required" })}
-          />
-          {errors.phone && <p className="field-error">{errors.phone.message}</p>}
-        </div>
-
-        <div>
-          <label htmlFor="city" className="field-label">
-            City
-          </label>
-          <input
-            id="city"
-            className="field-input"
-            {...register("city", { required: "City is required" })}
-          />
-          {errors.city && <p className="field-error">{errors.city.message}</p>}
-        </div>
-
-        <div className="sm:col-span-2">
-          <label htmlFor="address" className="field-label">
-            Delivery address
-          </label>
-          <input
-            id="address"
-            className="field-input"
-            {...register("address", { required: "Address is required" })}
-          />
-          {errors.address && (
-            <p className="field-error">{errors.address.message}</p>
-          )}
-        </div>
-      </div>
-
-      {/* Card */}
-      <div className="mt-6">
-        <span className="field-label">Card details</span>
-        <div className="rounded-lg border border-slate-300 bg-white p-3.5 dark:border-slate-700">
-          <CardElement options={{ hidePostalCode: true }} />
-        </div>
-        <p className="mt-2 text-xs text-slate-400">
-          Test mode — use card 4242 4242 4242 4242.
-        </p>
-      </div>
-
-      {/* Total */}
-      <dl className="mt-6 space-y-2 rounded-xl bg-slate-50 p-4 text-sm dark:bg-slate-800/60">
-        <div className="flex justify-between">
-          <dt className="text-slate-500 dark:text-slate-400">Daily rate</dt>
-          <dd className="font-medium">${pricePerDay}</dd>
-        </div>
-        <div className="flex justify-between">
-          <dt className="text-slate-500 dark:text-slate-400">Rental days</dt>
-          <dd className="font-medium">{days || "—"}</dd>
-        </div>
-        <div className="flex justify-between border-t border-slate-200 pt-2 text-base dark:border-slate-700">
-          <dt className="font-semibold">Total</dt>
-          <dd className="font-bold text-brand-700 dark:text-brand-400">
-            ${total}
-          </dd>
-        </div>
-      </dl>
-
-      <button
-        type="submit"
-        className="btn-primary mt-6 w-full"
-        disabled={!stripe || submitting}
-      >
-        {submitting ? <Wait /> : `Pay $${total}`}
-      </button>
     </form>
   );
 };

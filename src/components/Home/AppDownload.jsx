@@ -21,7 +21,9 @@ const AppDownload = () => {
 
   return (
     <section id="get-in-touch" className="container-page section" data-aos="fade-up">
-      <div className="grid items-center gap-12 rounded-3xl bg-slate-50 px-6 py-12 sm:px-10 lg:grid-cols-2 dark:bg-slate-900/50">
+      {/* No `items-center`: the columns stretch so the phone matches the
+          height of the text/form column beside it. */}
+      <div className="grid gap-12 rounded-3xl bg-slate-50 px-6 py-12 sm:px-10 lg:grid-cols-2 dark:bg-slate-900/50">
         <div>
           <h2 className="section-title">Download the RentCars app</h2>
           <p className="section-subtitle">
@@ -93,12 +95,12 @@ const AppDownload = () => {
           </form>
         </div>
 
-        <div className="hidden justify-center lg:flex">
+        <div className="hidden lg:block">
           <img
             src={phone}
             alt="RentCars mobile app"
             loading="lazy"
-            className="h-auto w-64 drop-shadow-2xl"
+            className="h-full w-full object-contain drop-shadow-2xl"
           />
         </div>
       </div>

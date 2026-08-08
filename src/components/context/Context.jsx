@@ -5,12 +5,13 @@ import { auth, db } from "../firebase/firebase";
 import { ADMIN_EMAIL, CARS_COLLECTION } from "../../config";
 import { Context } from "./AppContext";
 
-/** Light is the default; only an explicit previous choice turns dark on. */
+/** Dark is the default; an explicit previous choice wins over it. */
 const readStoredTheme = () => {
   try {
-    return localStorage.getItem("theme") === "dark";
+    const stored = localStorage.getItem("theme");
+    return stored ? stored === "dark" : true;
   } catch {
-    return false;
+    return true;
   }
 };
 
@@ -20,10 +21,21 @@ const ContextProvider = ({ children }) => {
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", isDarkMode);
-    localStorage.setItem("theme", isDarkMode ? "dark" : "light");
   }, [isDarkMode]);
 
-  const toggleMode = useCallback(() => setIsDarkMode((prev) => !prev), []);
+  // Only an actual toggle is persisted. Writing on mount would stamp the
+  // default into storage and make later default changes have no effect.
+  const toggleMode = useCallback(() => {
+    setIsDarkMode((prev) => {
+      const next = !prev;
+      try {
+        localStorage.setItem("theme", next ? "dark" : "light");
+      } catch {
+        /* storage unavailable — keep the in-memory choice */
+      }
+      return next;
+    });
+  }, []);
 
   /* ------------------------------------------------------------------- auth */
   const [user, setUser] = useState(null);

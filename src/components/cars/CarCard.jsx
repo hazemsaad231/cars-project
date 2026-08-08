@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { FaUserAlt, FaStar } from "react-icons/fa";
 import { TbAirConditioning, TbCalendar, TbManualGearbox } from "react-icons/tb";
+import CarImage from "../common/CarImage";
 
 /**
  * One car in the fleet grid.
@@ -15,18 +16,12 @@ const CarCard = ({ car, actions }) => {
   return (
     <article className="card flex h-full flex-col">
       <div className="relative aspect-[4/3] overflow-hidden bg-slate-100 dark:bg-slate-800">
-        {cover ? (
-          <img
-            src={cover}
-            alt={car.car}
-            loading="lazy"
-            className="h-full w-full object-cover transition duration-500 hover:scale-105"
-          />
-        ) : (
-          <div className="flex h-full items-center justify-center text-sm text-slate-400">
-            No image
-          </div>
-        )}
+        <CarImage
+          src={cover}
+          alt={car.car}
+          iconClass="text-5xl"
+          className="h-full w-full object-cover transition duration-500 hover:scale-105"
+        />
         <span
           className={`absolute left-3 top-3 ${
             isRented ? "badge-rented" : "badge-available"

@@ -21,6 +21,7 @@ import { db } from "../firebase/firebase";
 import { RENTALS_COLLECTION } from "../../config";
 import useApp from "../context/useApp";
 import Loader from "../load/Load";
+import CarImage from "../common/CarImage";
 
 const statusClass = {
   confirmed: "bg-blue-100 text-blue-700 dark:bg-blue-500/15 dark:text-blue-400",
@@ -99,14 +100,11 @@ const MyRentals = () => {
           {rentals.map((rental) => (
             <li key={rental.id} className="panel p-0">
               <div className="flex flex-col gap-5 p-5 sm:flex-row">
-                {rental.car?.img && (
-                  <img
-                    src={rental.car.img}
-                    alt={rental.car?.car ?? "Car"}
-                    loading="lazy"
-                    className="h-40 w-full shrink-0 rounded-xl object-cover sm:h-28 sm:w-44"
-                  />
-                )}
+                <CarImage
+                  src={rental.car?.img}
+                  alt={rental.car?.car ?? "Car"}
+                  className="h-40 w-full shrink-0 rounded-xl object-cover sm:h-28 sm:w-44"
+                />
 
                 <div className="flex-1">
                   <div className="flex flex-wrap items-start justify-between gap-3">

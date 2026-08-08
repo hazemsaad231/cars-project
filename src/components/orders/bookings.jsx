@@ -22,6 +22,7 @@ import { db } from "../firebase/firebase";
 import { RENTALS_COLLECTION } from "../../config";
 import useApp from "../context/useApp";
 import Loader from "../load/Load";
+import CarImage from "../common/CarImage";
 
 const STATUSES = ["confirmed", "active", "completed"];
 
@@ -156,14 +157,12 @@ const AdminDashboard = () => {
                   </td>
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-3">
-                      {rental.car?.img && (
-                        <img
-                          src={rental.car.img}
-                          alt=""
-                          loading="lazy"
-                          className="h-11 w-16 shrink-0 rounded object-cover"
-                        />
-                      )}
+                      <CarImage
+                        src={rental.car?.img}
+                        alt={rental.car?.car}
+                        iconClass="text-lg"
+                        className="h-11 w-16 shrink-0 rounded object-cover"
+                      />
                       <div>
                         <div className="font-semibold">{rental.car?.car}</div>
                         <div className="text-xs text-slate-500 dark:text-slate-400">

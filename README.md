@@ -22,8 +22,8 @@ dashboard.
   the car back on the market.
 - **Admin dashboard** — fleet/revenue stats, every booking in one table, status
   changes and deletion.
-- **Light and dark mode** — light is the default; the toggle lives in the navbar
-  and the choice is remembered.
+- **Light and dark mode** — dark is the default; the toggle lives in the navbar
+  and an explicit choice is remembered.
 - English only.
 
 ---

@@ -9,17 +9,20 @@ const stats = [
   { value: "4.9", label: "Average rating" },
 ];
 
+// The section needs an explicit background: the blend modes below blend
+// against it, and a transparent backdrop would leave the image's white in.
 const Hero = () => (
-  <section className="relative isolate overflow-hidden">
+  <section className="relative isolate overflow-hidden bg-white dark:bg-slate-950">
     {/*
-      Decorative graphic — used to tile behind the whole app, now scoped to
-      the hero. `multiply` drops the white out over the light background;
-      in dark mode it falls back to a faint watermark instead.
+      Decorative graphic, full-bleed behind the hero.
+      Light: `multiply` drops the image's white out and leaves the blue shape.
+      Dark:  inverting flips white to black (which `screen` drops out) and
+             hue-rotate puts the shape back to blue instead of orange.
     */}
     <div
       aria-hidden="true"
       style={{ backgroundImage: `url(${heroPattern})` }}
-      className="pointer-events-none absolute inset-y-0 right-0 -z-10 hidden w-3/5 max-w-2xl bg-[length:auto_115%] bg-right bg-no-repeat mix-blend-multiply sm:block dark:opacity-[0.07] dark:mix-blend-normal"
+      className="pointer-events-none absolute inset-0 -z-10 bg-cover bg-center bg-no-repeat mix-blend-multiply dark:mix-blend-screen dark:invert dark:hue-rotate-180 dark:brightness-[1.8]"
     />
 
     <div className="container-page grid items-center gap-12 py-16 lg:grid-cols-2 lg:py-24">

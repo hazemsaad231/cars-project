@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Backup written by scripts/update-car-images.mjs
+img-backup.json

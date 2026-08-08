@@ -17,6 +17,7 @@ import useApp from "../context/useApp";
 import Loader from "../load/Load";
 import BookingForm from "./payment";
 import NotFound from "../common/NotFound";
+import CarImage from "../common/CarImage";
 
 const CarDetails = () => {
   const { id } = useParams();
@@ -90,9 +91,10 @@ const CarDetails = () => {
         {/* Gallery */}
         <div>
           <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800">
-            <img
+            <CarImage
               src={mainImage}
               alt={car.car}
+              iconClass="text-7xl"
               className="h-full w-full object-cover"
             />
           </div>
@@ -111,12 +113,7 @@ const CarDetails = () => {
                       : "border-transparent opacity-70 hover:opacity-100"
                   }`}
                 >
-                  <img
-                    src={img}
-                    alt=""
-                    loading="lazy"
-                    className="h-full w-full object-cover"
-                  />
+                  <CarImage src={img} className="h-full w-full object-cover" />
                 </button>
               ))}
             </div>
@@ -204,7 +201,7 @@ const CarDetails = () => {
 
       {/* Booking form */}
       {booking && !isRented && (
-        <div className="mx-auto mt-14 max-w-3xl" data-aos="fade-up">
+        <div className="mt-14" data-aos="fade-up">
           <BookingForm
             car={car}
             carId={id}
