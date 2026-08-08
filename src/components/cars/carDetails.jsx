@@ -80,7 +80,7 @@ const CarDetails = () => {
 
   return (
     <div className="container-page section">
-      <nav className="mb-8 text-sm text-slate-500 dark:text-slate-400">
+      <nav className="mb-6 break-words text-xs text-slate-500 sm:mb-8 sm:text-sm dark:text-slate-400">
         <Link to="/fleet" className="hover:text-brand-700 dark:hover:text-brand-400">
           Our fleet
         </Link>
@@ -88,10 +88,10 @@ const CarDetails = () => {
         <span className="text-slate-700 dark:text-slate-200">{car.car}</span>
       </nav>
 
-      <div className="grid gap-10 lg:grid-cols-2">
+      <div className="grid gap-8 sm:gap-10 lg:grid-cols-2">
         {/* Gallery */}
-        <div>
-          <div className="aspect-[4/3] overflow-hidden rounded-2xl bg-slate-100 dark:bg-slate-800">
+        <div className="min-w-0">
+          <div className="aspect-[4/3] overflow-hidden rounded-xl bg-slate-100 sm:rounded-2xl dark:bg-slate-800">
             <CarImage
               src={mainImage}
               alt={car.car}
@@ -101,14 +101,14 @@ const CarDetails = () => {
           </div>
 
           {images.length > 1 && (
-            <div className="custom-scroll mt-4 flex gap-3 overflow-x-auto pb-2">
+            <div className="custom-scroll mt-3 flex gap-2 overflow-x-auto pb-2 sm:mt-4 sm:gap-3">
               {images.map((img, index) => (
                 <button
                   key={index}
                   type="button"
                   onClick={() => setMainImage(img)}
                   aria-label={`View image ${index + 1}`}
-                  className={`h-20 w-28 shrink-0 overflow-hidden rounded-lg border-2 transition ${
+                  className={`h-16 w-24 shrink-0 overflow-hidden rounded-lg border-2 transition sm:h-20 sm:w-28 ${
                     mainImage === img
                       ? "border-brand-600"
                       : "border-transparent opacity-70 hover:opacity-100"
@@ -122,14 +122,16 @@ const CarDetails = () => {
         </div>
 
         {/* Summary */}
-        <div>
+        <div className="min-w-0">
           <span className={isRented ? "badge-rented" : "badge-available"}>
             {isRented ? "Currently rented" : "Available now"}
           </span>
 
-          <h1 className="mt-4 text-3xl font-bold sm:text-4xl">{car.car}</h1>
+          <h1 className="mt-3 break-words text-2xl font-bold sm:mt-4 sm:text-4xl">
+            {car.car}
+          </h1>
 
-          <div className="mt-3 flex flex-wrap items-center gap-4 text-sm text-slate-500 dark:text-slate-400">
+          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-sm text-slate-500 dark:text-slate-400">
             {car.carType && <span>{car.carType}</span>}
             {car.evaluation && (
               <span className="flex items-center gap-1 font-semibold text-amber-500">
@@ -144,42 +146,46 @@ const CarDetails = () => {
             )}
           </div>
 
-          <div className="mt-6 flex items-end gap-2">
-            <span className="text-4xl font-bold text-brand-700 dark:text-brand-400">
+          <div className="mt-5 flex flex-wrap items-end gap-2 sm:mt-6">
+            <span className="text-3xl font-bold text-brand-700 sm:text-4xl dark:text-brand-400">
               ${formatPrice(car.price)}
             </span>
-            <span className="pb-1.5 text-slate-500 dark:text-slate-400">
+            <span className="pb-1 text-slate-500 sm:pb-1.5 dark:text-slate-400">
               per day
             </span>
           </div>
 
           {car.description && (
-            <p className="mt-6 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
+            <p className="mt-5 text-sm leading-relaxed text-slate-500 sm:mt-6 dark:text-slate-400">
               {car.description}
             </p>
           )}
 
-          <dl className="mt-8 grid grid-cols-2 gap-x-6 gap-y-5">
+          <dl className="mt-7 grid grid-cols-1 gap-x-6 gap-y-4 min-[420px]:grid-cols-2 sm:mt-8 sm:gap-y-5">
             {specs.map(({ Icon, label, value }) => (
-              <div key={label} className="flex items-center gap-3">
+              <div key={label} className="flex min-w-0 items-center gap-3">
                 <Icon className="shrink-0 text-xl text-brand-700 dark:text-brand-400" />
-                <div>
+                <div className="min-w-0">
                   <dt className="text-xs text-slate-500 dark:text-slate-400">
                     {label}
                   </dt>
-                  <dd className="text-sm font-semibold">{value}</dd>
+                  <dd className="break-words text-sm font-semibold">{value}</dd>
                 </div>
               </div>
             ))}
           </dl>
 
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap">
             {isAdmin ? (
-              <Link to={`/admin/cars/${id}`} className="btn-primary">
+              <Link to={`/admin/cars/${id}`} className="btn-primary w-full sm:w-auto">
                 Edit this car
               </Link>
             ) : isRented ? (
-              <button type="button" className="btn-primary" disabled>
+              <button
+                type="button"
+                className="btn-primary w-full sm:w-auto"
+                disabled
+              >
                 Currently rented
               </button>
             ) : (
@@ -187,13 +193,13 @@ const CarDetails = () => {
                 <button
                   type="button"
                   onClick={handleRentClick}
-                  className="btn-primary"
+                  className="btn-primary w-full sm:w-auto"
                 >
                   Rent this car
                 </button>
               )
             )}
-            <Link to="/fleet" className="btn-outline">
+            <Link to="/fleet" className="btn-outline w-full sm:w-auto">
               Back to fleet
             </Link>
           </div>
@@ -208,7 +214,7 @@ const CarDetails = () => {
 
       {/* Booking form */}
       {booking && !isRented && (
-        <div className="mt-14" data-aos="fade-up">
+        <div className="mt-10 sm:mt-14" data-aos="fade-up">
           <BookingForm
             car={car}
             carId={id}
